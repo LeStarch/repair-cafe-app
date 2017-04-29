@@ -4,6 +4,9 @@
  */
 body {
   padding-top: 70px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 1em;
 }
 a:focus {
   outline: none;

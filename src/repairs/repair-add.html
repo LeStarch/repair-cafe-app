@@ -1,15 +1,15 @@
 <template>
   <div>
-    <form submit.trigger="addRepair()">
+    <form submit.trigger="addRepair()" class="form-group">
       <label for="name">Repairee Name:</label>
-      <input name="name" type="text" value.bind="name"></input>
+      <input name="name" type="text" value.bind="name" class="form-control"></input>
       <label for="email">Repairee Email:</label>
-      <input name="email" type="email" value.bind="email"></input>
+      <input name="email" type="email" value.bind="email" class="form-control"></input>
       <label for="type">Repair Type:</label>
-      <select name="type" value.bind="type">
+      <select name="type" value.bind="type" class="form-control">
         <option repeat.for="type of types" value="${type}">${type}</option>
       </select>
-      <input type="submit" value="Add Repair"></input>
+      <input type="submit" value="Add Repair" class="btn btn-success"></input>
     </form>
   </div>
 </template>

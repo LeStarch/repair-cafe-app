@@ -2,20 +2,18 @@
   <div>
     <form submit.trigger="updateRepair()">
       <label for="name">Repairee Name:</label>
-      <input name="name" type="text" value.bind="repair.name" disabled></input>
+      <input name="name" type="text" value.bind="repair.name" disabled class="form-control"></input>
       <label for="email">Repairee Email:</label>
-      <input name="email" type="email" value.bind="repair.email" disabled></input>
+      <input name="email" type="email" value.bind="repair.email" disabled class="form-control"></input>
       <label for="type">Repair Type:</label>
-      <select name="type" value.bind="repair.type" disabled>
-        <option repeat.for="type of types" value="${type}">${type}</option>
-      </select>
+      <input name="type" value.bind="repair.type" disabled class="form-control"></input>
       <label for="item">Repair Item:</label>
-      <input name="item" type="text" value.bind="item"></input>
+      <input name="item" type="text" value.bind="item" class="form-control"></input>
       <label for="description">Repair Description:</label>
-      <textarea name="desc" value.bind="description"></textarea>
+      <textarea name="desc" value.bind="description" class="form-control" rows=3></textarea>
       <label for="repairer">Repairer:</label>
-      <input name="repairer" type="text" value.bind="repairer"></input>
-      <input type="submit" value="Update Repair"></input>
+      <input name="repairer" type="text" value.bind="repairer" class="form-control"></input>
+      <input type="submit" value="Update Repair" class="btn btn-success"></input>
     </form>
   </div>
 </template>
