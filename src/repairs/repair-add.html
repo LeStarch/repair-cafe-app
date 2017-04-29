@@ -1,0 +1,15 @@
+<template>
+  <div>
+    <form submit.trigger="addRepair()">
+      <label for="name">Repairee Name:</label>
+      <input name="name" type="text" value.bind="name"></input>
+      <label for="email">Repairee Email:</label>
+      <input name="email" type="email" value.bind="email"></input>
+      <label for="type">Repair Type:</label>
+      <select name="type" value.bind="type">
+        <option repeat.for="type of types" value="${type}">${type}</option>
+      </select>
+      <input type="submit" value="Add Repair"></input>
+    </form>
+  </div>
+</template>

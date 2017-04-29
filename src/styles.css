@@ -1,0 +1,31 @@
+/**
+ * Adjustments to the body to prevent the floating from masking the content in
+ * the window it overlays along with other global properties.
+ */
+body {
+  padding-top: 70px;
+}
+a:focus {
+  outline: none;
+}
+/**
+ * Navbar properties
+ */
+.navbar li {
+    list-style: none;
+}
+/**
+ * Repair list item display properties
+ */
+.panel {
+   margin: 20px;
+ }
+.horizontal-container {
+    display: flex;
+}
+repair-listing-info {
+  display: inline-block;
+}
+repair-listing-status {
+  display: inline-block;
+}

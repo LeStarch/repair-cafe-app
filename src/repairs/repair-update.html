@@ -1,0 +1,21 @@
+<template>
+  <div>
+    <form submit.trigger="updateRepair()">
+      <label for="name">Repairee Name:</label>
+      <input name="name" type="text" value.bind="repair.name" disabled></input>
+      <label for="email">Repairee Email:</label>
+      <input name="email" type="email" value.bind="repair.email" disabled></input>
+      <label for="type">Repair Type:</label>
+      <select name="type" value.bind="repair.type" disabled>
+        <option repeat.for="type of types" value="${type}">${type}</option>
+      </select>
+      <label for="item">Repair Item:</label>
+      <input name="item" type="text" value.bind="item"></input>
+      <label for="description">Repair Description:</label>
+      <textarea name="desc" value.bind="description"></textarea>
+      <label for="repairer">Repairer:</label>
+      <input name="repairer" type="text" value.bind="repairer"></input>
+      <input type="submit" value="Update Repair"></input>
+    </form>
+  </div>
+</template>

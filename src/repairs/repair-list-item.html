@@ -1,0 +1,42 @@
+<template>
+    <div route-href="route: repair-update; params.bind: {id:repair.id}" class="repair-listing panel panel-success"
+        show.bind="repair.matches(CONFIG.FILTER)">
+    <div class="panel-heading">
+        <h4 class="panel-title">${repair.id.replace("-"," #")} - ${repair.name} ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}</h4>
+    </div>
+    <div class="horizontal-container">
+        <table class="table" style="width:80%;">
+            <tr>
+                <th>Repair Station</th><td>${repair.type}</td>
+            </tr>
+            <tr>
+                <th>Item</th><td>${repair.item}</td>
+            </tr>
+            <tr>
+                <th>Repair Status</th><td>${repair.states[repair.stateIndex].message}</td>
+            </tr>
+            <tr>
+                <th>Repairer</th><td>${repair.repairer}</td>
+            </tr>
+            <tr>
+                <th>Details</th><td>${repair.description}</td>
+            </tr>
+            <tr show.bind="CONFIG.ADVANCED">
+                <th>Registered:</th><td>${repair.states[0].enterTime}</td>
+            </tr>
+        </table>
+        <div class="btn-group btn-group-vertical" style="width:20%" show.bind="CONFIG.ADVANCED">
+            <a route-href="route: repair-update; params.bind: {id:repair.id}" class="btn btn-primary">Edit</a>
+            <button click.trigger="repair.finishRepair()" class="btn">Finish</button>
+            <button click.trigger="repair.closeRepair()" class="btn">Checkout</button>
+            <button click.trigger="repair.deleteRepair()" class="btn">Delete</button>
+            <button click.trigger="repair.transitionState()" class="btn">Move</button>
+        </div>
+    </div>
+    <ul class="list-inline">
+        <li repeat.for="state of repair.states"
+            class="btn ${state.progress == 'waiting'?'btn-danger':(state.progress == 'started'?'btn-primary':'btn-success')}">
+            ${state.name}</li>
+    </ul>
+</div>
+</template>
