@@ -33,10 +33,10 @@
             <button click.trigger="repair.transitionState()" class="btn">Move</button>
         </div>
     </div>
-    <ul class="list-inline">
-        <li repeat.for="state of repair.states"
+    <div class="btn-group btn-group-justified">
+        <span repeat.for="state of repair.states"
             class="btn ${state.progress == 'waiting'?'btn-danger':(state.progress == 'started'?'btn-primary':'btn-success')}">
-            ${state.name}</li>
+            ${state.name}</span>
     </ul>
 </div>
 </template>

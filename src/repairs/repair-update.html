@@ -12,7 +12,10 @@
       <label for="description">Repair Description:</label>
       <textarea name="desc" value.bind="description" class="form-control" rows=3></textarea>
       <label for="repairer">Repairer:</label>
-      <input name="repairer" type="text" value.bind="repairer" class="form-control"></input>
+      <!--input name="repairer" type="text" value.bind="repairer" class="form-control"></input-->
+      <select name="repairer" value.bind="repairer" class="form-control">
+        <option repeat.for="repairer of repairers" value="${repairer}">${repairer}</option>
+      </select>
       <input type="submit" value="Update Repair" class="btn btn-success"></input>
     </form>
   </div>

@@ -1,4 +1,5 @@
 import {RepairAPI} from "../repair-api";
+import {RepairerAPI} from "../repairer-api";
 import {Config} from "../config";
 import {Repair} from "../models/repair"
 
@@ -8,6 +9,7 @@ export class RepairUpdate {
         this.item = "";
         this.description = "";
         this.repairer = "";
+        this.repairers = [];
     }
 
     activate(param, routeConfig) {
@@ -24,16 +26,23 @@ export class RepairUpdate {
                 this.repairer = repair.repairer;
             }
         });
+        RepairerAPI.getRepairerList().then(repairers => {
+            var names = [];
+            for (var i = 0; i < repairers.length; i++) {
+                names.push(repairers[i].name);
+            }
+            this.repairers = names;
+        });
     }
 
     updateRepair() {
-        this.repair.triageEntry(this.item, this.description);
-        if (this.repairer != "") {
-            this.repair.assignRepairer(this.repairer);
-        }
-        RepairAPI.saveRepair(this.repair);
-        this.item = "";
-        this.description = "";
-        this.repairer = "";
+        this.repair.triageEntry(this.item, this.description).then( x => {
+            if (this.repairer != "") {
+                this.repair.assignRepairer(this.repairer).then(x => {location.assign('#/repairs');});
+            } else {
+                location.assign('#/repairs');
+            }
+        });
+
     }
 }

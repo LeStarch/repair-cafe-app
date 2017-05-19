@@ -21,7 +21,7 @@ a:focus {
  * Repair list item display properties
  */
 .panel {
-   margin: 20px;
+   margin: 1em;
  }
 .horizontal-container {
     display: flex;

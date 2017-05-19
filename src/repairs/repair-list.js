@@ -6,8 +6,11 @@ export class RepairList {
         this.refresh();
         //setInterval(this.refresh.bind(this), 500);
     }
-
+    attached() {
+        this.refresh();
+    }
     refresh() {
+        this.repairers = []
         RepairAPI.getRepairList().then(repairs => this.repairs = repairs);
     }
 

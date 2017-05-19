@@ -115,7 +115,7 @@ export class Repair {
         this.stateIndex= (this.stateIndex + 1) % this.states.length;
         this.states[this.stateIndex].enter();
         if (typeof(nosave) === "undefined" || !(nosave) ) {
-            RepairAPI.saveRepair(this);
+            return RepairAPI.saveRepair(this);
         }
     }
     /**
@@ -129,7 +129,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "queued") {
             this.transitionState(true);
         }
-        RepairAPI.saveRepair(this);
+        return RepairAPI.saveRepair(this);
     }
     /**
      * Assign repairer
@@ -140,7 +140,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "in-repair") {
             this.transitionState(true);
         }
-        RepairAPI.saveRepair(this);
+        return RepairAPI.saveRepair(this);
     }
     /**
      * Finish repair
@@ -149,7 +149,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "checkout") {
             this.transitionState(true);
         }
-        RepairAPI.saveRepair(this);
+        return RepairAPI.saveRepair(this);
     }
     /**
      * Close-out
@@ -158,13 +158,13 @@ export class Repair {
         while (this.states[this.stateIndex].name != "completed") {
             this.transitionState(true);
         }
-        RepairAPI.saveRepair(this);
+        return RepairAPI.saveRepair(this);
     }
     /**
      * Delete-repair
      */
     deleteRepair() {
-        RepairAPI.deleteRepair(this.id);
+        return RepairAPI.deleteRepair(this.id);
     }
 }
 /**
