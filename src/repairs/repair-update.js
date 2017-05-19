@@ -27,7 +27,7 @@ export class RepairUpdate {
             }
         });
         RepairerAPI.getRepairerList().then(repairers => {
-            var names = [];
+            var names = [""];
             for (var i = 0; i < repairers.length; i++) {
                 names.push(repairers[i].name);
             }
