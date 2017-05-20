@@ -1,6 +1,6 @@
 <template>
     <div route-href="route: repair-update; params.bind: {id:repair.id}" class="repair-listing panel panel-success"
-        show.bind="repair.matches(CONFIG.FILTER)">
+        show.bind="repair.matches(Config.FILTER)">
     <div class="panel-heading">
         <h4 class="panel-title">${repair.id.replace("-"," #")} - ${repair.name} ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}</h4>
     </div>
@@ -21,11 +21,11 @@
             <tr>
                 <th>Details</th><td>${repair.description}</td>
             </tr>
-            <tr show.bind="CONFIG.ADVANCED">
+            <tr show.bind="Config.ADVANCED">
                 <th>Registered:</th><td>${repair.states[0].enterTime}</td>
             </tr>
         </table>
-        <div class="btn-group btn-group-vertical" style="width:20%" show.bind="CONFIG.ADVANCED">
+        <div class="btn-group btn-group-vertical" style="width:20%" show.bind="Config.ADVANCED">
             <a route-href="route: repair-update; params.bind: {id:repair.id}" class="btn btn-primary">Edit</a>
             <button click.trigger="repair.finishRepair()" class="btn">Finish</button>
             <button click.trigger="repair.closeRepair()" class="btn">Checkout</button>

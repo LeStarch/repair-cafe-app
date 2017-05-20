@@ -10,6 +10,22 @@
         <option repeat.for="type of types" value="${type}">${type}</option>
       </select>
       <input type="submit" value="Add Repair" class="btn btn-success"></input>
+      <div id="ticket-modal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Ticket Submitted</h4>
+              </div>
+              <div class="modal-body">
+                <p>Ticket Number: ${lastTicket} (Please note this on the physical ticket)</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+      </div>
     </form>
   </div>
 </template>

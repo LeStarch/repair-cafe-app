@@ -17,13 +17,14 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="nav-bar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a route-href="route: repair-add;" show.bind="CONFIG.ADVANCED">Add Repair</a></li>
-                    <li><a route-href="route: repair-list;" show.bind="CONFIG.ADVANCED">List Repairs</a></li>
+                    <li><a route-href="route: repair-add;" show.bind="Config.ADVANCED">Add Repair</a></li>
+                    <li><a route-href="route: repair-list;" show.bind="Config.ADVANCED">List Repairs</a></li>
+                    <li><a route-href="route: repairer-add;" show.bind="Config.ADVANCED">Add Repairer</a></li>
                 </ul>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Filter" value.bind="CONFIG.FILTER" show.bind="CONFIG.ADVANCED">
-                        <input type="checkbox" checked.bind="CONFIG.ADVANCED" class="form-control">${CONFIG.ADVANCED?"Adv.":"Advanced Options"}</input>
+                        <input type="text" class="form-control" placeholder="Filter" value.bind="Config.FILTER" show.bind="Config.ADVANCED">
+                        <input type="checkbox" checked.bind="Config.ADVANCED" class="form-control">${Config.ADVANCED?"Adv.":"Advanced Options"}</input>
                     </div>
                 </form>
                 <ul class="nav navbar-nav navbar-right">

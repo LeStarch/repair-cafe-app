@@ -10,6 +10,7 @@ export class RepairAdd {
     this.name = "";
     this.email = "";
     this.type = "";
+    this.lastTicket = "";
   }
 
   created() { }
@@ -22,8 +23,9 @@ export class RepairAdd {
     RepairAPI.getNextId(this.type).then( id => {
         repair.id = this.type +"-" +id;
         RepairAPI.saveRepair(repair);
+        this.lastTicket = repair.id;
     });
-
+    $("#ticket-modal").modal();
     this.name = "";
     this.email = "";
   }

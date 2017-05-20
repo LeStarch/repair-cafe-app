@@ -4,6 +4,7 @@ export class App {
      * Register a bit of code that updates the time in the navigation bar
      */
     constructor() {
+        this.Config = Config;
         setInterval(this.updateTime.bind(this),500);
     }
     /**

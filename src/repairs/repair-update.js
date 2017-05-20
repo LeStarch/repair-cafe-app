@@ -38,7 +38,9 @@ export class RepairUpdate {
     updateRepair() {
         this.repair.triageEntry(this.item, this.description).then( x => {
             if (this.repairer != "") {
-                this.repair.assignRepairer(this.repairer).then(x => {location.assign('#/repairs');});
+                this.repair.assignRepairer(this.repairer).then(y => {
+                    location.assign('#/repairs');
+                });
             } else {
                 location.assign('#/repairs');
             }
