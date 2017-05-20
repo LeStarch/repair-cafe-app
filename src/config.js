@@ -16,7 +16,7 @@ export class Config {
     static REPAIR_TYPE = "repair";
     static REPAIRER_INDEX = "repairers";
     static REPAIRER_TYPE = "repairer";
-    static ES_URL = "http://192.168.0.2:9200";
+    static ES_URL = "/elastic";
     //Global variables
     static ADVANCED = false;
     static FILTER = "";
