@@ -17,6 +17,10 @@ a:focus {
 .navbar li {
     list-style: none;
 }
+em {
+    width: 100%;
+    text-align: center;
+}
 /**
  * Repair list item display properties
  */

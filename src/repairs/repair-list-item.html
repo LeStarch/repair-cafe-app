@@ -32,6 +32,7 @@
             <button click.trigger="repair.deleteRepair()" class="btn">Delete</button>
             <button click.trigger="repair.transitionState()" class="btn">Move</button>
         </div>
+        <img style="width:20%" class="img-responsive img-circle" src="img/logo.jpg" show.bind="!Config.ADVANCED" />
     </div>
     <div class="btn-group btn-group-justified">
         <span repeat.for="state of repair.states"

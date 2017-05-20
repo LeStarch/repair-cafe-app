@@ -126,6 +126,7 @@ export class Repair {
     triageEntry(item,description) {
         this.item = item;
         this.description = description;
+        this.repairer = "Unassigned";
         while (this.states[this.stateIndex].name != "queued") {
             this.transitionState(true);
         }
