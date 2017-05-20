@@ -7,30 +7,30 @@ export class RepairList {
         this.repairs = [];
         this.lastScrollY = null;
         this.refresh();
-        setInterval(this.refresh.bind(this), 5000);
+        setInterval(this.refresh.bind(this), 1000);
     }
     attached() {
         this.refresh();
-        setTimeout(this.startScroll.bind(this),500);
+        setTimeout(this.startScroll.bind(this),2000);
     }
     startScroll() {
-        this.intervalId = setInterval(this.scroll.bind(this),10);
+        this.intervalId = setInterval(this.scroll.bind(this),200);
     }
     scroll() {
         if (Config.ADVANCED) {
             return;
         }
-        window.scrollBy(0,1);
+        window.scrollBy(0,10);
         if (this.lastScrollY != null && this.lastScrollY == window.scrollY) {
             clearInterval(this.intervalId);
-            setTimeout(this.resetScroll.bind(this),500);
+            setTimeout(this.resetScroll.bind(this),2000);
 
         }
         this.lastScrollY = window.scrollY;
     }
     resetScroll() {
         window.scrollTo(0,0);
-        setTimeout(this.startScroll.bind(this),500);
+        setTimeout(this.startScroll.bind(this),2000);
     }
     refresh() {
         RepairAPI.getRepairList().then(repairs => {
@@ -57,7 +57,7 @@ export class RepairList {
                 }
                 //If updated, splice in
                 else if (older != null && newer.id == older.id && newer_str != older_str) {
-                    this.repairs.splice(i,1,repair);
+                    this.repairs.splice(i,1,newer);
                     continue;
                 }
                 //Insert a new entry
