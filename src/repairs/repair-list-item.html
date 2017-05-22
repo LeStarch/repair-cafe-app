@@ -1,5 +1,5 @@
 <template>
-    <div route-href="route: repair-update; params.bind: {id:repair.id}" class="repair-listing panel panel-success"
+    <div route-href="route: repair-update; params.bind: {id:repair.id}" class="repair-listing panel panel-primary"
         show.bind="repair.matches(Config.FILTER)">
     <div class="panel-heading">
         <h4 class="panel-title">${repair.id.replace("-"," #")} - ${repair.name} ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}</h4>

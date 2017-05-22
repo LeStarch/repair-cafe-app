@@ -22,15 +22,15 @@
                     <li><a route-href="route: repairer-add;" show.bind="Config.ADVANCED">Add Repairer</a></li>
                 </ul>
                 <form class="navbar-form navbar-left">
+                    <h3 style="display:inline" show.bind="!Config.ADVANCED">Welcome to Repair Cafe Pasadena</h3>
+                </form>
+                <form class="navbar-form navbar-right">
+                    <h4 style="display:inline">${date}</h4>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Filter" value.bind="Config.FILTER" show.bind="Config.ADVANCED">
                         <input type="checkbox" checked.bind="Config.ADVANCED" class="form-control">${Config.ADVANCED?"Adv.":"Advanced Options"}</input>
                     </div>
-                    <h4 style="display:inline" show.bind="!Config.ADVANCED">Welcome to Repair Cafe Pasadena</h4>
                 </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a>${date}</a></li>
-                </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
