@@ -36,7 +36,16 @@ export class RepairList {
         RepairAPI.getRepairList().then(repairs => {
             //Sort repairs
             function compare(a,b) {
-                return a.id.localeCompare(b.id);
+                var aid = a.id.split("-");
+                aid = parseInt(aid[aid.length-1]);
+                var bid = b.id.split("-");
+                bid = parseInt(bid[bid.length-1]);
+                if (aid < bid) {
+                    return -1;
+                } else if (bid < aid) {
+                    return 1;
+                }
+                return 0;
             }
             repairs.sort(compare);
             //Update the array with newest entries
