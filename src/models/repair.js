@@ -45,7 +45,7 @@ export class Repair {
           },
           {
             "name":"triage",
-            "message":"Please bring your repair to the '"+type+"' station",
+            "message":"Please wait to be escorted to the '"+type+"' station",
           },
           {
             "name":"queued",
