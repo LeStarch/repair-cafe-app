@@ -17,7 +17,8 @@ export class App {
             { route: 'repairs',  moduleId: 'repairs/repair-list', title: "Repair List", name: "repair-list" },
             { route: 'repairs/add',  moduleId: 'repairs/repair-add',  title: "Add a Repair", name: "repair-add" },
             { route: 'repairs/:id',  moduleId: 'repairs/repair-update', title: "Edit a Repair", name: "repair-update" },
-            { route: 'repairers/add',  moduleId: 'repairers/repairer-add', title: "Add a Repairer", name: "repairer-add" }
+            { route: 'repairers/add',  moduleId: 'repairers/repairer-add', title: "Add a Repairer", name: "repairer-add" },
+            { route: 'repairs/summary',  moduleId: 'repairs/repair-summary', title: "Summary of Repairs", name: "repair-summary" }
         ]);
         this.router = router;
     }

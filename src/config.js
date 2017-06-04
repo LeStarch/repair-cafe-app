@@ -1,3 +1,4 @@
+import {ElasticConfig} from './environment'
 /**
  * A class containing configuration for the repair cafe app.
  * This implementation uses static variables so access to these variables
@@ -16,7 +17,9 @@ export class Config {
     static REPAIR_TYPE = "repair";
     static REPAIRER_INDEX = "repairers";
     static REPAIRER_TYPE = "repairer";
-    static ES_URL = "/elastic";
+    static ES_URL = ElasticConfig.ES_URL;
+    static ES_USER = "rcuser";
+    static ES_PASSWORD = "ginko!2017RC";
     //Global variables
     static ADVANCED = false;
     static FILTER = "";

@@ -62,6 +62,10 @@ export class Repair {
           {
             "name":"completed",
             "message":"Your item is finished! Hurrah!"
+          },
+          {
+            "name":"unfixable",
+            "message":"Lamentably, we were unable to fix this item dispite legendary effort and great loss of blood, sweat, and tears."
           }
         ];
         //Null constructor for copy
@@ -103,7 +107,7 @@ export class Repair {
     /**
      * Transition from one state to the next
      */
-    transitionState(nosave) {
+    transitionState(nosave, state) {
         if (this.stateIndex > -1) {
             this.states[this.stateIndex].exit();
         }
@@ -112,7 +116,13 @@ export class Repair {
                 this.states[i].progress = "waiting";
             }
         }
+        var tmp = this.stateIndex;
         this.stateIndex= (this.stateIndex + 1) % this.states.length;
+        if (typeof(state) != "undefined") {
+            while (this.states[this.stateIndex].name != state && this.stateIndex != tmp) {
+                this.stateIndex= (this.stateIndex + 1) % this.states.length;
+            }
+        }
         this.states[this.stateIndex].enter();
         if (typeof(nosave) === "undefined" || !(nosave) ) {
             return RepairAPI.saveRepair(this);
@@ -150,6 +160,13 @@ export class Repair {
         while (this.states[this.stateIndex].name != "checkout") {
             this.transitionState(true);
         }
+        return RepairAPI.saveRepair(this);
+    }
+    /**
+     * Fail this repair
+     */
+    failRepair() {
+        this.transitionState(true,"unfixable");
         return RepairAPI.saveRepair(this);
     }
     /**

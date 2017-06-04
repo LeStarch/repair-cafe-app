@@ -36,7 +36,9 @@ export class Elastic {
                 }
                 console.log("[INFO] Opening: '"+url+"' with "+method);
                 xhttp.open(method, url , true);
-                //xhttp.setRequestHeader("Authorization", "Basic " + btoa(Config.ES_USER + ":" + Config.ES_PASSWORD));
+                if (Config.ES_USER != null && Config.ES_PASSWORD != null) {
+                    xhttp.setRequestHeader("Authorization", "Basic " + btoa(Config.ES_USER + ":" + Config.ES_PASSWORD));
+                }
                 console.log("[INFO] Sending data: "+JSON.stringify(data));
                 xhttp.send(JSON.stringify(data),true);//,Config.ES_USER,Config.ES_PASSWORD);
             }

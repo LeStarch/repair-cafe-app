@@ -1,0 +1,20 @@
+<template>
+  <div>
+      <table class="table table-striped">
+          <tr>
+              <th>Repair Id</th>
+              <th>Repairee Name</th>
+              <th>State</th>
+              <th>Item</th>
+          </tr>
+          <tr repeat.for="repair of repairs"
+              class="${(repair.stateIndex >= 4 && repair.stateIndex <= 5)?'success':
+                       (repair.stateIndex == 6)?'danger':'default'}">
+              <td>${repair.id}</td>
+              <td>${repair.name}</td>
+              <td>${repair.states[repair.stateIndex].name}</td>
+              <td>${repair.item}</td>
+          </tr>
+      </table>
+  </div>
+</template>
