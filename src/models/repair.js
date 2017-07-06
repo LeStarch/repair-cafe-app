@@ -4,12 +4,16 @@ import {RepairAPI} from "../repair-api"
  */
 export class Repair {
     static MARSHALL_FIELDS = ["name","email","type","item","description",
-                              "repairer","stateIndex","deleted"];
+                              "repairer","stateIndex","deleted","reserved"];
     static demarshall(object) {
         var repair = new Repair();
         repair.id = object.id;
         for (var i = 0; i < Repair.MARSHALL_FIELDS.length; i++) {
             repair[Repair.MARSHALL_FIELDS[i]] = object[Repair.MARSHALL_FIELDS[i]];
+            //Overrides
+            if (typeof(repair[Repair.MARSHALL_FIELDS[i]]) === "undefined" && Repair.MARSHALL_FIELDS[i] == "reserved") {
+                repair[Repair.MARSHALL_FIELDS[i]] = true;
+            }
         }
         repair.states = [];
         for (var i = 0; i < object.states.length; i++) {
@@ -36,8 +40,9 @@ export class Repair {
      * @param name: name of person getting repair
      * @param email: e-mail of repairee
      * @param type: type of repair
+     * @param reserved: pre-reserved repair?
      */
-    constructor(name,email,type) {
+    constructor(name,email,type,reserved) {
         this.availableStates = [
           {
             "name":"register",
@@ -72,6 +77,9 @@ export class Repair {
         if (typeof(name) === "undefined") {
             return;
         }
+        if (typeof(reserved) === "undefined") {
+            reserved = false;
+        }
         this.name = name;
         this.email = email;
         this.type = type;
@@ -81,6 +89,7 @@ export class Repair {
         this.deleted = true;
         this.stateIndex = -1;
         this.states = [];
+        this.reserved = reserved;
         for (var i = 0; i < this.availableStates.length; i++) {
             this.states.push(new State(this.availableStates[i].name,this.availableStates[i].message));
         }
@@ -99,6 +108,8 @@ export class Repair {
         var tokens = filter.toLowerCase().split(" ");
         var ret = true;
         var text = JSON.stringify(this).toLowerCase();
+        //Remove ":" from the text
+        text = text.replace(new RegExp("\":\"?","g"),":");
         for (var i = 0; i < tokens.length; i++) {
             ret = ret && text.indexOf(tokens[i]) >= 0;
         }

@@ -27,11 +27,11 @@ export class RepairUpdate {
             }
         });
         RepairerAPI.getRepairerList().then(repairers => {
-            var names = [""];
+            var rprs = [];
             for (var i = 0; i < repairers.length; i++) {
-                names.push(repairers[i].name);
+                rprs.push(repairers[i]);
             }
-            this.repairers = names;
+            this.repairers = rprs;
         });
     }
 

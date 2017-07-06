@@ -2,7 +2,8 @@
     <div route-href="route: repair-update; params.bind: {id:repair.id}" class="repair-listing panel panel-primary"
         show.bind="repair.matches(Config.FILTER)">
     <div class="panel-heading">
-        <h4 class="panel-title">${repair.id.replace("-"," #")} - ${repair.name} ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}</h4>
+        <span class="panel-title">${repair.id.replace("-"," #")} - ${repair.name} ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}</span>
+        <span show.bind="repair.reserved" class="glyphicon glyphicon-tag" aria-hidden="true"></span>
     </div>
     <div class="horizontal-container">
         <table class="table" style="width:80%;">

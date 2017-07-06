@@ -11,7 +11,19 @@
       <input name="item" type="text" value.bind="item" class="form-control"></input>
       <label for="description">Repair Description:</label>
       <textarea name="desc" value.bind="description" class="form-control" rows=3></textarea>
-      <label for="repairer">Repairer:</label>
+      <h4>Select Repairer(s):</h4>
+      <table>
+          <tr>
+              <td>Select</td><td>Repairer</td>
+              <td repeat.for="skill of Config.skills">${skill}</td>
+          </tr>
+          <tr repeat.for="repairer of repairers">
+              <td><input type="checkbox" value="${repairer.name}"/></td>
+              <td>${repairer.name}</td>
+              <td repeat.for="skill of Config.skills" class="">
+              </td>
+          </tr>
+      </table>
       <!--input name="repairer" type="text" value.bind="repairer" class="form-control"></input-->
       <select name="repairer" value.bind="repairer" class="form-control">
         <option repeat.for="repairer of repairers" value="${repairer}">${repairer}</option>

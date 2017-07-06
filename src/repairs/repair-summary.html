@@ -6,6 +6,7 @@
               <th>Repairee Name</th>
               <th>State</th>
               <th>Item</th>
+              <th show.bind="completeView">Action</th>
           </tr>
           <tr repeat.for="repair of repairs"
               class="${(repair.stateIndex >= 4 && repair.stateIndex <= 5)?'success':
@@ -14,6 +15,7 @@
               <td>${repair.name}</td>
               <td>${repair.states[repair.stateIndex].name}</td>
               <td>${repair.item}</td>
+              <td show.bind="completeView"><button click.delegate="repair.closeRepair()">Check-Out</button></td>
           </tr>
       </table>
   </div>

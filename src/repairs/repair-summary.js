@@ -2,12 +2,21 @@ import {RepairAPI} from "../repair-api";
 import {Config} from "../config";
 
 export class RepairSummary {
-
+    constructor() {
+        this.completeView = false;
+    }
     created() {
         this.repairs = [];
         this.lastScrollY = null;
         this.refresh();
         setInterval(this.refresh.bind(this), 1000);
+    }
+    activate(param, routeConfig) {
+        if (window.location.href.indexOf("checkout") != -1) {
+            this.completeView = true;
+        } else {
+            this.completeView = false;
+        }
     }
     attached() {
         this.refresh();
