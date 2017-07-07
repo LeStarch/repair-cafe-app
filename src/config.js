@@ -20,6 +20,7 @@ export class Config {
     static ES_URL = ElasticConfig.ES_URL;
     static ES_USER = "rcuser";
     static ES_PASSWORD = "ginko!2017RC";
+    static UPDATE_INTERVAL = 1000;
     //Global variables
     static ADVANCED = false;
     static FILTER = "";

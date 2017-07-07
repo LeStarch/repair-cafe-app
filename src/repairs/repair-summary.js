@@ -1,99 +1,47 @@
 import {RepairAPI} from "../repair-api";
+import {Pageable} from "../views/pageable";
 import {Config} from "../config";
-
-export class RepairSummary {
-    constructor() {
-        this.completeView = false;
-    }
-    created() {
-        this.repairs = [];
-        this.lastScrollY = null;
-        this.refresh();
-        setInterval(this.refresh.bind(this), 1000);
-    }
-    activate(param, routeConfig) {
+import {bindable, bindingMode} from 'aurelia-framework';
+/**
+ * A view for inspecting the summaries of repairs. Will automatically update and
+ * page through the repairs.
+ *
+ * @author lestarch
+ */
+export class RepairSummary extends Pageable {
+    @bindable shouldPage = true;
+    /**
+     * When attached to the dom, what do we do
+     */
+    attached() {
         if (window.location.href.indexOf("checkout") != -1) {
+            //No paging
             this.completeView = true;
+            this.shouldPage = false;
         } else {
             this.completeView = false;
         }
-    }
-    attached() {
-        this.refresh();
-        setTimeout(this.startScroll.bind(this),2000);
-    }
-    startScroll() {
-        this.intervalId = setInterval(this.scroll.bind(this),200);
-    }
-    scroll() {
-        if (Config.ADVANCED) {
-            return;
+        if (!this.shouldPage) {
+            this.setPageSize(-1);
+        } else {
+            this.setPageSize(3);
         }
-        window.scrollBy(0,10);
-        if (this.lastScrollY != null && this.lastScrollY == window.scrollY) {
-            clearInterval(this.intervalId);
-            setTimeout(this.resetScroll.bind(this),2000);
-
-        }
-        this.lastScrollY = window.scrollY;
+        //Pages to get updates, without problems
+        this.setPaging(true);
+        this.setAutoUpdate(true);
     }
-    resetScroll() {
-        window.scrollTo(0,0);
-        setTimeout(this.startScroll.bind(this),2000);
+    /**
+     * Handles the update of items being paged in pageable.
+     * @return: a promise of list of items to come
+     */
+    update() {
+        return RepairAPI.getRepairList();
     }
-    refresh() {
-        RepairAPI.getRepairList().then(repairs => {
-            //Sort repairs
-            function compare(a,b) {
-                var aid = a.id.split("-");
-                aid = parseInt(aid[aid.length-1]);
-                var bid = b.id.split("-");
-                bid = parseInt(bid[bid.length-1]);
-                if (aid < bid) {
-                    return -1;
-                } else if (bid < aid) {
-                    return 1;
-                }
-                return 0;
-            }
-            repairs.sort(compare);
-            //Update the array with newest entries
-            for (var i = 0; i < repairs.length; i++) {
-                var newer = repairs[i];
-                var older = (i < this.repairs.length) ? this.repairs[i] : null;
-                //Remove old entries that don't exist any longer
-                while (older != null && older.id < newer.id) {
-                    this.repairs.splice(i,1);
-                    older = (i < this.repairs.length) ? this.repairs[i] : null;
-                }
-                //Get comparible string versions
-                var newer_str = JSON.stringify(newer.marshall());
-                var older_str = (older == null)?"":JSON.stringify(older.marshall());
-                //If identical skip
-                if (older != null && newer.id == older.id && newer_str == older_str) {
-                    continue;
-                }
-                //If updated, splice in
-                else if (older != null && newer.id == older.id && newer_str != older_str) {
-                    this.repairs.splice(i,1,newer);
-                    continue;
-                }
-                //Insert a new entry
-                else if (older == null || newer.id < older.id) {
-                    this.repairs.splice(i,0,newer);
-                    continue;
-                }
-                //Should never happen
-                else {
-                    throw Exception("[ERROR] Algorithm in bad state");
-                }
-            }
-            //Clean up extras
-            if (i < this.repairs.length) {
-                this.repairs.splice(i, this.repairs.length - i);
-            }
-        });
-    }
+    /**
+     * Handles the selection of a single repair to send to the update
+     * view.
+     * @param repair: the selected repair
+     */
     select(repair) {
         this.selectedId = repair.id;
         return true;

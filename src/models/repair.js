@@ -98,6 +98,23 @@ export class Repair {
         this.transitionState(true);
     }
     /**
+     * Compare function used for sorting
+     * @param b: repair to compare this agains
+     * @return: -1, I come first, 0 equal, 1 b comes first
+     */
+    compare(b) {
+        var aid = this.id.split("-");
+        aid = parseInt(aid[aid.length-1]);
+        var bid = b.id.split("-");
+        bid = parseInt(bid[bid.length-1]);
+        if (aid < bid) {
+            return -1;
+        } else if (bid < aid) {
+            return 1;
+        }
+        return 0;
+    }
+    /**
      * Does this repair match a string filter
      */
     matches(filter) {
