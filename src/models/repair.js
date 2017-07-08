@@ -4,7 +4,7 @@ import {RepairAPI} from "../repair-api"
  */
 export class Repair {
     static MARSHALL_FIELDS = ["name","email","type","item","description",
-                              "repairer","stateIndex","deleted","reserved"];
+                              "repairers","stateIndex","deleted","reserved"];
     static demarshall(object) {
         var repair = new Repair();
         repair.id = object.id;
@@ -85,7 +85,7 @@ export class Repair {
         this.type = type;
         this.item = "Awaiting check at the "+type+" station.";
         this.description = "Awaiting check at the "+type+" station.";
-        this.repairer = "Unassigned";
+        this.repairers = [];
         this.deleted = true;
         this.stateIndex = -1;
         this.states = [];
@@ -164,18 +164,18 @@ export class Repair {
     triageEntry(item,description) {
         this.item = item;
         this.description = description;
-        this.repairer = "Unassigned";
+        this.repairers = [];
         while (this.states[this.stateIndex].name != "queued") {
             this.transitionState(true);
         }
         return RepairAPI.saveRepair(this);
     }
     /**
-     * Assign repairer
-     * @param repairer: repairer handling repair
+     * Assign repairers
+     * @param repairers: repairer list handling repair
      */
-    assignRepairer(repairer) {
-        this.repairer = repairer;
+    assignRepairers(repairers) {
+        this.repairers = repairers;
         while (this.states[this.stateIndex].name != "in-repair") {
             this.transitionState(true);
         }

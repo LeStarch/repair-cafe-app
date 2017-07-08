@@ -2,14 +2,17 @@ import {RepairAPI} from "../repair-api";
 import {RepairerAPI} from "../repairer-api";
 import {Config} from "../config";
 import {Repair} from "../models/repair"
-
+/**
+ *A form enabling the update of the repair
+ * @author lestarch
+ */
 export class RepairUpdate {
 
     constructor() {
         this.item = "";
         this.description = "";
-        this.repairer = "";
         this.repairers = [];
+        this.selected = [];
     }
 
     activate(param, routeConfig) {
@@ -23,7 +26,7 @@ export class RepairUpdate {
                 this.description = repair.description;
             }
             if (this.repair.stateIndex >= 3) {
-                this.repairer = repair.repairer;
+                this.selected = repair.repairers;
             }
         });
         RepairerAPI.getRepairerList().then(repairers => {
@@ -37,8 +40,8 @@ export class RepairUpdate {
 
     updateRepair() {
         this.repair.triageEntry(this.item, this.description).then( x => {
-            if (this.repairer != "") {
-                this.repair.assignRepairer(this.repairer).then(y => {
+            if (this.selected.length != 0) {
+                this.repair.assignRepairers(this.selected).then(y => {
                     location.assign('#/repairs');
                 });
             } else {

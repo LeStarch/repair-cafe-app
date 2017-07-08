@@ -1,90 +1,44 @@
 import {RepairAPI} from "../repair-api";
 import {Config} from "../config";
-
-export class RepairList {
-
-    created() {
-        this.repairs = [];
-        this.lastScrollY = null;
-        this.refresh();
-        setInterval(this.refresh.bind(this), 1000);
-    }
+import {Pageable} from "../views/pageable"
+/**
+ * Lists a set of repairs in full format for paging or for editing without
+ * paging.
+ *
+ * @author lestarch
+ */
+export class RepairList extends Pageable {
+    /**
+     * Attached dom, set paging etc.
+     */
     attached() {
-        this.refresh();
-        setTimeout(this.startScroll.bind(this),2000);
+        this.setAutoUpdate(true);
+        this.setPageing(true);
+        this.timer();
     }
-    startScroll() {
-        this.intervalId = setInterval(this.scroll.bind(this),200);
-    }
-    scroll() {
+    /**
+     * Override timer to set paging
+     */
+    timer() {
+        //If advanced, list everything, else page
         if (Config.ADVANCED) {
-            return;
+            this.setPageSize(-1);
+        } else {
+            this.setPageSize(3);
         }
-        window.scrollBy(0,10);
-        if (this.lastScrollY != null && this.lastScrollY == window.scrollY) {
-            clearInterval(this.intervalId);
-            setTimeout(this.resetScroll.bind(this),2000);
-
-        }
-        this.lastScrollY = window.scrollY;
+        super.timer();
     }
-    resetScroll() {
-        window.scrollTo(0,0);
-        setTimeout(this.startScroll.bind(this),2000);
+    /**
+     * Update the list of repairs
+     * @return: a promise of list of repairs to come
+     */
+    update() {
+        return RepairAPI.getRepairList();
     }
-    refresh() {
-        RepairAPI.getRepairList().then(repairs => {
-            //Sort repairs
-            function compare(a,b) {
-                var aid = a.id.split("-");
-                aid = parseInt(aid[aid.length-1]);
-                var bid = b.id.split("-");
-                bid = parseInt(bid[bid.length-1]);
-                if (aid < bid) {
-                    return -1;
-                } else if (bid < aid) {
-                    return 1;
-                }
-                return 0;
-            }
-            repairs.sort(compare);
-            //Update the array with newest entries
-            for (var i = 0; i < repairs.length; i++) {
-                var newer = repairs[i];
-                var older = (i < this.repairs.length) ? this.repairs[i] : null;
-                //Remove old entries that don't exist any longer
-                while (older != null && older.id < newer.id) {
-                    this.repairs.splice(i,1);
-                    older = (i < this.repairs.length) ? this.repairs[i] : null;
-                }
-                //Get comparible string versions
-                var newer_str = JSON.stringify(newer.marshall());
-                var older_str = (older == null)?"":JSON.stringify(older.marshall());
-                //If identical skip
-                if (older != null && newer.id == older.id && newer_str == older_str) {
-                    continue;
-                }
-                //If updated, splice in
-                else if (older != null && newer.id == older.id && newer_str != older_str) {
-                    this.repairs.splice(i,1,newer);
-                    continue;
-                }
-                //Insert a new entry
-                else if (older == null || newer.id < older.id) {
-                    this.repairs.splice(i,0,newer);
-                    continue;
-                }
-                //Should never happen
-                else {
-                    throw Exception("[ERROR] Algorithm in bad state");
-                }
-            }
-            //Clean up extras
-            if (i < this.repairs.length) {
-                this.repairs.splice(i, this.repairs.length - i);
-            }
-        });
-    }
+    /**
+     * Select a repair to edit
+     * @param repair: select repair
+     */
     select(repair) {
         this.selectedId = repair.id;
         return true;

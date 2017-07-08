@@ -8,11 +8,11 @@ import {Config} from "../config";
  */
 export class Pageable {
     /**
-     * Sets up the pager's internal structures and prepares for paging items
+     * Sets up the pager's internal structures and prepares for pageing items
      */
     constructor() {
+        this.pageing  = false;
         this.autoUpdate = false;
-        this.paging = false;
         this.pageSize = 10;
         this.pagePointer = 0;
         this.items = [];
@@ -35,11 +35,11 @@ export class Pageable {
         this.autoUpdate = autoUpdate;
     }
     /**
-     *Turns on or off paging
-     * @param paging: boolean, should page or not
+     *Turns on or off pageing
+     * @param pageing: boolean, should page or not
      */
-    setPaging(paging) {
-        this.paging = paging;
+    setPageing(pageing) {
+        this.pageing = pageing;
     }
     /**
      * Returns a list representing the next page of items form the set. This
@@ -62,7 +62,7 @@ export class Pageable {
         return ret;
     }
     /**
-     * Called on a timer used to run paging
+     * Called on a timer used to run pageing
      */
     timer() {
         //Create an empty-promise
@@ -70,8 +70,8 @@ export class Pageable {
         if (this.autoUpdate) {
             promise = this.updateHelper();
         }
-        //Run paging helper, if paging
-        if (this.paging) {
+        //Run pageing helper, if pageing
+        if (this.pageing) {
             promise.then(items => { this.pageHelper();});
         }
     }

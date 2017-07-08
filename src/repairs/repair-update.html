@@ -12,22 +12,19 @@
       <label for="description">Repair Description:</label>
       <textarea name="desc" value.bind="description" class="form-control" rows=3></textarea>
       <h4>Select Repairer(s):</h4>
-      <table>
+      <table class="table table-boardered">
           <tr>
-              <td>Select</td><td>Repairer</td>
-              <td repeat.for="skill of Config.skills">${skill}</td>
+              <th>Select</th><th>Repairer</th>
+              <th repeat.for="skill of Config.skills">${skill}</th>
           </tr>
           <tr repeat.for="repairer of repairers">
-              <td><input type="checkbox" value="${repairer.name}"/></td>
+              <td><input type="checkbox" model.bind="repairer.name" checked.bind="selected"/></td>
               <td>${repairer.name}</td>
-              <td repeat.for="skill of Config.skills" class="">
+              <td repeat.for="skill of Config.skills" class="${(repairer.skills.indexOf(skill) != -1)?'success':'danger'}">
+                  ${(repairer.skills.indexOf(skill) != -1)?'yes':'no'}
               </td>
           </tr>
       </table>
-      <!--input name="repairer" type="text" value.bind="repairer" class="form-control"></input-->
-      <select name="repairer" value.bind="repairer" class="form-control">
-        <option repeat.for="repairer of repairers" value="${repairer}">${repairer}</option>
-      </select>
       <input type="submit" value="Update Repair" class="btn btn-success"></input>
     </form>
   </div>

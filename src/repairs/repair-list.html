@@ -1,7 +1,14 @@
+<!--
+Displays a repair list which is a combination of repair list items
+
+@author lestarch
+-->
 <template>
-  <div>
-    <ul class="list-group">
-        <compose view-model="./repair-list-item" model.bind="repair" repeat.for="repair of repairs"></compose>
-    </ul>
-  </div>
+    <require from="./repair-list-item.html"></require>
+    <div>
+        <ul class="list-group">
+            <repair-list-item repair.bind="repair" config.bind="Config"
+            repeat.for="repair of subset"></repair-list-item>
+        </ul>
+    </div>
 </template>
