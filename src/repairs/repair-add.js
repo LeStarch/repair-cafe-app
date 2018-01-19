@@ -11,7 +11,7 @@ export class RepairAdd {
     this.email = "";
     this.type = "";
     this.lastTicket = "";
-    this.reserved = false;
+    this.reservation = "none";
   }
 
   created() { }
@@ -20,7 +20,7 @@ export class RepairAdd {
     if (this.name == "" || this.email == "" || this.type == "") {
         return;
     }
-    var repair = new Repair(this.name,this.email,this.type,this.reserved);
+    var repair = new Repair(this.name,this.email,this.type,this.reservation);
     RepairAPI.getNextId(this.type).then( id => {
         repair.id = this.type +"-" +id;
         RepairAPI.saveRepair(repair);
@@ -29,5 +29,6 @@ export class RepairAdd {
     $("#ticket-modal").modal();
     this.name = "";
     this.email = "";
+    this.reservation = "none";
   }
 }

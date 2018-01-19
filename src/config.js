@@ -9,8 +9,9 @@ import {ElasticConfig} from './environment'
  * @author lestarch
  */
 export class Config {
-    static types = ["Tinker", "Tailor", "Soldier", "Spy"];
-    static skills = ["electronics","micro-electronics","sewing"];
+    static types = ["Tinker", "Stitcher", "Speciality"];
+    static skills = ["electrical", "electronics","mechanical","computer", "stitching"];
+    static reservations = ["none", "eventbrite", "volunteer", "friends"];
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
     static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;

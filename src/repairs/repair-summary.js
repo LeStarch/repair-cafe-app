@@ -22,7 +22,7 @@ export class RepairSummary extends Pageable {
             this.completeView = false;
         }
         //Pages to get updates, without problems
-        this.setPageSize(this.shouldpage ? 18 : -1);
+        this.setPageSize(this.shouldpage ? 10 : -1);
         this.setPageing(true);
         this.setAutoUpdate(true);
         this.timer();
@@ -34,5 +34,17 @@ export class RepairSummary extends Pageable {
     update() {
         return RepairAPI.getRepairList();
     }
-
+    /**
+     * Count all of the repairs matching this state
+     * @param state: name of the state
+     */
+    getCount(state) {
+        var cnt = 0;
+        for (var i = 0; i < this.items.length; i++) {
+             if (this.items[i].states[this.items[i].stateIndex].name == state) {
+                  cnt = cnt + 1;
+             }
+        }
+        return cnt;
+    }
 }

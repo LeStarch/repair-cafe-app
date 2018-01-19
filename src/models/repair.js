@@ -4,7 +4,7 @@ import {RepairAPI} from "../repair-api"
  */
 export class Repair {
     static MARSHALL_FIELDS = ["name","email","type","item","description",
-                              "repairers","stateIndex","deleted","reserved"];
+                              "repairers","stateIndex","deleted","reservation"];
     static demarshall(object) {
         var repair = new Repair();
         repair.id = object.id;
@@ -89,7 +89,7 @@ export class Repair {
         this.deleted = true;
         this.stateIndex = -1;
         this.states = [];
-        this.reserved = reserved;
+        this.reservation = reserved;
         for (var i = 0; i < this.availableStates.length; i++) {
             this.states.push(new State(this.availableStates[i].name,this.availableStates[i].message));
         }
