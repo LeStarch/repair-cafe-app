@@ -12,7 +12,12 @@
                     <select name="type" value.bind="type" class="form-control">
                         <option repeat.for="type of types" value="${type}">${type}</option>
                     </select>
-                    <input type="checkbox" checked.bind="reserved">Reserved with Eventbrite</input>
+                    <label repeat.for="reservation of Config.reservations">
+                        <input type="radio" name="reservation" value.bind="reservation" checked.bind="$parent.reservation" />
+                        ${reservation}
+                        <br />
+                    </label>
+                    <!--input type="checkbox" checked.bind="reserved">Reserved with Eventbrite</input-->
                     <input type="submit" value="Add Repair" class="btn btn-success"></input>
                     <div id="ticket-modal" class="modal fade" role="dialog">
                         <div class="modal-dialog">

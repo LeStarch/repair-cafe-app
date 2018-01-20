@@ -24,7 +24,7 @@ export class RepairList extends Pageable {
         if (Config.ADVANCED) {
             this.setPageSize(-1);
         } else {
-            this.setPageSize(3);
+            this.setPageSize(2);
         }
         super.timer();
     }

@@ -13,7 +13,8 @@ the repair.
                 ${repair.id.replace("-"," #")} - ${repair.name}
                 ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}
             </span>
-            <span show.bind="repair.reserved"
+            <span show.bind="config.ADVANCED"> - ${repair.reservation}</span>
+            <span show.bind="repair.reservation != 'none'"
                 class="glyphicon glyphicon-tag"
                 aria-hidden="true">
             </span>
