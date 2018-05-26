@@ -17,6 +17,12 @@
                         ${reservation}
                         <br />
                     </label>
+                    <label for="phone">Phone (if text updates desired):</label>
+                    <input name="phone" type="phone" value.bind="phone" class="form-control"></input>
+                    <label from="provider">Phone Provider:</label>
+                    <select name="provider" value.bind="provider" class="form-control">
+                        <option repeat.for="prov of providers" value="${prov}">${prov}</option>
+                    </select>
                     <!--input type="checkbox" checked.bind="reserved">Reserved with Eventbrite</input-->
                     <input type="submit" value="Add Repair" class="btn btn-success"></input>
                     <div id="ticket-modal" class="modal fade" role="dialog">

@@ -1,10 +1,11 @@
 import {RepairAPI} from "../repair-api"
+import {Elastic} from "../elastic"
 /**
  * A repair class representing repair data
  */
 export class Repair {
     static MARSHALL_FIELDS = ["name","email","type","item","description",
-                              "repairers","stateIndex","deleted","reservation"];
+                              "repairers","stateIndex","deleted","reservation", "phone", "provider"];
     static demarshall(object) {
         var repair = new Repair();
         repair.id = object.id;
@@ -42,7 +43,7 @@ export class Repair {
      * @param type: type of repair
      * @param reserved: pre-reserved repair?
      */
-    constructor(name,email,type,reserved) {
+    constructor(name,email,type,reserved,phone,provider) {
         this.availableStates = [
           {
             "name":"register",
@@ -54,15 +55,18 @@ export class Repair {
           },
           {
             "name":"queued",
-            "message":"Waiting for next suitable repairer"
+            "message": "Your item is waiting for the next repaierer",
+            "text" : true
           },
           {
             "name":"in-repair",
-            "message":"Attempting to repair item",
+            "message":"Your item is being repair. Please stop by.",
+            "text" : true
           },
           {
             "name":"checkout",
-            "message":"Please collect your item, and report to checkout"
+            "message":"Please collect your item, and proceed to checkout",
+            "text" : true
           },
           {
             "name":"completed",
@@ -70,7 +74,8 @@ export class Repair {
           },
           {
             "name":"unfixable",
-            "message":"Lamentably, we were unable to fix this item dispite legendary effort and great loss of blood, sweat, and tears."
+            "message": "We were lamentably unable to fix your item. Please collect it and proceed to checkout.",
+            "text" : true
           }
         ];
         //Null constructor for copy
@@ -83,6 +88,8 @@ export class Repair {
         this.name = name;
         this.email = email;
         this.type = type;
+        this.phone = phone;
+        this.provider = provider;
         this.item = "Awaiting check at the "+type+" station.";
         this.description = "Awaiting check at the "+type+" station.";
         this.repairers = [];
@@ -152,6 +159,8 @@ export class Repair {
             }
         }
         this.states[this.stateIndex].enter();
+        //window.open('mailto:'+Config.PROV_MAP.replace("number",this.phone)+"?subject=hello_from_rc'");
+        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         if (typeof(nosave) === "undefined" || !(nosave) ) {
             return RepairAPI.saveRepair(this);
         }

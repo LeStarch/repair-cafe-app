@@ -6,12 +6,15 @@ export class RepairAdd {
 
   constructor() {
     this.types = Config.types;
+    this.providers = Object.keys(Config.PROV_MAP);
     //Data bindings
     this.name = "";
     this.email = "";
     this.type = "";
     this.lastTicket = "";
     this.reservation = "none";
+    this.phone = "";
+    this.provider = "";
   }
 
   created() { }
@@ -20,7 +23,7 @@ export class RepairAdd {
     if (this.name == "" || this.email == "" || this.type == "") {
         return;
     }
-    var repair = new Repair(this.name,this.email,this.type,this.reservation);
+    var repair = new Repair(this.name,this.email,this.type,this.reservation,this.phone,this.provider);
     RepairAPI.getNextId(this.type).then( id => {
         repair.id = this.type +"-" +id;
         RepairAPI.saveRepair(repair);

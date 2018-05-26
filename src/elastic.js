@@ -2,6 +2,41 @@ import {Repair} from "./models/repair"
 import {Config} from "./config"
 
 export class Elastic {
+    static telephone(tele, message) {
+            try
+            {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function()
+                {
+                    if (this.readyState == 4 && this.status >= 200 && this.status <= 299)
+                    {
+                        console.log("[INFO] Response text: 'Success'");
+                    }
+                    else if (this.readyState == 4)
+                    {
+                        console.log("[ERROR] ES Errored with: 'Error'");
+                    }
+                };
+                //Id is not valid for ES, so we should post directly to the URL
+                var url = Config.TELE_URL + "/telephone";
+                var method = "POST";
+                console.log("[INFO] Opening: '"+url+"' with "+method);
+                xhttp.open(method, url , true);
+                if (Config.ES_USER != null && Config.ES_PASSWORD != null) {
+                    xhttp.setRequestHeader("Authorization", "Basic " + btoa(Config.ES_USER + ":" + Config.ES_PASSWORD));
+                }
+                console.log("[INFO] Sending data: "+JSON.stringify(data));
+                var data = [];
+                data.push(encodeURIComponent("telephone") + '=' + encodeURIComponent(tele));
+                data.push(encodeURIComponent("message") + '=' + encodeURIComponent(message));
+                xhttp.send(data.join("&").replace("/%20/g","+"),true);//,Config.ES_USER,Config.ES_PASSWORD);
+            }
+            catch (e)
+            {
+                console.log("[ERROR] "+e);
+                error(new Error(e));
+            }
+    }
     /**
      * Elastic search interface code
      * @param index: index of elastic Search
