@@ -160,7 +160,6 @@ export class Repair {
         }
         this.states[this.stateIndex].enter();
         //window.open('mailto:'+Config.PROV_MAP.replace("number",this.phone)+"?subject=hello_from_rc'");
-        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         if (typeof(nosave) === "undefined" || !(nosave) ) {
             return RepairAPI.saveRepair(this);
         }
@@ -177,6 +176,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "queued") {
             this.transitionState(true);
         }
+        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         return RepairAPI.saveRepair(this);
     }
     /**
@@ -188,6 +188,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "in-repair") {
             this.transitionState(true);
         }
+        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         return RepairAPI.saveRepair(this);
     }
     /**
@@ -197,6 +198,7 @@ export class Repair {
         while (this.states[this.stateIndex].name != "checkout") {
             this.transitionState(true);
         }
+        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         return RepairAPI.saveRepair(this);
     }
     /**
@@ -204,6 +206,7 @@ export class Repair {
      */
     failRepair() {
         this.transitionState(true,"unfixable");
+        Elastic.telephone(this.phone, this.availableStates[this.stateIndex].message);
         return RepairAPI.saveRepair(this);
     }
     /**
