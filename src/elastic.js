@@ -29,7 +29,7 @@ export class Elastic {
                 var data = [];
                 data.push(encodeURIComponent("telephone") + '=' + encodeURIComponent(tele));
                 data.push(encodeURIComponent("message") + '=' + encodeURIComponent(message));
-                xhttp.send(data.join("&").replace("/%20/g","+"),true);//,Config.ES_USER,Config.ES_PASSWORD);
+                xhttp.send(JSON.stringify({"telephone": tele, "message": message}),true);//,Config.ES_USER,Config.ES_PASSWORD);
             }
             catch (e)
             {
