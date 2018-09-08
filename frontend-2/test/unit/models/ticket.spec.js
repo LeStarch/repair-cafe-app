@@ -1,5 +1,7 @@
 import {Ticket} from "models/ticket"
 import {Order} from "models/ticket"
+import {Client} from "models/client"
+import {TestHelper} from "../test-helper.js"
 
 /**
  * order-test:
@@ -9,30 +11,26 @@ import {Order} from "models/ticket"
  */
 describe('Order: basic object test', () => {
     it('check a newly constructed object', () => {
+        let fields = ["short", "long"];
         let order = new Order();
-        //Short and long existance checks
-        expect(order.getShortDescription()).toBeDefined();
-        expect(order.getShortDescription()).not.toBeNull();
-        expect(order.getLongDescription()).toBeDefined();
-        expect(order.getLongDescription()).not.toBeNull()
+        TestHelper.expect_expected_fields(order, fields,
+                                          [undefined, undefined]);
+        TestHelper.expect_expected_getters(order, fields,
+                                           [undefined, undefined]);
     });
     it('check "getter" functions', () => {
+        let fields = ["short", "long"];
         let order = new Order();
         order.short = "shortDescriptionTest";
-        order.long = "long description for test purposes";
-        //Short and long existance and validity tests
-        expect(order.getShortDescription()).toBeDefined();
-        expect(order.getShortDescription()).not.toBeNull();
-        expect(order.getShortDescription()).toBe("shortDescriptionTest");
-
-        expect(order.getLongDescription()).toBeDefined();
-        expect(order.getLongDescription()).not.toBeNull()
-        expect(order.getLongDescription()).toBe(
-            "long description for test purposes"
-        );
+        order.long = "long description for test";
+        TestHelper.expect_expected_fields(order, fields,
+                                          ["shortDescriptionTest",
+                                          "long description for test"])
+        TestHelper.expect_expected_getters(order, fields,
+                                           ["shortDescriptionTest",
+                                           "long description for test"]);
     });
 });
-
 /**
  * ticket-test:
  *
@@ -42,24 +40,14 @@ describe('Order: basic object test', () => {
 describe('Ticket: basic object test', () => {
     it('check a newly constucted ticket', () =>
     {
-        //Construct required order and client information
+        let fields = ["client", "order", "status", "workers"];
+        //Construct required order and client information then ticket
         let order = new Order();
         order.short = "short";
         order.short = "long desc";
-        let client = "ABCD"; //TODO: fix me, client needs to be an object
-
+        let client = new Client();
         let ticket = new Ticket(client, order);
-        //Loop fields looking for expected values
-        let fields = ["client", "order", "status", "workers"];
-        let expected = [client, order, undefined, []];
-        expect(fields.length).toEqual(expected.length);
-        for (let i = 0; i < fields.length; i++) {
-            expect(ticket[fields[i]]).toBeDefined();
-            expect(ticket[fields[i]]).not.toBeNull();
-            //If expected is defined, check it to
-            if (typeof(expected[i]) != "undefined") {
-                expect(ticket[fields[i]]).toEqual(expected[i]);
-            }
-        }
+        TestHelper.expect_expected_fields(ticket, fields,
+                                          [client, order, undefined, []]);
     });
 });

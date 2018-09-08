@@ -55,7 +55,6 @@ export class Order {
         this.short = "nothing";
         this.long = "Nothing has been submitted yet";
     }
-
     /**
      * Returns the short description of the object.
      * @return: short description
@@ -63,7 +62,6 @@ export class Order {
     getShortDescription() {
         return this.short;
     }
-
     /**
      * Returns the long description of the object.
      * @return: long description
