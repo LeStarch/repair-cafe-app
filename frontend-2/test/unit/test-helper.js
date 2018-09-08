@@ -56,7 +56,7 @@ export class TestHelper {
         //For each field, search for getters
         for (let i = 0; i < fields.length; i++) {
             for (var key in object) {
-                let prefix = ("get" + fields[i]).toUpperCase();
+                let prefix = ("get" + fields[i].replace("_", "")).toUpperCase();
                 if (key.toUpperCase().startsWith(prefix)) {
                     callables.push(key);
                     expect(object[key]).toBeDefined();
