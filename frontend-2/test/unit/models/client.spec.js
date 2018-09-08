@@ -1,5 +1,4 @@
 import {Client} from "models/client"
-import {Order} from "models/ticket"
 import {TestHelper} from "../test-helper.js"
 
 /**
