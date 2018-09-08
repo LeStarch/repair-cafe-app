@@ -8,7 +8,7 @@ import {TestHelper} from "../test-helper.js"
  *  to retrieve all four expected fields.
  */
 describe('Worker: basic object test', () => {
-    it('check a newly constucted ticket', () =>
+    it('check a newly constucted worker', () =>
     {
         let fields = ["name", "email", "phone", "skills"];
         let worker = new Worker();

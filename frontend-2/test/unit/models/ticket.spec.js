@@ -10,7 +10,7 @@ import {TestHelper} from "../test-helper.js"
  *  to retrieve both short and long descritions.
  */
 describe('Order: basic object test', () => {
-    it('check a newly constructed object', () => {
+    it('check a newly constructed order', () => {
         let fields = ["short", "long"];
         let order = new Order();
         TestHelper.expect_expected_fields(order, fields,

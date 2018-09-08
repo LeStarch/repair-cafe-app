@@ -8,7 +8,7 @@ import {TestHelper} from "../test-helper.js"
  *  to retrieve all three expected fields.
  */
 describe('Client: basic object test', () => {
-    it('check a newly constucted ticket', () =>
+    it('check a newly constucted client', () =>
     {
         let fields = ["name", "email", "phone"];
         let client = new Client();
