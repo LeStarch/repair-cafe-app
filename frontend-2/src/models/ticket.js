@@ -1,6 +1,6 @@
 import {Client} from "models/client"
 import {Worker} from "models/worker"
-import {Status} from "models/status"
+import {Lifecycle} from "models/lifecycle"
 /**
  * Ticket:
  *
@@ -28,7 +28,7 @@ export class Ticket {
     constructor(client, order) {
         this.client = client;
         this.order = order;
-        this.status = Status.newStatus();
+        this.lifecycle = Lifecycle.newObject();
         this.workers = [];
     }
 }

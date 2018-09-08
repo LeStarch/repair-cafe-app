@@ -40,7 +40,7 @@ describe('Order: basic object test', () => {
 describe('Ticket: basic object test', () => {
     it('check a newly constucted ticket', () =>
     {
-        let fields = ["client", "order", "status", "workers"];
+        let fields = ["client", "order", "lifecycle", "workers"];
         //Construct required order and client information then ticket
         let order = new Order();
         order.short = "short";
