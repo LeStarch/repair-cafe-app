@@ -1,0 +1,15 @@
+<!--
+Rdit Generic Object:
+
+HTML template for editing the basic information for an object. It will find
+fields and expose them as standard inputs. This object can be filled in using
+these inputs.
+
+@author lestarch
+-->
+<template bindable="item">
+    <div repeat.for="Object.getOwnPropertyNames(item)">
+        <label for="${name}">${name.charAt(0).upper() + name.substr(1)}</lable>
+        <input type="text" value.bind="item.${name}"></input>
+    </div>
+</template>
