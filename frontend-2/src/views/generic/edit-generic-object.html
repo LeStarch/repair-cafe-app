@@ -8,8 +8,11 @@ these inputs.
 @author lestarch
 -->
 <template bindable="item">
-    <div repeat.for="Object.getOwnPropertyNames(item)">
-        <label for="${name}">${name.charAt(0).upper() + name.substr(1)}</lable>
-        <input type="text" value.bind="item.${name}"></input>
+    <require from="../../converters/generic-object"></require>
+    <!--div>${item}</div-->
+    <div repeat.for="name of item | genericObject">
+        <label for="${name}">${name.charAt(0).toUpperCase() + name.substr(1)}</lable>
+        <input type="text" value.two-way="$parent[name]"></input>
+        <p>Value: ${item[name]}</p>
     </div>
 </template>

@@ -1,5 +1,10 @@
 export class App {
   constructor() {
-    this.message = 'Hello World!';
+    this.tmp = {
+        "field1":"abc",
+        "fields2":"def",
+        "name":"abc"
+    };
+    this.message = "Yolo-2";
   }
 }
