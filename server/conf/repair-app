@@ -34,7 +34,7 @@ server {
 	include snippets/snakeoil.conf;
 
 	auth_basic           "No luck champ; enter in a password";
-	auth_basic_user_file /home/scoops/password/passwd-rc;
+	auth_basic_user_file /etc/nginx/passwd-rc;
 
 	root /var/www/html;
 

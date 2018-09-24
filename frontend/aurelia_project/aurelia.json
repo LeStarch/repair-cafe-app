@@ -35,9 +35,8 @@
     "displayName": "Atom"
   },
   "unitTestRunner": {
-    "id": "karma",
-    "displayName": "Karma",
-    "source": "test/unit/**/*.js"
+    "id": "none",
+    "displayName": "None"
   },
   "paths": {
     "root": "src",
@@ -46,10 +45,6 @@
     "attributes": "src/resources/attributes",
     "valueConverters": "src/resources/value-converters",
     "bindingBehaviors": "src/resources/binding-behaviors"
-  },
-  "testFramework": {
-    "id": "jasmine",
-    "displayName": "Jasmine"
   },
   "build": {
     "targets": [
@@ -138,18 +133,14 @@
             "path": "../node_modules/bootstrap/dist",
             "main": "js/bootstrap.min",
             "deps": ["jquery"],
+
             "exports": "$",
             "resources": [
               "css/bootstrap.css"
             ]
           }
-        ]
+	]
       }
-    ],
-    "copyFiles": {
-      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2": "bootstrap/fonts",
-      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff": "bootstrap/fonts",
-      "node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf": "bootstrap/fonts"
-    }
+    ]
   }
 }

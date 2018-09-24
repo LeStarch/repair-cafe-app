@@ -44,11 +44,6 @@
     "babel-polyfill": "^6.9.1",
     "babel-register": "^6.9.0",
     "gulp-babel": "^6.1.2",
-    "gulp-eslint": "^2.0.0",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-jasmine": "^1.0.2",
-    "karma-babel-preprocessor": "^6.0.1"
+    "gulp-eslint": "^2.0.0"
   }
 }
