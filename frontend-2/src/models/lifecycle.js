@@ -1,5 +1,5 @@
-import {Config} from "adaptation/config"
-import {State} from "models/state"
+import {Config} from "config";
+import {State} from "models/state";
 /**
  * Lifecycle:
  *
@@ -20,17 +20,10 @@ export class Lifecycle {
      * @return: configured, constructed lifecycle
      */
     static newObject() {
-        switch (Config.LIFECYCLE_CLASS) {
-            case "ConfigurablePipelineLifecycle":
-                return new ConfigurablePipelineLifecycle();
-                break;
-            default:
-                throw new Error("[ERROR] " + Config.LIFECYCLE_CLASS +
-                                " does not exist");
-                break;
-        }
+        this.CONFIG = new Config();
+        return new this.CONFIG.LIFECYCLE_CLASS(this.CONFIG);
     }
-}
+};
 /**
  * ConfigurablePipelineStatus:
  *
@@ -43,7 +36,7 @@ export class Lifecycle {
  *            "check-in", "triage", "in-repair", "finished", and "checkout". It
  *            would have the out-of-band end state of "won't-fix".
  */
-class ConfigurablePipelineLifecycle extends Lifecycle {
+export class ConfigurablePipelineLifecycle extends Lifecycle {
     /**
      * Constucts new lifecycle pipeline from two lists: pipeline, and offnominal
      * states. Pipeline states are normal linear in-band states representing
@@ -57,15 +50,16 @@ class ConfigurablePipelineLifecycle extends Lifecycle {
      * @param offnominal: abnormal ending state state name
      * @throws Exception on bad pipeline config
      */
-    constructor(pipeline, offnominal) {
+    constructor(config, pipeline, offnominal) {
         super();
+        this.CONFIG = config;
         this.index = 0;
         //Check if supplied, if not read from configuration
         if (typeof(pipeline) == "undefined") {
-            pipeline = Config.PIPELINE_STATES;
+            pipeline = this.CONFIG.PIPELINE_STATES;
         }
         if (typeof(offnominal) == "undefined") {
-            offnominal = Config.OFFNOMINAL_STATES;
+            offnominal = this.CONFIG.OFFNOMINAL_STATES;
         }
         //Check for defined
         if (!Array.isArray(pipeline) || !Array.isArray(offnominal)) {

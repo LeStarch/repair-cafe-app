@@ -18,8 +18,8 @@ export class Client {
      * form. It also ensures that the fields are defined.
      */
     constructor() {
-        this.name = "Anonymouse Anne";
-        this.email = "nahobiddy@example.com";
+        this.name = "";
+        this.email = "";
         this.phone = null;
     }
     /**

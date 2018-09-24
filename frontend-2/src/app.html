@@ -1,5 +1,15 @@
+<!--
+App.html:
+
+This is the main view of an Aurelia application. The HTML below represents the
+template of the single-page app that is our application. Traditionally, the app
+is composed of a router-view that routes to the different pages inside this app.
+
+@author lestarch
+-->
 <template>
-    <require from="./views/generic/edit-generic-object.html"></require>
-    <edit-generic-object item.bind="tmp"></edit-generic-object>
-    <h1>Hi World ${message}</h1>
+    <!--TODO: add navigation widget here -->
+    <!-- A placeholder where the main view of the program gets placed and is
+         route-able using the rouder defined in App.js -->
+    <router-view></router-view>
 </template>

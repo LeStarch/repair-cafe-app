@@ -1,0 +1,22 @@
+<!--
+Edit Client:
+
+A view that contains the necessary html and bindings to enable it to edit the
+client portion of a ticket. This includes setting the following properties:
+name, phone, email etc.
+
+Note: this is where the property input types are set.
+
+@author lestarch
+-->
+<template bindable="client">
+    <label for="name">Name:</label>
+    <input type="text" value.bind="client.name" name="name"
+     class.bind="CONFIG.FORM_CONTROL_CLASS"></input>
+    <label for="email">E-Mail:</label>
+    <input type="email" value.bind="client.email" name="email"
+     class.bind="CONFIG.FORM_CONTROL_CLASS"></input>
+    <label for="phone">Phone:</label>
+    <input type="phone" value.bind="client.phone" name="phone"
+     class.bind="CONFIG.FORM_CONTROL_CLASS"></input>
+</template>

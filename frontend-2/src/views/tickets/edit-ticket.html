@@ -1,0 +1,25 @@
+<!--
+Edit Ticket:
+
+A view that contains the necessary html and bindings to enable it to edit the
+ticket. This includes setting the order and the client. It provides a save
+callback in order to save the ticket.
+
+It pulls the name of the fields from configuration.
+
+Note: this is where the property input types are set.
+
+@author lestarch
+-->
+<template>
+    <require from="views/widgets/edit-client"></require>
+    <require from="views/widgets/edit-order"></require>
+    <h2>${CONFIG.TICKET_DISPLAY} Input</h2>
+    <form submit.trigger="submit()" class.bind="CONFIG.FORM_CLASS">
+        <edit-client client.bind="ticket.client"></edit-client>
+        <edit-order order.bind="ticket.order" minimal.bind="minimal">
+        </edit-order>
+        <input type="submit" value.bind="submit_msg"
+         class.bind="CONFIG.FORM_SUBMIT_CLASS"></input>
+    </form>
+</template>

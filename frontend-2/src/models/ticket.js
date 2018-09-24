@@ -26,11 +26,19 @@ export class Ticket {
      * @param order: work order assoicated with this Ticket
      */
     constructor(client, order) {
+        this.id = null;
         this.client = client;
+        if (typeof(this.client) == "undefined") {
+            this.client = new Client();
+        }
         this.order = order;
+        if (typeof(this.order) == "undefined") {
+            this.order = new Order();
+        }
         this.lifecycle = Lifecycle.newObject();
         this.workers = [];
     }
+    //TODO: add getters/setters instead of direct-access
 }
 /**
  * Order:
@@ -38,11 +46,12 @@ export class Ticket {
  *  The order represents the work associated with the Ticket. It contains both
  *  a short and long description for the work to be done. Often the short descr-
  *  iption is a name or title and the long description is text explaning what
- *  work is to be done.
+ *  work is to be done. It also contains a type, whose values come from
+ *  configuration.
  *
  *  Example: (repair cafe application) the short description would represent the
  *           object being repaired and the long description would hold the prob-
- *           lem that is needed to be fixed.
+ *           lem that is needed to be fixed. Type would be "Tinkerer" or "Bike".
  * @author lestarch
  */
 export class Order {
@@ -52,8 +61,16 @@ export class Order {
      * directly from a form.
      */
     constructor() {
-        this.short = "nothing";
-        this.long = "Nothing has been submitted yet";
+        this.type = null;
+        this.short = "";
+        this.long = "";
+    }
+    /**
+     * Returns the type of the order.
+     * @return: order type
+     */
+    getType() {
+        return this.type;
     }
     /**
      * Returns the short description of the object.

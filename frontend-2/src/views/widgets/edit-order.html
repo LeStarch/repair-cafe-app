@@ -1,0 +1,21 @@
+<!--
+Edit Order:
+
+A view that contains the necessary html and bindings to enable it to edit the
+order portion of a ticket. This includes setting the following properties:
+short and long description. Also the long description can be made optional.
+
+It pulls the name of the fields from configuration.
+
+Note: this is where the property input types are set.
+
+@author lestarch
+-->
+<template>
+    <label for="short">${CONFIG.SHORT_DISPLAY}:</label>
+    <input type="text" value.bind="order.short" name="short"
+     class.bind="CONFIG.FORM_CONTROL_CLASS"></input>
+    <label for="long">${CONFIG.LONG_DISPLAY}:</label>
+    <input if.bind="!minimal" type="text" value.bind="order.long" name="long"
+     class.bind="CONFIG.FORM_CONTROL_CLASS"></input>
+</template>

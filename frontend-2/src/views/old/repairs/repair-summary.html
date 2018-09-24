@@ -1,0 +1,30 @@
+<template>
+  <div>
+      <table class="table table-striped">
+          <tr>
+               <th repeat.for="state of items[0].states">${state.name}</th>
+          </tr>
+          <tr>
+               <td repeat.for="state of items[0].states">${getCount(state.name)}<td>
+          </tr>
+      </table>
+      <table class="table table-striped">
+          <tr>
+              <th>Repair Id</th>
+              <th>Repairee Name</th>
+              <th>State</th>
+              <th>Item</th>
+              <th show.bind="completeView">Action</th>
+          </tr>
+          <tr repeat.for="repair of subset"
+              class="${(repair.stateIndex >= 4 && repair.stateIndex <= 5)?'success':
+                       (repair.stateIndex == 6)?'danger':'default'}">
+              <td>${repair.id}</td>
+              <td>${repair.name}</td>
+              <td>${repair.states[repair.stateIndex].name}</td>
+              <td>${repair.item}</td>
+              <td><button show.bind="completeView && repair.states[repair.stateIndex].name == 'checkout'" click.delegate="repair.closeRepair()s">Check-Out</button></td>
+          </tr>
+      </table>
+  </div>
+</template>
