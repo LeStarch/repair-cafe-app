@@ -23,7 +23,7 @@
               <td>${repair.name}</td>
               <td>${repair.states[repair.stateIndex].name}</td>
               <td>${repair.item}</td>
-              <td><button show.bind="completeView && repair.states[repair.stateIndex].name == 'checkout'" click.delegate="repair.closeRepair()s">Check-Out</button></td>
+              <td><button show.bind="completeView && repair.states[repair.stateIndex].name == 'checkout'" click.delegate="repair.closeRepair()">Check-Out</button></td>
           </tr>
       </table>
   </div>
