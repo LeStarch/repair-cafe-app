@@ -6,7 +6,8 @@ then
     echo "[ERROR] Must run install script as sudo"
     exit
 fi
-#TODO: add in dat stuff
+#Adds in NTP time and date synching
+timedatectl set-ntp true
 apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils
 if (( $? != 0 ))
 then
