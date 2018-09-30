@@ -9,7 +9,7 @@ fi
 #Adds in NTP time and date synching
 timedatectl set-ntp true
 cp ${SCRIPT_DIR}/server/ntp.conf /etc/ntp.conf
-apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils curl
+apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils curl python3 python3-pip python3-virtualenv
 if (( $? != 0 ))
 then
     echo "[ERROR] Failed to apt install"
@@ -56,6 +56,12 @@ then
     echo "[ERROR] Failed to enable and run Nginx"
     exit 1
 fi
+####
+# Setup python-3 + Flask
+####
+virtualenv ${SCRIPT_DIR}/server/python
+. ${SCRIPT_DIR}/server/python/bin/activate
+pip3 install flask pyserial
 ####
 # Setup repair-cafe group
 ####
