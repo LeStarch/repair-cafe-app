@@ -55,7 +55,7 @@ export class Repair {
           },
           {
             "name":"queued",
-            "message": "Your item is waiting for the next repaierer",
+            "message": "Your item is waiting for the next repairer",
             "text" : true
           },
           {

@@ -13,7 +13,6 @@ the repair.
                 ${repair.id.replace("-"," #")} - ${repair.name}
                 ${(repair.stateIndex < 2)?"":"["+repair.item+"]"}
             </span>
-            <span show.bind="config.ADVANCED"> - ${repair.reservation}</span>
             <span show.bind="repair.reservation != 'none'"
                 class="glyphicon glyphicon-tag"
                 aria-hidden="true">
@@ -40,6 +39,9 @@ the repair.
                 </tr>
                 <tr show.bind="config.ADVANCED">
                     <th>Registered:</th><td>${repair.states[0].enterTime}</td>
+                </tr>
+                <tr show.bind="config.ADVANCED">
+                    <th>Phone:</th><td>${repair.phone}</td>
                 </tr>
             </table>
             <div class="btn-group btn-group-vertical"

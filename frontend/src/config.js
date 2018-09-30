@@ -11,7 +11,7 @@ export class Config {
     static ES_URL = "/elastic";
     //static INDEX_MODULATION="-"+new Date().toISOString().substr(0,10);
     static types = ["Tinker", "Stitcher", "Speciality"];
-    static skills = ["electrical", "electronics","mechanical","computer", "stitching"];
+    static skills = ["electrical", "electronics","mechanical","computer", "stitching", "hand stitching", "machine stiching"];
     static reservations = ["none", "eventbrite", "volunteer", "friends"];
     static COUNTER_INDEX = "tickets"+"-"+new Date().toISOString().substr(0,10);
     static COUNTER_TYPE = "ticket";

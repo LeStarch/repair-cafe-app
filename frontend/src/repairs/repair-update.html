@@ -1,12 +1,13 @@
 <template>
   <div>
     <form submit.trigger="updateRepair()">
-      <label for="name">Repairee Name:</label>
-      <input name="name" type="text" value.bind="repair.name" disabled class="form-control"></input>
+      <label for="name">Repairee Name: ( <input type="checkbox" checked.bind="unlocked" > Unlock</input> )</label>
+      <input name="name" type="text" value.bind="repair.name" disabled.bind="!unlocked" class="form-control"></input>
       <label for="email">Repairee Email:</label>
-      <input name="email" type="email" value.bind="repair.email" disabled class="form-control"></input>
+      <input name="email" type="email" value.bind="repair.email" disabled.bind="!unlocked"  class="form-control"></input>
       <label for="type">Repair Type:</label>
-      <input name="type" value.bind="repair.type" disabled class="form-control"></input>
+      <input name="type" value.bind="repair.type" disabled.bind="!unlocked" class="form-control"></input>
+      <input name="type" value.bind="repair.phone" disabled.bind="!unlocked" class="form-control"></input>
       <label for="item">Repair Item:</label>
       <input name="item" type="text" value.bind="item" class="form-control"></input>
       <label for="description">Repair Description:</label>

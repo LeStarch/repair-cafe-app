@@ -13,6 +13,7 @@ export class RepairUpdate {
         this.description = "";
         this.repairers = [];
         this.selected = [];
+        this.unlocked = false;
     }
 
     activate(param, routeConfig) {
