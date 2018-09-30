@@ -8,7 +8,8 @@ then
 fi
 #Adds in NTP time and date synching
 timedatectl set-ntp true
-apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils
+cp ${SCRIPT_DIR}/server/ntp.conf /etc/ntp.conf
+apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils curl
 if (( $? != 0 ))
 then
     echo "[ERROR] Failed to apt install"
