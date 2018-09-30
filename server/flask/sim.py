@@ -1,4 +1,5 @@
 import os
+import re
 import serial
 import flask
 import json
@@ -6,6 +7,7 @@ import json
 DEV_DIR="/dev"
 DEV_PATTERN="ttyACM"
 DEV_BAUD=19200
+REG_TELEPHONE = re.compile("\d{10}")
 
 ar_serial = None
 app = flask.Flask(__name__)
@@ -20,15 +22,32 @@ def send_text():
     tmp = flask.request.data.decode("utf-8") 
     print("DATA:",tmp)
     data = json.loads(tmp)
-    number = data["telephone"]
+    number = data["telephone"].strip().replace(" ", "").replace("-","").replace("(", "").replace(")", "")
+    if not REG_TELEPHONE.match(number):
+        print("Ignoring invalid telephone: '{0}'".format(number))
+        return "BAD"
     message = data["message"]
     number = number.replace("-", "").replace("+", "")
-    ar_serial.write(bytes("AT+CMGS=\"{0}\"\r\n".format(number),"ascii"))
-    ar_serial.write(bytes("{0}".format(message),"ascii"));
-    ar_serial.write(bytes(chr(0x1A), 'ascii'))
-    print("[INFO] Received message: '{0}'".format(
-          "\n".join([ it.decode("ascii") for it in ar_serial.readlines()])))
+    send_recv(number, message)
     return "GOOD"
+
+def send_recv(number, message):
+    '''
+    Sends/Receives the message.
+    @param number: number to send to
+    @param message: message to send in std python string format
+    '''
+    #Encoding as ascii (UTF-8) for transmission
+    outgoing = bytes("AT+CMGS=\"{0}\"\r\n".format(number),"ascii")
+    outgoing += bytes(message, "ascii")
+    outgoing += bytes(chr(0x1A), 'ascii')
+    print("[INFO] Sending: {0}".format(outgoing))
+    ar_serial.write(outgoing)
+    incoming = ar_serial.read()
+    print("[INFO] Recving: {0}".format(incoming))
+    return incoming.decode("ascii").split("\r\n")
+
+
 def setup(serial):
     '''
     Sets up the SIM device on the serial port
