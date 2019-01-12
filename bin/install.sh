@@ -59,9 +59,10 @@ fi
 ####
 # Setup python-3 + Flask
 ####
-virtualenv ${SCRIPT_DIR}/server/python
+pip install virtualenv
+python3 -m virtualenv ${SCRIPT_DIR}/server/python
 . ${SCRIPT_DIR}/server/python/bin/activate
-pip3 install flask pyserial
+pip3 install flask pyserial zmq
 ####
 # Setup repair-cafe group
 ####
