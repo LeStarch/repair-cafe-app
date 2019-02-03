@@ -8,6 +8,8 @@ then
 fi
 #Adds in NTP time and date synching
 timedatectl set-ntp true
+ufw allow ntp
+systemctl restart ntp
 cp ${SCRIPT_DIR}/server/ntp.conf /etc/ntp.conf
 apt install -y nodejs npm nginx wget openjdk-11-jre-headless apache2-utils curl python3 python3-pip python3-virtualenv
 if (( $? != 0 ))
