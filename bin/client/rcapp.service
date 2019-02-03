@@ -1,0 +1,16 @@
+[Unit]
+Description=A service to run chromium showing RC app.
+After=multi-user.target
+ConditionPathExists=!/home/pi/bin/halt_rc_app
+
+[Service]
+User=pi
+Group=pi
+ExecStart=/home/pi/bin/run-chromium.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=graphical.target
+Alias=rcapp.service
