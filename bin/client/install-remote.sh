@@ -1,6 +1,6 @@
 #!/bin/bash
 #apt-get update
-apt-get install -y chromium-bsu
+DEBIAN_FRONTEND=noninteractive apt-get -y install chromium-bsu
 timedatectl set-ntp on
 mkdir -p bin
 mv run-chromium.sh bin/
