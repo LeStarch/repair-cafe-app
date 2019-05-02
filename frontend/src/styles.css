@@ -1,3 +1,4 @@
+@import "~bootstrap/dist/css/bootstrap.css";
 /**
  * Adjustments to the body to prevent the floating from masking the content in
  * the window it overlays along with other global properties.
