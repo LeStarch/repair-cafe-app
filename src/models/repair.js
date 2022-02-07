@@ -1,4 +1,4 @@
-import {RepairAPI} from "../repair-api"
+//import {RepairAPI} from "../database/repair-api.js"
 /**
  * A repair class representing repair data
  */
@@ -43,6 +43,7 @@ export class Repair {
      * @param reserved: pre-reserved repair?
      */
     constructor(name,email,type,reserved) {
+        this.id = "-1";
         this.availableStates = [
           {
             "name":"register",
@@ -94,8 +95,8 @@ export class Repair {
             this.states.push(new State(this.availableStates[i].name,this.availableStates[i].message));
         }
         //Enter and exit the register state
-        this.transitionState(true);
-        this.transitionState(true);
+        this.transitionState();
+        this.transitionState();
     }
     /**
      * Compare function used for sorting
@@ -135,7 +136,10 @@ export class Repair {
     /**
      * Transition from one state to the next
      */
-    transitionState(nosave, state) {
+    transitionState(state) {
+        if (typeof(state) === typeof(true) || typeof(state) === typeof(false)) {
+            throw Error("API changed, fixme");
+        }
         if (this.stateIndex > -1) {
             this.states[this.stateIndex].exit();
         }
@@ -145,16 +149,13 @@ export class Repair {
             }
         }
         var tmp = this.stateIndex;
-        this.stateIndex= (this.stateIndex + 1) % this.states.length;
+        this.stateIndex = (this.stateIndex + 1) % this.states.length;
         if (typeof(state) != "undefined") {
             while (this.states[this.stateIndex].name != state && this.stateIndex != tmp) {
                 this.stateIndex= (this.stateIndex + 1) % this.states.length;
             }
         }
         this.states[this.stateIndex].enter();
-        if (typeof(nosave) === "undefined" || !(nosave) ) {
-            return RepairAPI.saveRepair(this);
-        }
     }
     /**
      * Used for triaging once item enters system
@@ -166,9 +167,8 @@ export class Repair {
         this.description = description;
         this.repairers = [];
         while (this.states[this.stateIndex].name != "queued") {
-            this.transitionState(true);
+            this.transitionState();
         }
-        return RepairAPI.saveRepair(this);
     }
     /**
      * Assign repairers
@@ -177,40 +177,30 @@ export class Repair {
     assignRepairers(repairers) {
         this.repairers = repairers;
         while (this.states[this.stateIndex].name != "in-repair") {
-            this.transitionState(true);
+            this.transitionState();
         }
-        return RepairAPI.saveRepair(this);
     }
     /**
      * Finish repair
      */
     finishRepair() {
         while (this.states[this.stateIndex].name != "checkout") {
-            this.transitionState(true);
+            this.transitionState();
         }
-        return RepairAPI.saveRepair(this);
     }
     /**
      * Fail this repair
      */
     failRepair() {
-        this.transitionState(true,"unfixable");
-        return RepairAPI.saveRepair(this);
+        this.transitionState("unfixable");
     }
     /**
      * Close-out
      */
     closeRepair() {
         while (this.states[this.stateIndex].name != "completed") {
-            this.transitionState(true);
+            this.transitionState();
         }
-        return RepairAPI.saveRepair(this);
-    }
-    /**
-     * Delete-repair
-     */
-    deleteRepair() {
-        return RepairAPI.deleteRepair(this.id);
     }
 }
 /**

@@ -1,4 +1,4 @@
-import {RepairerAPI} from "../repairer-api"
+import {RepairerAPI} from "../database/repairer-api.js"
 /**
  * A repairer class representing repairer data
  */

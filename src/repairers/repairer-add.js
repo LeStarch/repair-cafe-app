@@ -1,4 +1,4 @@
-import {RepairerAPI} from "../repairer-api";
+import {RepairerAPI} from "../database/repairer-api";
 import {Config} from "../config";
 import {Repairer} from "../models/repairer"
 

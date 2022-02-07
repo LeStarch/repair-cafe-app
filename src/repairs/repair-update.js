@@ -1,5 +1,5 @@
-import {RepairAPI} from "../repair-api";
-import {RepairerAPI} from "../repairer-api";
+import {RepairAPI} from "../database/repair-api";
+import {RepairerAPI} from "../database/repairer-api";
 import {Config} from "../config";
 import {Repair} from "../models/repair"
 /**

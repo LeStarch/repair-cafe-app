@@ -1,33 +1,37 @@
-import {Repairer} from "./models/repairer"
-import {Elastic} from "./elastic"
-import {Config} from "./config"
+import {Repair} from "../models/repair.js"
+import {Elastic} from "./elastic.js"
+import {Config} from "../config.js"
+
+
 /**
- * High-level api for repairer persistence allowing user to get a
- * repairer by ID, list a set of ids, and save repairers.
+ * High-level api for repair persistence allowing user to get a
+ * repair by ID, list a set of ids, and save repairs.
  *
  * This implementation uses an Elastic search backend.
  *
  * @author lestarch
  */
-export class RepairerAPI {
+export class RepairAPI {
+    items = [];
+
     /**
      * Process an individual ES result
      * @param result: es result to process
-     * @returns: a repairer object
+     * @returns: a repair object
      */
     static processResult(result) {
         var processed = result._source;
         //Remap the id field
         processed.id = result._id;
-        return Repairer.demarshall(processed);
+        return Repair.demarshall(processed);
     }
     /**
      * Get the next unique id
      */
-    static getNextId() {
+    static getNextId(station) {
         return new Promise(
             function(success, error) {
-                var data = {"id":"repairer"};
+                var data = {"id":station.toLowerCase()};
                 Elastic.elasticPost(Config.COUNTER_INDEX,
                                     Config.COUNTER_TYPE, data).then(
                     function(result) {
@@ -36,13 +40,13 @@ export class RepairerAPI {
             });
     }
     /**
-     * Get a listing of repairers
+     * Get a listing of repairs
      */
-    static getRepairerList() {
+    static getRepairList() {
         return new Promise(
             function(success, error) {
-                Elastic.elasticList(Config.REPAIRER_INDEX,
-                                    Config.REPAIRER_TYPE).then(
+                Elastic.elasticList(Config.REPAIR_INDEX,
+                                    Config.REPAIR_TYPE).then(
                     function(results) {
                         if (!("hits" in results) ||
                             !("hits" in results.hits)) {
@@ -52,57 +56,57 @@ export class RepairerAPI {
                         //Process results
                         var ret = [];
                         for (var i = 0; i < results.hits.hits.length; i++) {
-                            ret.push(RepairerAPI.processResult(results.hits.hits[i]));
+                            ret.push(RepairAPI.processResult(results.hits.hits[i]));
                         }
                         success(ret);
                     }, error);
             });
     }
     /**
-     * Get a repairer by given ID
+     * Get a repair by given ID
      * @param id: id to get from elastic search
      */
-    static getRepairer(id) {
+    static getRepair(id) {
         return new Promise(
             function(success, error) {
-                Elastic.elasticGet(Config.REPAIRER_INDEX,
-                                    Config.REPAIRER_TYPE, id).then(
+                Elastic.elasticGet(Config.REPAIR_INDEX,
+                                    Config.REPAIR_TYPE, id).then(
                     function(result) {
                         if (!("_source" in result)) {
                             error(new Error("[ERROR] Got invalid result: "+
                                             JSON.stringify(result)));
                         }
-                        success(RepairerAPI.processResult(result));
+                        success(RepairAPI.processResult(result));
                     }, error);
             });
     }
     /**
-     * Save the repairer
-     * @param repairer: repairer to save
+     * Save the repair
+     * @param repair: repair to save
      */
-    static saveRepairer(repairer) {
+    static saveRepair(repair) {
         return new Promise(
             function(success, error) {
-                var data = repairer.marshall();
-                Elastic.elasticPost(Config.REPAIRER_INDEX,
-                                    Config.REPAIRER_TYPE, data).then(
+                var data = repair.marshall();
+                Elastic.elasticPost(Config.REPAIR_INDEX,
+                                    Config.REPAIR_TYPE, data).then(
                     function(result) {
                         success(result);
                     }, error);
             });
     }
     /**
-     * Delete the repairer
-     * @param repairer: repairer to delete
+     * Delete the repair
+     * @param repair: repair to delete
      */
     static deleteRepair(id) {
         return new Promise(
             function(success, error) {
-                Elastic.elasticDelete(Config.REPAIRER_INDEX,
-                                    Config.REPAIRER_TYPE, id).then(
+                Elastic.elasticDelete(Config.REPAIR_INDEX,
+                                    Config.REPAIR_TYPE, id).then(
                     function(result) {
                         success(result);
                     }, error);
             });
     }
-}
+};

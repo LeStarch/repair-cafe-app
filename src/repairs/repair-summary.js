@@ -1,4 +1,4 @@
-import {RepairAPI} from "../repair-api";
+import {RepairAPI} from "../database/repair-api";
 import {Pageable} from "../views/pageable";
 import {Config} from "../config";
 import {bindable} from 'aurelia-framework';

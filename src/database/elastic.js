@@ -1,5 +1,5 @@
-import {Repair} from "./models/repair"
-import {Config} from "./config"
+//import {Repair} from "./models/repair"
+import {Config} from "../config.js"
 
 export class Elastic {
     /**
@@ -16,13 +16,13 @@ export class Elastic {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function()
                 {
-                    if (this.readyState == 4 && this.status >= 200 && this.status <= 299)
+                    if (this.readyState === 4 && this.status >= 200 && this.status <= 299)
                     {
                         console.log("[INFO] Response text: '"+this.responseText+"'")
                         var response = JSON.parse(this.responseText);
                         success(response);
                     }
-                    else if (this.readyState == 4)
+                    else if (this.readyState === 4)
                     {
                         console.log("[ERROR] ES Errored with: "+this.responseText);
                         error(new Error(this.responseText));
@@ -82,7 +82,7 @@ export class Elastic {
      * @param type: elastic search type
      * @param id: identitiy to get
      */
-    static elasticDelete(index,type,id) {
+    static elasticDelete(index, type, id) {
         return Elastic.elastic(index,type,"DELETE",{"id":id});
     }
 }
