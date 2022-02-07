@@ -8,12 +8,12 @@ export let COMPONENT = {
         return {
             "name": "",
             "email": "",
-            "type": _data.config.types[0],
+            "type": this.config.types[0],
             "last_id": "unknown--1",
             "reserved": false,
-            "config": _data.config
         };
     },
+    inject: ["config"],
     methods: {
         addRepair(event) {
             let _self = this;

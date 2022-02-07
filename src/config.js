@@ -10,8 +10,8 @@ import {ElasticConfig} from './environment.js'
  */
 export class Config {
     static USE_LOCAL_STORAGE = true;
-    static types = ["Tinker", "Tailor", "Soldier", "Spy"];
-    static skills = ["electronics","micro-electronics","sewing"];
+    static types = ["Tinker", "Tailor", "Bike", "Soil"];
+    static skills = ["electronics","micro-electronics","sewing", "adhesives", "explosives"];
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
     static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;

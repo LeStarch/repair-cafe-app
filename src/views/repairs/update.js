@@ -9,12 +9,11 @@ import {_data} from "../../data.js";
 export let COMPONENT = {
     props: {
         "repair": Repair,
-        "repairers": Array
     },
+    inject: ["config", "repairers"],
     template: TEMPLATE,
-    data: function() {
+    data() {
         return {
-            config: _data.config,
             item: (this.repair.stateIndex < 2) ? "" : this.repair.item,
             description:  (this.repair.stateIndex < 2) ? "" : this.repair.description,
             assignees: [...this.repair.repairers],

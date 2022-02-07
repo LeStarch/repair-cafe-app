@@ -1,16 +1,14 @@
 
-//import Vue from 'vue';
 import { TEMPLATE } from "./summay.template.js"
-import {_data} from "../../data.js";
 
 export let COMPONENT = {
     data() {
         return {
-            config: _data.config,
             completeView: true,
             search: {"selected": "", "filter": ""}
     }},
-    props: ["repairs"],
+    props: ["advanced"],
+    inject: ["repairs", "config"],
     template: TEMPLATE,
     methods: {
         /**

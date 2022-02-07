@@ -3,9 +3,9 @@ import {_data} from "../../data.js";
 
 export let COMPONENT = {
     template: TEMPLATE,
-    props: ["repairs"],
+    inject: ["repairs", "config"],
     data() {
-        return {"type": _data.config.types[0], "config": _data.config, "search": {"filter": "", "selected": ""} };
+        return {"type":this.config.types[0], "search": {"filter": "", "selected": ""} };
     },
     computed: {
         subset() {

@@ -4,11 +4,13 @@ import {COMPONENT as REPAIR_UPDATE_COMPONENT} from "./repairs/update.js";
 import {COMPONENT as REPAIRER_ADD_COMPONENT} from "./repairers/add.js";
 import {COMPONENT as REPAIR_ADD_COMPONENT} from "./repairs/add.js";
 import {COMPONENT as REPAIR_LIST_COMPONENT} from "./repairs/list.js";
+import {COMPONENT as REPAIRER_LIST_COMPONENT} from "./repairers/list.js";
 import {COMPONENT as SEARCH_COMPONENT} from "./search.js";
+import {COMPONENT as ADD_REPAIR_PAGE_COMPONENT} from "./pages/add-repairs.js";
+import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
+import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
 
-import {Repair} from "../models/repair.js"
-import {Repairer} from "../models/repairer.js"
-import {Config} from "../config.js";
+
 import {_data, setupData} from "../data.js";
 
 
@@ -24,6 +26,10 @@ function register_components(app) {
     app.component("repair-add", REPAIR_ADD_COMPONENT);
     app.component("repair-list", REPAIR_LIST_COMPONENT);
     app.component("search", SEARCH_COMPONENT);
+    app.component("add-repair-page", ADD_REPAIR_PAGE_COMPONENT);
+    app.component("add-repairer-page", ADD_REPAIRER_PAGE_COMPONENT);
+    app.component("repairer-list", REPAIRER_LIST_COMPONENT);
+    app.component("navigation", NAV_COMPONENT);
 }
 
 /**
@@ -45,12 +51,54 @@ function build_app_instance(app) {
 export function setup(element) {
     // Initial data and application creation
     const RepairApp = {
+        template:`
+        <div class="container-fluid">
+            <navigation v-model="route"></navigation>
+            <add-repair-page v-if='route == "#add"'></add-repair-page>
+            <repair-list v-else-if='route == "#manage"'></repair-list>
+            <repair-summary v-else-if='route == "#summary"' :advanced="true"></repair-summary>
+            <add-repairer-page v-else-if='route == "#repairers"'></add-repairer-page>
+            <div v-else class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <img src="/img/logo.jpg" class="card-img" alt="RC Logo" />
+                        </div>
+                        <div class="col">
+                            <h4>RC APP Beta Testing</h4>
+                            <p>Welcome to the RC App beta test. To test: add some repairs in the 'Check-In' tab above,
+                            then update and manage them as a team lead using 'Team Trigage', and check them out when
+                            finished using 'Check-Out'.
+                            </p>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
         data() {
-            return { "repairs": [], "repairers": [] };
+            return { "repairs": [], "repairers": [], "config": _data.config, "route": window.location.hash };
+        },
+        provide() {
+            let routes = {
+                "Start Here": "",
+                "Check-In": "#add",
+                "Team Triage": "#manage",
+                "Check-Out": "#summary",
+                "Add Repairers": "#repairers"
+            };
+            return {
+                "repairs": this.repairs,
+                "repairers": this.repairers,
+                "config": this.config,
+                "route": this.route,
+                "routes": routes
+            };
         }
     };
     // Setup application and instance
     let app = Vue.createApp(RepairApp);
+    app.config.unwrapInjectedRef = true;
     register_components(app)
     let instance = build_app_instance(app);
 }

@@ -7,9 +7,7 @@ import {_data} from "../../data.js";
 
 export let COMPONENT = {
     props: { "repair": Repair },
-    data() {
-        return {"config": _data.config}
-    },
+    inject: ["config"],
     template: TEMPLATE,
     methods: {
         /**

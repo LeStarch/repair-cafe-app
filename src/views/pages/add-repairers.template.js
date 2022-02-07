@@ -1,10 +1,10 @@
 export let TEMPLATE=`
     <div class="row">
         <div class="col col-sm-6">
-            <repair-add></repair-add>
+            <repairer-add></repairer-add>
         </div>
         <div class="col col-sm-6">
-            <repair-summary></repair-summary>
+            <repairer-list :avanced="false"></repairer-list>
         </div>
     </div>
 `;
