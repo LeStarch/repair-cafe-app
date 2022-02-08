@@ -10,7 +10,7 @@ export let TEMPLATE = `
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    <img src="../../img/logo.jpg" class="card-img" alt="RC Logo" />
+                    <img src="./img/logo.jpg" class="card-img" alt="RC Logo" />
                 </div>
                 <div class="col">
                     <h4>RC APP Beta Testing</h4>
