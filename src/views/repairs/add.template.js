@@ -10,22 +10,11 @@ export let TEMPLATE = `
         </select>
         <input type="checkbox" name="reserved" v-model="reserved" /><label for="reserved">Pre-Registered</label>
         <input type="submit" value="Add Repair" class="btn btn-success" />
-        <div id="ticket-modal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Ticket Submitted</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Ticket Number: {{ last_id.replace("-", "#") }} (Please, note on physical ticket, if present)</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+        <div v-if='last_id !== "" && name === "" && email === ""' class="alert alert-success">
+            <h4>Ticket Submitted: {{ last_id.replace("-", " #") }}</h4>
+            <p>Ticket Number:
+                <em>{{ last_id.replace("-", " #") }}</em>
+                (Please note on physical ticket, if physical ticket present)</p>
         </div>
     </form>
 `;

@@ -8,10 +8,16 @@ import {COMPONENT as REPAIRER_LIST_COMPONENT} from "./repairers/list.js";
 import {COMPONENT as SEARCH_COMPONENT} from "./search.js";
 import {COMPONENT as ADD_REPAIR_PAGE_COMPONENT} from "./pages/add-repairs.js";
 import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
+import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
 
+import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
+
+// For beta testing
+import {Repair} from "../models/repair.js";
+import {Repairer} from "../models/repairer.js";
 
 
 /**
@@ -29,6 +35,7 @@ function register_components(app) {
     app.component("add-repair-page", ADD_REPAIR_PAGE_COMPONENT);
     app.component("add-repairer-page", ADD_REPAIRER_PAGE_COMPONENT);
     app.component("repairer-list", REPAIRER_LIST_COMPONENT);
+    app.component("manage", MANAGE_COMPONENT);
     app.component("navigation", NAV_COMPONENT);
 }
 
@@ -51,33 +58,23 @@ function build_app_instance(app) {
 export function setup(element) {
     // Initial data and application creation
     const RepairApp = {
-        template:`
-        <div class="container-fluid">
-            <navigation v-model="route"></navigation>
-            <add-repair-page v-if='route == "#add"'></add-repair-page>
-            <repair-list v-else-if='route == "#manage"'></repair-list>
-            <repair-summary v-else-if='route == "#summary"' :advanced="true"></repair-summary>
-            <add-repairer-page v-else-if='route == "#repairers"'></add-repairer-page>
-            <div v-else class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <img src="/img/logo.jpg" class="card-img" alt="RC Logo" />
-                        </div>
-                        <div class="col">
-                            <h4>RC APP Beta Testing</h4>
-                            <p>Welcome to the RC App beta test. To test: add some repairs in the 'Check-In' tab above,
-                            then update and manage them as a team lead using 'Team Trigage', and check them out when
-                            finished using 'Check-Out'.
-                            </p>    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        `,
+        template: APP_TEMPLATE,
         data() {
-            return { "repairs": [], "repairers": [], "config": _data.config, "route": window.location.hash };
+            return {
+                "repairs": [
+                    new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinkerer", true),
+                    new Repair("D. Gori", "gori@cmtc.com", "Tailor", false)
+
+                ],
+                "repairers": [
+                    new Repairer("Fenneko I.", "FennI@cmtc.com",
+                        ["electronics", "micro-electronics", "explosives"]),
+                    new Repairer("Washimi K.", "washimi@cmtc.com",
+                        ["sewing", "adhesives"])
+                ],
+                "config": _data.config,
+                "route": window.location.hash
+            };
         },
         provide() {
             let routes = {
@@ -101,6 +98,15 @@ export function setup(element) {
     app.config.unwrapInjectedRef = true;
     register_components(app)
     let instance = build_app_instance(app);
+
+    // Beta testing only
+    for (let i = 0; i < _data.repair.items.length; i++) {
+        let repair = _data.repair.items[i];
+        repair.id = _data.repair.nextId().then((id) => {
+            repair.id = repair.type + "-" + id;
+            _data.repair.save(repair);
+        });
+    }
 }
 
 

@@ -1,4 +1,3 @@
-//import {RepairAPI} from "../database/repair-api.js"
 /**
  * A repair class representing repair data
  */

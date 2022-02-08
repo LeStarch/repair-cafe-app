@@ -9,7 +9,7 @@ export let COMPONENT = {
             "name": "",
             "email": "",
             "type": this.config.types[0],
-            "last_id": "unknown--1",
+            "last_id": "",
             "reserved": false,
         };
     },
@@ -27,7 +27,6 @@ export let COMPONENT = {
                 _data.repair.save(repair);
                 _self.last_id = repair.id;
             });
-            /*document.getElementById("ticket-modal").modal();*/
             this.name = "";
             this.email = "";
             this.reserved = false;

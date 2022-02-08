@@ -7,10 +7,8 @@ import {_data} from "../../data.js";
  * @author lestarch
  */
 export let COMPONENT = {
-    props: {
-        "repair": Repair,
-    },
     inject: ["config", "repairers"],
+    props: ["repair"],
     template: TEMPLATE,
     data() {
         return {
@@ -24,7 +22,8 @@ export let COMPONENT = {
             if (event.target.checked) {
                 this.assignees.push(repairer.name);
             } else {
-                this.assignees.remove(repairer.name);
+                let new_items = this.assignees.filter((item) => item !== repairer.name);
+                this.assignees.splice(0, this.assignees.length, new_items);
             }
             return true;
         },
@@ -35,6 +34,7 @@ export let COMPONENT = {
                 this.repair.assignRepairers(this.assignees);
             }
             _data.repair.save(this.repair);
+            this.$emit("update:modelValue", null);
             return false;
         }
     }

@@ -7,6 +7,9 @@ import {_data} from "../../data.js";
 
 export let COMPONENT = {
     props: { "repair": Repair },
+    data() {
+        return {"editing": null};
+    },
     inject: ["config"],
     template: TEMPLATE,
     methods: {
@@ -33,6 +36,9 @@ export let COMPONENT = {
             } else if (command === "delete") {
                 _data.repair.delete(this.repair.id);
                 return;
+            } else if (command === "update") {
+                this.$parent.$emit("update:modelValue", this.repair);
+                return; // Save done in editing box
             }
             _data.repair.save(this.repair);
         }
