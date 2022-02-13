@@ -32,4 +32,23 @@ export class Repairer {
         this.email = email;
         this.skills = skills;
     }
+
+    /**
+     * Does this repair match a string filter
+     */
+    matches(filter) {
+        //Gatecheck
+        if (typeof(filter) == "undefined" || filter === "") {
+            return true;
+        }
+        var tokens = filter.toLowerCase().split(" ");
+        var ret = true;
+        var text = JSON.stringify(this).toLowerCase();
+        //Remove ":" from the text
+        text = text.replace(new RegExp("\":\"?","g"),":");
+        for (var i = 0; i < tokens.length; i++) {
+            ret = ret && text.indexOf(tokens[i]) >= 0;
+        }
+        return ret;
+    }
 }

@@ -15,7 +15,7 @@ export let TEMPLATE =
             <td>{{ repair.states[repair.stateIndex].name }}</td>
             <td>{{ repair.item }}</td>
             <td v-show="advanced">
-                <button v-on:click="repair.closeRepair()" class="btn btn-primary">Check-Out</button>
+                <button v-show="!repair.isComplete()" v-on:click="repair.closeRepair()" class="btn btn-primary">Check-Out</button>
             </td>
         </tr>
     </table>

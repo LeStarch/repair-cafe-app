@@ -2,7 +2,7 @@
  * A repair class representing repair data
  */
 export class Repair {
-    static MARSHALL_FIELDS = ["name","email","type","item","description",
+    static MARSHALL_FIELDS = ["name","email","type","item","subtype", "description",
                               "repairers","stateIndex","deleted","reserved"];
     static demarshall(object) {
         var repair = new Repair();
@@ -85,6 +85,7 @@ export class Repair {
         this.type = type;
         this.item = "Awaiting check at the "+type+" station.";
         this.description = "Awaiting check at the "+type+" station.";
+        this.subtype = "N/A";
         this.repairers = [];
         this.deleted = true;
         this.stateIndex = -1;
@@ -169,6 +170,14 @@ export class Repair {
             this.transitionState();
         }
     }
+
+    /**
+     * Finish repair
+     */
+    isComplete() {
+        return this.stateIndex >= (this.states.length - 3);
+    }
+
     /**
      * Assign repairers
      * @param repairers: repairer list handling repair
@@ -179,6 +188,15 @@ export class Repair {
             this.transitionState();
         }
     }
+
+    /**
+     * Set the subtype with no state change
+     * @param subtype: new subtype
+     */
+    setSubtype(subtype) {
+        this.subtype = subtype;
+    }
+
     /**
      * Finish repair
      */

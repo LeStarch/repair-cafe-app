@@ -15,11 +15,6 @@ import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
 
-// For beta testing
-import {Repair} from "../models/repair.js";
-import {Repairer} from "../models/repairer.js";
-
-
 /**
  * Register components to the supplied application object. Returns that object to allow the chaining/builder pattern.
  * @param app: application object to register components with
@@ -50,6 +45,8 @@ function build_app_instance(app) {
     return instance;
 }
 
+
+
 /**
  * Setup the vue application and route the Vue data cache into the database instances.
  * @param element: element to mount the application into
@@ -61,17 +58,8 @@ export function setup(element) {
         template: APP_TEMPLATE,
         data() {
             return {
-                "repairs": [
-                    new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinkerer", true),
-                    new Repair("D. Gori", "gori@cmtc.com", "Tailor", false)
-
-                ],
-                "repairers": [
-                    new Repairer("Fenneko I.", "FennI@cmtc.com",
-                        ["electronics", "micro-electronics", "explosives"]),
-                    new Repairer("Washimi K.", "washimi@cmtc.com",
-                        ["sewing", "adhesives"])
-                ],
+                "repairs": [],
+                "repairers": [],
                 "config": _data.config,
                 "route": window.location.hash
             };
@@ -98,15 +86,6 @@ export function setup(element) {
     app.config.unwrapInjectedRef = true;
     register_components(app)
     let instance = build_app_instance(app);
-
-    // Beta testing only
-    for (let i = 0; i < _data.repair.items.length; i++) {
-        let repair = _data.repair.items[i];
-        repair.id = _data.repair.nextId().then((id) => {
-            repair.id = repair.type + "-" + id;
-            _data.repair.save(repair);
-        });
-    }
 }
 
 

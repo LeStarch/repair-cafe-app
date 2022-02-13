@@ -10,7 +10,7 @@ import {ElasticConfig} from './environment.js'
  */
 export class Config {
     static USE_LOCAL_STORAGE = true;
-    static types = ["Tinker", "Tailor", "Bike", "Soil"];
+    static types = ["Tinkerer", "Tailor", "Bike", "Soil"];
     static skills = ["electronics","micro-electronics","sewing", "adhesives", "explosives"];
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
@@ -25,4 +25,11 @@ export class Config {
     //Global variables
     static ADVANCED = true;
     static FILTER = "";
+
+    static COMMON_REPAIRS = {
+        "tinkerer": ["N/A", "Replace Fuse", "Cleaning", "Replace Cord", "Soldering", "Adhesive Repair"],
+        "tailor": ["N/A", "Replace Button", "Fix Zipper", "Mend Tear"],
+        "bike": ["N/A", "Change Wheel", "Do Bike Things"],
+        "soil": ["N/A", "Seed Microbes"]
+    };
 }

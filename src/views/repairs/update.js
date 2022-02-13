@@ -13,9 +13,15 @@ export let COMPONENT = {
     data() {
         return {
             item: (this.repair.stateIndex < 2) ? "" : this.repair.item,
+            subtype: this.repair.subtype,
             description:  (this.repair.stateIndex < 2) ? "" : this.repair.description,
             assignees: [...this.repair.repairers],
         };
+    },
+    computed: {
+        subtypes() {
+            return this.config.COMMON_REPAIRS[this.repair.type.toLowerCase()];
+        }
     },
     methods: {
         selected(repairer, event) {
@@ -33,9 +39,13 @@ export let COMPONENT = {
             if (this.assignees.length > 0) {
                 this.repair.assignRepairers(this.assignees);
             }
+            this.repair.setSubtype(this.subtype);
             _data.repair.save(this.repair);
             this.$emit("update:modelValue", null);
             return false;
+        },
+        cancel(event) {
+            this.$emit("update:modelValue", null);
         }
     }
 };

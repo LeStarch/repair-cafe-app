@@ -6,16 +6,16 @@ the repair.
 @author lestarch
 **/
 export let TEMPLATE = `
-    <div class="repair-listing panel panel-primary">
-        <div class="panel-heading">
-            <span class="panel-title">
+    <div class="repair-listing card card-primary">
+        <div class="card-header">
+            <span class="card-title">
                 {{ repair.id.replace("-"," #") }} - {{ repair.name }}
                 {{ (repair.stateIndex < 2) ? "" : "["+repair.item+"]" }}
             </span>
             <span v-if="repair.reserved" class="glyphicon glyphicon-tag" aria-hidden="true">
             </span>
         </div>
-        <div class="horizontal-container">
+        <div class="card-body horizontal-container">
             <table class="table" style="width:80%;">
                 <tr>
                     <th>Repair Station</th><td>{{ repair.type }}</td>
@@ -34,11 +34,11 @@ export let TEMPLATE = `
                 <tr>
                     <th>Details</th><td>{{ repair.description }}</td>
                 </tr>
-                <tr v-if="config.ADVANCED">
+                <tr v-if="advanced">
                     <th>Registered:</th><td>{{ repair.states[0].enterTime }}</td>
                 </tr>
             </table>
-            <div class="btn-group btn-group-vertical" style="width:20%" v-if="config.ADVANCED">
+            <div class="btn-group btn-group-vertical" style="width:20%" v-if="advanced">
                 <!--a route-href="route: repair-update; params.bind: {id:repair.id}" class="btn btn-primary">Edit</a-->
                 <button v-on:click="update" name="finish" class="btn btn-success">Finish</button>
                 <button v-on:click="update" name="update" class="btn btn-primary">Update</button>
@@ -46,7 +46,7 @@ export let TEMPLATE = `
                 <button v-on:click="update" name="move"   class="btn btn-primary">Move</button>
                 <button v-on:click="update" name="delete" class="btn btn-danger" >Delete</button>
             </div>
-            <img style="width:20%" class="img-responsive img-circle" src="../img/logo.jpg" v-if="!config.ADVANCED" />
+            <img style="width:20%" class="img-responsive img-circle" src="./img/logo.jpg" v-if="!advanced" />
         </div>
         <div class="btn-group btn-group-justified">
             <span v-for="state of repair.states" :class="['btn',  stateClass(state)]">

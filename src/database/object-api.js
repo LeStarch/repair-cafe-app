@@ -1,10 +1,21 @@
+// For loval testing
+import {Repair} from "../models/repair.js";
+import {Repairer} from "../models/repairer.js";
 /**
  * High-level api for persisting the objects for more specific APIs. This will handle the saving and returning of data
  * in a generic way. This API allows for both local and non-local storage depending on the configuration.
  *
  * @author lestarch
  */
-
+let TEST_DATA={
+    "repairer": [
+        new Repairer("Fenneko I.", "FennI@cmtc.com", ["electronics", "micro-electronics", "explosives"]),
+        new Repairer("Washimi K.", "washimi@cmtc.com", ["sewing", "adhesives"])],
+    "repair": [
+        new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinkerer", true),
+        new Repair("D. Gori", "gori@cmtc.com", "Tailor", false)
+    ]
+};
 
 class Database {
     /**
@@ -14,10 +25,14 @@ class Database {
      * @param items: items if the persistence needs to be overridden
      */
     constructor(index, type, items) {
-        this.items = (typeof(items) === typeof(undefined)) ? [] : items;
+        this.items = (typeof(items) === "undefined") ? [] : items;
         this.index = index;
         this.type = type;
+        let _self = this;
+        setTimeout(() => { _self.refresh() }, 500);
     }
+
+
 }
 
 export class LocalDatabase extends Database {
@@ -30,6 +45,16 @@ export class LocalDatabase extends Database {
     constructor(index, type, items) {
         super(index, type, items);
         this.id = -1;
+
+        // Local database holds test data
+        let _self = this;
+        let test_data = TEST_DATA[type];
+        for (let i = 0; i < test_data.length; i++) {
+            this.nextId().then((id) => {
+                test_data[i].id = (typeof(test_data[i].type) !== "undefined") ? test_data[i].type + "-" + id : id;
+                _self.save(test_data[i]);
+            })
+        }
     }
 
     /**
@@ -65,8 +90,11 @@ export class LocalDatabase extends Database {
      * @returns {Promise<unknown>}
      */
     refresh() {
-        let _self = this.items;
-        return new Promise((success, error) => { success(_self.items) });
+        let _self = this;
+        return new Promise((success, error) => {
+            _self.items.splice(0, _self.items.length, ..._self.items);
+            success(_self.items)
+        });
     }
 
     /**

@@ -4,6 +4,7 @@ import {_data} from "../../data.js";
 export let COMPONENT = {
     template: TEMPLATE,
     inject: ["repairs", "config"],
+    props: ["advanced"],
     data() {
         return {"type":this.config.types[0], "search": {"filter": "", "selected": ""} };
     },

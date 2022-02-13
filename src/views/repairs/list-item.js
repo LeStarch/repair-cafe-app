@@ -6,7 +6,7 @@ import { Repair } from "../../models/repair.js"
 import {_data} from "../../data.js";
 
 export let COMPONENT = {
-    props: { "repair": Repair },
+    props: { "repair": Repair, "advanced": Boolean },
     data() {
         return {"editing": null};
     },
