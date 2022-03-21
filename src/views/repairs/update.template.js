@@ -14,7 +14,7 @@ export let TEMPLATE = `<div>
     </select>      
     <label for="description">Repair Description:</label>
     <textarea name="desc" v-model="description" class="form-control" rows=3></textarea>
-    <h4>Select Repairer(s): {{ assignees }}</h4>
+    <h4>Select Repairer(s):</h4>
     <repairer-list :advanced="true" v-model="assignees"></repairer-list>
     <input type="submit" value="Update Repair" class="btn btn-success" />
     <input type="button" value="Cancel" class="btn btn-danger" v-on:click="cancel" />

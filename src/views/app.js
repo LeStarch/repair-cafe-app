@@ -57,7 +57,10 @@ export function setup(element) {
     const RepairApp = {
         template: APP_TEMPLATE,
         data() {
+            let _self = this;
+            setInterval(() => {_self.date_now = new Date()}, 1000);
             return {
+                "date_now": new Date(),
                 "repairs": [],
                 "repairers": [],
                 "config": _data.config,
@@ -79,6 +82,11 @@ export function setup(element) {
                 "route": this.route,
                 "routes": routes
             };
+        },
+        computed: {
+            date_computed() {
+                return ("" + this.date_now).replace(/[A-Z]{3}-\d{4}/,"");
+            }
         }
     };
     // Setup application and instance

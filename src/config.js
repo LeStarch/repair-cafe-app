@@ -9,8 +9,8 @@ import {ElasticConfig} from './environment.js'
  * @author lestarch
  */
 export class Config {
-    static USE_LOCAL_STORAGE = true;
-    static types = ["Tinkerer", "Tailor", "Bike", "Soil"];
+    static USE_LOCAL_STORAGE = false;
+    static types = ["Tinker", "Stitch", "Bike", "Soil"];
     static skills = ["electronics","micro-electronics","sewing", "adhesives", "explosives"];
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
@@ -21,14 +21,11 @@ export class Config {
     static ES_URL = ElasticConfig.ES_URL;
     static ES_USER = "rcuser";
     static ES_PASSWORD = "ginko!2017RC";
-    static UPDATE_INTERVAL = 5000;
-    //Global variables
-    static ADVANCED = true;
-    static FILTER = "";
+    static UPDATE_INTERVAL = 1000;
 
     static COMMON_REPAIRS = {
-        "tinkerer": ["N/A", "Replace Fuse", "Cleaning", "Replace Cord", "Soldering", "Adhesive Repair"],
-        "tailor": ["N/A", "Replace Button", "Fix Zipper", "Mend Tear"],
+        "tinker":  ["N/A", "Replace Fuse", "Cleaning", "Replace Cord", "Soldering", "Adhesive Repair"],
+        "stitch": ["N/A", "Replace Button", "Fix Zipper", "Mend Tear"],
         "bike": ["N/A", "Change Wheel", "Do Bike Things"],
         "soil": ["N/A", "Seed Microbes"]
     };

@@ -29,8 +29,8 @@ export class Elastic {
                     }
                 };
                 //Id is not valid for ES, so we should post directly to the URL
-                var url = Config.ES_URL + "/" + index + "/" + type;
-                if ("id" in data)
+                var url = Config.ES_URL + "/" + index + ((type) ? ("/" + type) : "");
+                if ("id" in (data || {}))
                 {
                     url = url + "/" +data["id"];
                 }
@@ -40,6 +40,8 @@ export class Elastic {
                     xhttp.setRequestHeader("Authorization", "Basic " + btoa(Config.ES_USER + ":" + Config.ES_PASSWORD));
                 }
                 console.log("[INFO] Sending data: "+JSON.stringify(data));
+                xhttp.setRequestHeader("Content-Type", "application/json");
+                xhttp.setRequestHeader("Cache-Control", "no-cache");
                 xhttp.send(JSON.stringify(data),true);//,Config.ES_USER,Config.ES_PASSWORD);
             }
             catch (e)
