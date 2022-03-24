@@ -1,5 +1,6 @@
 
 import { TEMPLATE } from "./summay.template.js"
+import {_data} from "../../data.js";
 
 export let COMPONENT = {
     data() {
@@ -25,6 +26,22 @@ export let COMPONENT = {
                 suffix = "primary";
             }
             return "table-" + suffix;
+        },
+        /**
+         * Check in the repair
+         * @param repair
+         */
+        checkIn(repair) {
+            repair.transitionState();
+            _data.repair.save(repair);
+        },
+        /**
+         * Check out the repair
+         * @param repair
+         */
+        closeRepair(repair) {
+            repair.closeRepair();
+            _data.repair.save(repair);
         }
     },
     computed: {

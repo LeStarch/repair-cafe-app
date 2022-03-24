@@ -8,6 +8,7 @@ export let COMPONENT = {
         return {
             "name": "",
             "email": "",
+            "phone": "",
             "type": this.config.types[0],
             "last_id": "",
             "reserved": false,
@@ -18,10 +19,10 @@ export let COMPONENT = {
         addRepair(event) {
             let _self = this;
             event.preventDefault();
-            if (this.name === "" || this.email === "" || this.type === "") {
+            if (this.name === "" || this.type === "") {
                 return false;
             }
-            let repair = new Repair(this.name, this.email, this.type, this.reserved);
+            let repair = new Repair(this.name, this.email, this.phone, this.type, this.reserved);
             _data.repair.nextId(this.type).then( id => {
                 repair.id = _self.type + "-" +id;
                 _data.repair.save(repair);
@@ -29,6 +30,7 @@ export let COMPONENT = {
             });
             this.name = "";
             this.email = "";
+            this.phone = "";
             this.reserved = false;
             return false;
         }

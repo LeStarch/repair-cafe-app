@@ -4,6 +4,8 @@ export let TEMPLATE = `<div>
     <input name="name" type="text" v-model="repair.name" disabled class="form-control" />
     <label for="email">Repairee Email:</label>
     <input name="email" type="email" v-model="repair.email" disabled class="form-control" />
+    <label for="phone">Repairee Phone:</label>
+    <input name="phone" type="tel" v-model="repair.phone" disabled class="form-control" />
     <label for="type">Repair Type:</label>
     <input name="type" v-model="repair.type" disabled class="form-control" />
     <label for="item">Repair Item:</label>

@@ -42,7 +42,12 @@ export class Elastic {
                 console.log("[INFO] Sending data: "+JSON.stringify(data));
                 xhttp.setRequestHeader("Content-Type", "application/json");
                 xhttp.setRequestHeader("Cache-Control", "no-cache");
-                xhttp.send(JSON.stringify(data),true);//,Config.ES_USER,Config.ES_PASSWORD);
+                if (method === "POST" || method === "PUT")
+                {
+                    xhttp.send(JSON.stringify(data), true);//,Config.ES_USER,Config.ES_PASSWORD);
+                } else {
+                    xhttp.send(null, true);
+                }
             }
             catch (e)
             {

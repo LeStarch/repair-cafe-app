@@ -2,7 +2,7 @@
  * A repair class representing repair data
  */
 export class Repair {
-    static MARSHALL_FIELDS = ["name","email","type","item","subtype", "description",
+    static MARSHALL_FIELDS = ["name", "email", "phone", "type", "item","subtype", "description",
                               "repairers","stateIndex","deleted","reserved"];
     static demarshall(object) {
         var repair = new Repair();
@@ -38,12 +38,17 @@ export class Repair {
      * Construct a new repair
      * @param name: name of person getting repair
      * @param email: e-mail of repairee
+     * @param phone: phone number
      * @param type: type of repair
      * @param reserved: pre-reserved repair?
      */
-    constructor(name,email,type,reserved) {
+    constructor(name,email,phone,type,reserved) {
         this.id = "-1";
         this.availableStates = [
+          {
+              "name":"pre-registered",
+              "message": "Repair has pre-registered"
+          },
           {
             "name":"register",
             "message": "Repair is being registered"
@@ -82,6 +87,7 @@ export class Repair {
         }
         this.name = name;
         this.email = email;
+        this.phone = phone;
         this.type = type;
         this.item = "Awaiting check at the "+type+" station.";
         this.description = "Awaiting check at the "+type+" station.";
@@ -142,6 +148,8 @@ export class Repair {
         }
         if (this.stateIndex > -1) {
             this.states[this.stateIndex].exit();
+        } else {
+            this.stateIndex = 0;
         }
         if (this.stateIndex == this.states.length - 1) {
             for (var i = 0; i < this.states.length; i++) {
@@ -175,7 +183,13 @@ export class Repair {
      * Finish repair
      */
     isComplete() {
-        return this.stateIndex >= (this.states.length - 3);
+        return this.stateIndex >= (this.states.length - 2);
+    }
+    /**
+     * Preregistration
+     */
+    isPrereg() {
+        return this.reserved;
     }
 
     /**
