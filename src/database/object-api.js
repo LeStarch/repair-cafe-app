@@ -50,7 +50,7 @@ class Database {
      * @param item: item from database
      */
     demarshall(item) {
-        return this.marshall_type.demarshall(item);
+        return (new this.marshall_type()).demarshall(item);
     }
 
     /**
@@ -58,6 +58,7 @@ class Database {
      * @param item: item to save
      */
     save(item) {
+        item.version = (item.version || 0) + 1;
         item = this.marshall(item);
         this.save_helper(item);
     }
@@ -68,9 +69,26 @@ class Database {
     refresh() {
         let _self = this;
         this.refresh_helper().then((items) => {
-            items = items.map((item) => _self.demarshall(item));
-            _self.items.splice(0, _self.items.length, ...items);
+            items = items.map((item) => {
+                let demarshalled = _self.demarshall(item);
+                // Add version if available
+                if (item.version) {
+                    demarshalled.version = item.version;
+                }
+                return demarshalled;
+            });
+            items = items.map(_self.chooseNewer.bind(_self));
+            this.items.splice(0, this.items.length, ...items);
         });
+    }
+
+    chooseNewer(new_item) {
+        let index = this.items.findIndex((item) => new_item.id === item.id);
+        if (index === -1 || this.items[index].version < new_item.version) {
+            return new_item;
+        } else {
+            return this.items[index];
+        }
     }
 
 
@@ -122,19 +140,10 @@ export class ElasticDatabase extends Database {
         return new Promise((success, error) => {
             Elastic.elasticList(this.index, this.type).then((response) => {
                 let items = ((response.hits || {}).hits || []);
-                items = items.map((item) => item._source);
+                items = items.map((item) => Object.assign({}, item._source, {"version": item._version}));
                 success(items);
             }).catch(error);
         });
-    }
-
-    /**
-     * Get an item via id via elastic search delegation.
-     * @param id: item to fetch from elasticsearch
-     * @returns {Promise | Promise<unknown>}
-     */
-    get(id) {
-        return Elastic.elasticGet(this.index, this.type, id);
     }
 
     /**
@@ -143,9 +152,9 @@ export class ElasticDatabase extends Database {
      * @returns {Promise | Promise<unknown>}
      */
     save_helper(item) {
+        delete item["version"];
         return Elastic.elasticPost(this.index, this.type, item);
     }
-
 }
 
 
@@ -209,27 +218,6 @@ export class LocalDatabase extends Database {
         return new Promise((success, error) => {
             success(_self.internal)
         });
-    }
-
-    /**
-     * Get an item by the given id.
-     * @param id: id of the item to return
-     */
-    get(id) {
-        return new Promise(
-            (success, error) => {
-                let items = this.internal.filter((item) => item.id === id);
-
-                // Check if we found the ID
-                if (items.length === 0) {
-                    error(new Error("[LocalDB] Failed to find item with id " + id ));
-                } else if (items.length > 1) {
-                    error(new Error("[LocalDB] Found too many items with id " + id ));
-                } else {
-                    success(items[0]);
-                }
-            }
-        );
     }
 
     /**

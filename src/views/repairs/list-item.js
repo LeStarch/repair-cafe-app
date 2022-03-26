@@ -18,6 +18,9 @@ export let COMPONENT = {
          * @returns {string}: "default", "success", or "danger" that maps to bootstrap classes
          */
         stateClass(state) {
+            if (state.name === "pre-registered" && !this.repair.reserved) {
+                return "btn-danger";
+            }
             return (state.progress === 'waiting') ? 'btn-danger' :
                 ((state.progress === 'started') ? 'btn-primary' : 'btn-success');
         },

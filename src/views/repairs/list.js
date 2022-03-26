@@ -12,8 +12,8 @@ export let COMPONENT = {
         subset() {
             let _self = this;
             return this.repairs.filter((repair) => {
-                let selected = (_self.search.selected === "" || _self.search.selected === repair.type);
-                return selected && repair.matches(_self.search.filter)
+                let match_types = (_self.search.selected === "" || _self.search.selected === repair.type);
+                return match_types && repair.matches(_self.search.filter)
             });
         }
     }

@@ -25,6 +25,8 @@ export let COMPONENT = {
             let repair = new Repair(this.name, this.email, this.phone, this.type, this.reserved);
             _data.repair.nextId(this.type).then( id => {
                 repair.id = _self.type + "-" +id;
+                repair.stateIndex = 0;
+                repair.transitionState();
                 _data.repair.save(repair);
                 _self.last_id = repair.id;
             });

@@ -6,8 +6,7 @@ export let COMPONENT = {
     props: ["advanced", "modelValue"],
     data() {
         return {
-            "search": {"filter": "", "selected": ""},
-            //"selected": this.repairers.filter((item) => { this.assigned.indexOf(item.name) !== -1 })
+            "search": {"filter": "", "selected": ""}
         };
     },
     computed: {

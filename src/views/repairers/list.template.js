@@ -1,7 +1,6 @@
 export let TEMPLATE = `
 <div>
     <search v-model="search" :options="[]"></search>
-    <h4>{{ selected }}</h4>
     <table class="table table-boardered">
         <tr>
             <th v-if="advanced">Select</th><th>Repairer</th>

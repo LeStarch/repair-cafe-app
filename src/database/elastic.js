@@ -72,7 +72,7 @@ export class Elastic {
      * @param type: type for elastic search
      */
     static elasticList(index,type) {
-        return Elastic.elastic(index+"/_search","?size=1000","GET",{});
+        return Elastic.elastic(index+"/_search","?size=1000&version=true","GET",{});
     }
     /**
      * Get an item from elastic search
