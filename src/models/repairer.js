@@ -4,7 +4,7 @@ import {Marshallable} from "./marshall.js"
  * A repairer class representing repairer data
  */
 export class Repairer extends Marshallable {
-    static MARSHALL_FIELDS = ["name", "email", "skills"];
+    static MARSHALL_FIELDS = ["id", "name", "email", "skills"];
     /**
      * Construct a new repairer
      * @param name: name of person getting repairer

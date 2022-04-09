@@ -33,6 +33,8 @@ export class Elastic {
                 if ("id" in (data || {}))
                 {
                     url = url + "/" +data["id"];
+                } else if (method === "GET") {
+
                 }
                 console.log("[INFO] Opening: '"+url+"' with "+method);
                 xhttp.open(method, url , true);
@@ -72,7 +74,7 @@ export class Elastic {
      * @param type: type for elastic search
      */
     static elasticList(index,type) {
-        return Elastic.elastic(index+"/_search","?size=1000&version=true","GET",{});
+        return Elastic.elastic(index+"/_search","?size=1000&version=true&sort=_id","GET",{});
     }
     /**
      * Get an item from elastic search
