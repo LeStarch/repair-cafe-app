@@ -16,20 +16,19 @@ export let TEMPLATE = `
                     <img src="./img/logo.jpg" class="card-img" alt="RC Logo" />
                 </div>
                 <div class="col">
-                    <h4>RC APP Beta Testing</h4>
-                    <p>Welcome to the RC App beta test! This test runs entirely using non-persistent storage and as such
-                    all changes you make will clear when you reload. On the positive side, changes made by others do not
-                    affect you!</p>
+                    <h4>Repair Cafe, The App!</h4>
+                    <p>Welcome to the Repair Cafe application! This supports repair cafe tickets by digitizing the
+                    ticket process removing the need to trade paper tickets back-and-forth. Please see below for an
+                    understanding on how to navigate it.</p>
                     
-                    <p>Feel free to report any issues to Michael, or use the following link to post them: 
-                    <a href="https://github.com/LeStarch/repair-cafe-app/issues/new">https://github.com/LeStarch/repair-cafe-app/issues/new</a></p>
+                    <p>Feel free to report any issues to Michael</p>
                     
-                    <p>Testing procedure:</p>
+                    <p>Click on the navigation tab above as indicated by your role:</p>
                     <ol>
-                        <li>Add some repairers using the "Add Repairers" tab</li>
-                        <li>Add some repairees using the "Check-In" tab</li>
-                        <li>Run team update and tracking using the "Team Triage" tab</li>
-                        <li>Checkout a repair using the "Check Out" tab</li>
+                        <li>Register: add walk-in and new repairs</li>
+                        <li>Check In/Out: check-in pre-registered repairs and check-out repairs</li>
+                        <li>Team Triage: manage team repair assignments</li>
+                        <li>Add Repairers: add repairers</li>
                     </ol>
                 </div>
             </div>

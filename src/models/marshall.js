@@ -4,6 +4,8 @@
  * Classes and functions used to represent an object that can be marshalled/demarshalled into ElasticSearch.
  */
 
+import {Repair} from "./repair.js";
+
 /**
  * A object that can be marshalled and stored in the elasticsearch database. If a subclass defines MARSHALL_FIELDS then
  * the marshall function will save those and only those.
@@ -58,6 +60,11 @@ export class Marshallable {
      */
     demarshall(object) {
         Marshallable.demarshall_into(object, this);
+
+        // Repair custom code for new objects imported
+        if (this instanceof Repair && this.reserved && this.stateIndex == 0) {
+            this.states[this.stateIndex].progress = "started";
+        }
         return this; // For chaining
     }
 

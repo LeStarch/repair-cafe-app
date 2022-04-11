@@ -18,14 +18,20 @@ export class Elastic {
                 {
                     if (this.readyState === 4 && this.status >= 200 && this.status <= 299)
                     {
-                        console.log("[INFO] Response text: '"+this.responseText+"'")
+                        //console.log("[INFO] Response text: '"+this.responseText+"'")
                         var response = JSON.parse(this.responseText);
                         success(response);
                     }
                     else if (this.readyState === 4)
                     {
-                        console.log("[ERROR] ES Errored with: "+this.responseText);
-                        error(new Error(this.responseText));
+                        let response = JSON.parse(this.responseText);
+                        let error_type = ((response.error || {}).root_cause || [{}])[0].type;
+                        let reason = ((response.error || {}).root_cause || [{}])[0].reason;
+                        if (error_type !== "resource_already_exists_exception" &&
+                            reason !== "No mapping found for [_id] in order to sort on") {
+                            console.log("[ERROR] ES Errored with: " + this.responseText);
+                            error(new Error(this.responseText));
+                        }
                     }
                 };
                 //Id is not valid for ES, so we should post directly to the URL

@@ -1,0 +1,111 @@
+#!/usr/bin/env python3
+from csv import DictReader
+import argparse
+import datetime
+import json
+import requests
+import sys
+
+class Counter:
+    """ Counts for us """
+    COUNT = 0
+
+    def __getitem__(self, name):
+        """ Get next count index """
+        self.COUNT = self.COUNT + 1
+        return self.COUNT
+
+
+COUNTERS = Counter()
+
+
+REPAIR_FIELD_MAP = {
+    "id": lambda record: f"{record['Item']}-P{COUNTERS[record['Item']]}".strip(),
+    "name": lambda record: f"{record['First Name']} {record['Last Name']}".strip(),
+    "email": "Email",
+    "phone": "Phone",
+    "type": "Item",
+    "item": "Sign Up Comment",
+    "subtype": lambda _: "N/A",
+    "description": "Description",
+    "repairers": lambda _: [],
+    "stateIndex": lambda _: 0,
+    "reserved": lambda _: True
+}
+
+
+def get_value(key, record):
+    """ Get the value of a key from a record """
+    transform = REPAIR_FIELD_MAP[key]
+    return record[transform].strip() if isinstance(transform, str) else transform(record)
+
+
+def validate(parser, args):
+    """ Validate args, exiting on failure"""
+    try:
+        datetime.datetime.strptime(args.date, "%Y-%m-%d")
+    except ValueError:
+        print(f"[ERROR] {args.date} not in format YYYY-MM-DD\n", file=sys.stderr)
+    try:
+        response = requests.get(args.url)
+        response.raise_for_status()
+        if response.json().get("tagline", "Nope") != "You Know, for Search":
+            raise Exception("Not elasticsearch")
+    except:
+        print(f"[ERROR] {args.url} does not appear to be a valid ElasticSearch database\n", file=sys.stderr)
+        parser.print_help()
+        sys.exit(1)
+
+
+def parse_arguments():
+    """ Parse the arguments to this program """
+    parser = argparse.ArgumentParser(description='Pre-populate pre-registrants into the rc database')
+    parser.add_argument('csv_file', type=argparse.FileType('r'), help='CSV file to process into records')
+    parser.add_argument('--type', default="repairs", choices=['repairs', 'repairers'], help='Type to pre-populate')
+    parser.add_argument('--date', default=datetime.datetime.now().strftime("%Y-%m-%d"),
+                        help='Date of the event to pre-populate in YYYY-MM-DD')
+    parser.add_argument('--url', default='http://app.repair-cafe.org/elastic', help='Base url of database')
+    args = parser.parse_args()
+    validate(parser, args)
+    return args
+
+
+def setup_index(index_url):
+    """ Setup an index """
+
+    response = requests.put(index_url)
+    error_type = response.json().get("error", {}).get("root_cause", [{}])[0].get("type", "")
+    if response.status_code != 200 and error_type != "resource_already_exists_exception":
+        print(f"[ERROR] {response.text}. Exiting", file=sys.stderr)
+        sys.exit(1)
+
+
+def main():
+    """ Hi Lewis!!! """
+    args = parse_arguments()
+    index_url = f"{args.url}/{args.type}-{args.date}"
+    item_url = f"{index_url}/{args.type.rstrip('s')}/{{id}}"
+
+    # Step 0: read CSV file
+    csv_handle = DictReader(args.csv_file)
+
+    # Step 1: guarantee the index exists
+    setup_index(index_url)
+
+    # Step 3: convert CSV to valid items to post
+    items = [{key: get_value(key, record) for key in REPAIR_FIELD_MAP.keys()} for record in csv_handle]
+    filtered = [item for item in items if item["name"]]
+
+    # Step 4: post all the items
+    for item in filtered:
+        try:
+            specific_url = item_url.format(id=item['id'])
+            response = requests.post(specific_url, data=json.dumps(item),
+                                     headers={"Content-Type": "application/json"})
+            response.raise_for_status()
+        except:
+            print(f"[ERROR] {response.text}", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

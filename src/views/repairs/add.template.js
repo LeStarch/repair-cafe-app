@@ -1,6 +1,6 @@
 export let TEMPLATE = `
     <form v-on:submit="addRepair" class="form-group">
-        <label for="name">Repairee Name:</label>
+        <label for="name">Repairee Name: (required)</label>
         <input name="name" type="text" v-model="name" class="form-control" />
         <label for="email">Repairee Email:</label>
         <input name="email" type="email" v-model="email" class="form-control" />

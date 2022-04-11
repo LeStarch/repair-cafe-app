@@ -70,9 +70,9 @@ export function setup(element) {
         provide() {
             let routes = {
                 "Start Here": "",
-                "Check-In": "#add",
+                "Register": "#add",
                 "Team Triage": "#manage",
-                "Check-Out": "#summary",
+                "Check-In/Out": "#summary",
                 "Add Repairers": "#repairers"
             };
             return {

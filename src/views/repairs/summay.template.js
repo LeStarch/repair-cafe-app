@@ -15,7 +15,7 @@ export let TEMPLATE =
             <td>{{ repair.states[repair.stateIndex].name }}</td>
             <td>{{ repair.item || repair.states[repair.stateIndex].message }}</td>
             <td v-show="advanced">
-                <button :disabled="!repair.isPrereg()" v-on:click="checkIn(repair)" class="btn btn-primary">Check-In</button>
+                <button :disabled="!repair.isPrereg() || repair.stateIndex != 0" v-on:click="checkIn(repair)" class="btn btn-primary">Check-In</button>
                 <button :disabled="repair.isComplete()" v-on:click="closeRepair(repair)" class="btn btn-primary">Check-Out</button>
             </td>
         </tr>

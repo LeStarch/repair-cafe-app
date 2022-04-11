@@ -33,6 +33,7 @@ export let COMPONENT = {
          */
         checkIn(repair) {
             repair.transitionState();
+            repair.transitionState();
             _data.repair.save(repair);
         },
         /**
