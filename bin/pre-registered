@@ -6,6 +6,7 @@ import json
 import requests
 import sys
 
+
 class Counter:
     """ Counts for us """
     COUNT = 0
@@ -19,12 +20,30 @@ class Counter:
 COUNTERS = Counter()
 
 
+def is_overflow(record):
+    """ Is this an overflow ticker """
+    return record["Item"] == "Overflow"
+
+
+def get_type(record):
+    """ Get the type of the record """
+    tpe = record["Item"] if not is_overflow(record) else record["Location"]
+    tpe = tpe if tpe else ""
+    return tpe.replace("Stitcher", "Stitch")
+
+
+def get_id(record):
+    """ Get the ID of a record"""
+    tpe = get_type(record)
+    return f"{tpe}-{'O' if is_overflow(record) else '-P' }{COUNTERS[tpe]}".strip()
+
+
 REPAIR_FIELD_MAP = {
-    "id": lambda record: f"{record['Item']}-P{COUNTERS[record['Item']]}".strip(),
+    "id": get_id,
     "name": lambda record: f"{record['First Name']} {record['Last Name']}".strip(),
     "email": "Email",
     "phone": "Phone",
-    "type": "Item",
+    "type": get_type,
     "item": "Sign Up Comment",
     "subtype": lambda _: "N/A",
     "description": "Description",
@@ -34,10 +53,34 @@ REPAIR_FIELD_MAP = {
 }
 
 
-def get_value(key, record):
+def get_team(record):
+    """ Get the team from the RC sign-up """
+    team = record.get("Which team would you like to be on for this Repair Cafe?", "None")
+    for possible in ["Tinker", "Stitch", "Knife"]:
+        if team.lower().startswith(possible.lower()):
+            return possible
+    return "Other"
+
+
+VOLUNTEER_FIELD_MAP = {
+    "id": lambda record: f"repairer-{COUNTERS['repairers']}",
+    "name": lambda record: f"{record['First Name']} {record['Last Name']}".strip(),
+    "email": "Email Address",
+    "team": get_team,
+    "skills": lambda _: []
+}
+
+
+def get_string_value(record, transform):
+    """ Get string value """
+    value = record[transform]
+    return value.strip() if value else ""
+
+
+def get_value(key, record, field_map):
     """ Get the value of a key from a record """
-    transform = REPAIR_FIELD_MAP[key]
-    return record[transform].strip() if isinstance(transform, str) else transform(record)
+    transform = field_map[key]
+    return get_string_value(record, transform) if isinstance(transform, str) else transform(record)
 
 
 def validate(parser, args):
@@ -86,6 +129,8 @@ def main():
     index_url = f"{args.url}/{args.type}-{args.date}"
     item_url = f"{index_url}/{args.type.rstrip('s')}/{{id}}"
 
+    field_map = REPAIR_FIELD_MAP if args.type == "repairs" else VOLUNTEER_FIELD_MAP
+
     # Step 0: read CSV file
     csv_handle = DictReader(args.csv_file)
 
@@ -93,8 +138,8 @@ def main():
     setup_index(index_url)
 
     # Step 3: convert CSV to valid items to post
-    items = [{key: get_value(key, record) for key in REPAIR_FIELD_MAP.keys()} for record in csv_handle]
-    filtered = [item for item in items if item["name"]]
+    items = [{key: get_value(key, record, field_map) for key in field_map.keys()} for record in csv_handle]
+    filtered = [item for item in items if item["name"] and item.get("type", "yup")]
 
     # Step 4: post all the items
     for item in filtered:

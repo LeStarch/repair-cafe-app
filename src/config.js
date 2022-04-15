@@ -10,8 +10,17 @@ import {ElasticConfig} from './environment.js'
  */
 export class Config {
     static USE_LOCAL_STORAGE = false;
-    static types = ["Tinker", "Stitch", "Bike", "Soil"];
-    static skills = ["electronics","micro-electronics","sewing", "adhesives", "explosives"];
+    static types = ["Tinker", "Knife", "Stitch", "Bike", "Soil"];
+    static skills = [
+        "adhesives",
+        "appliances",
+        "electronics",
+        "mechanical",
+        "sharpening",
+        "stitching (hand)",
+        "stitching (machine)",
+        "verrückt"
+    ];
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
     static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;
@@ -26,6 +35,7 @@ export class Config {
     static COMMON_REPAIRS = {
         "tinker":  ["N/A", "Replace Fuse", "Cleaning", "Replace Cord", "Soldering", "Adhesive Repair"],
         "stitch": ["N/A", "Replace Button", "Fix Zipper", "Mend Tear"],
+        "knife": ["N/A"],
         "bike": ["N/A", "Change Wheel", "Do Bike Things"],
         "soil": ["N/A", "Seed Microbes"]
     };

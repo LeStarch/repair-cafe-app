@@ -2,7 +2,6 @@ import {COMPONENT as REPAIR_SUMMARY_COMPONENT} from "./repairs/summary.js";
 import {COMPONENT as REPAIR_LIST_ITEM_COMPONENT} from "./repairs/list-item.js";
 import {COMPONENT as REPAIR_UPDATE_COMPONENT} from "./repairs/update.js";
 import {COMPONENT as REPAIRER_ADD_COMPONENT} from "./repairers/add.js";
-import {COMPONENT as REPAIR_ADD_COMPONENT} from "./repairs/add.js";
 import {COMPONENT as REPAIR_LIST_COMPONENT} from "./repairs/list.js";
 import {COMPONENT as REPAIRER_LIST_COMPONENT} from "./repairers/list.js";
 import {COMPONENT as SEARCH_COMPONENT} from "./search.js";
@@ -24,7 +23,6 @@ function register_components(app) {
     app.component("repair-list-item", REPAIR_LIST_ITEM_COMPONENT);
     app.component("repair-update", REPAIR_UPDATE_COMPONENT);
     app.component("repairer-add", REPAIRER_ADD_COMPONENT);
-    app.component("repair-add", REPAIR_ADD_COMPONENT);
     app.component("repair-list", REPAIR_LIST_COMPONENT);
     app.component("search", SEARCH_COMPONENT);
     app.component("add-repair-page", ADD_REPAIR_PAGE_COMPONENT);

@@ -32,5 +32,10 @@ export let COMPONENT = {
                 this.$emit("update:modelValue", values);
             }
         }
+    },
+    methods: {
+        update(repairer) {
+            this.$emit("update:modelValue", repairer);
+        }
     }
 }
