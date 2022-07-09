@@ -107,7 +107,7 @@ def parse_arguments():
     parser.add_argument('--type', default="repairs", choices=['repairs', 'repairers'], help='Type to pre-populate')
     parser.add_argument('--date', default=datetime.datetime.now().strftime("%Y-%m-%d"),
                         help='Date of the event to pre-populate in YYYY-MM-DD')
-    parser.add_argument('--url', default='http://app.repair-cafe.org/elastic', help='Base url of database')
+    parser.add_argument('--url', default='http://app.repair-cafe-pasadena.org/elastic/', help='Base url of database')
     args = parser.parse_args()
     validate(parser, args)
     return args
