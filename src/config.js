@@ -9,7 +9,7 @@ import {ElasticConfig} from './environment.js'
  * @author lestarch
  */
 export class Config {
-    static USE_LOCAL_STORAGE = false;
+    static USE_LOCAL_STORAGE = true;
     static types = ["Tinker", "Knife", "Stitch", "Bike", "Soil"];
     static skills = [
         "adhesives",
