@@ -12,11 +12,11 @@ import {Config} from "../config.js"
  */
 let TEST_DATA={
     "repairer": [
-        new Repairer("Fenneko I.", "FennI@cmtc.com", ["electronics", "micro-electronics", "explosives"]),
-        new Repairer("Washimi K.", "washimi@cmtc.com", ["sewing", "adhesives"])],
+        new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinker", ["electronics", "micro-electronics", "explosives"]),
+        new Repairer("Washimi K.", "washimi@cmtc.com", "Stich", ["sewing", "adhesives"])],
     "repair": [
-        new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinkerer", true),
-        new Repair("D. Gori", "gori@cmtc.com", "Tailor", false)
+        new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinker", true),
+        new Repair("D. Gori", "gori@cmtc.com", "Stich", false)
     ]
 };
 
