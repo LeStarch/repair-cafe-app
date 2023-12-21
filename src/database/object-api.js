@@ -15,8 +15,8 @@ let TEST_DATA={
         new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinker", ["electronics", "micro-electronics", "explosives"]),
         new Repairer("Washimi K.", "washimi@cmtc.com", "Stich", ["sewing", "adhesives"])],
     "repair": [
-        new Repair("Kabae T.", "KabaeT@cmtc.com", "Tinker", true),
-        new Repair("D. Gori", "gori@cmtc.com", "Stich", false)
+        new Repair("Kabae T.", "KabaeT@cmtc.com", "555-5555", "Tinker", true),
+        new Repair("D. Gori", "gori@cmtc.com", "555-5555", "Stich", false)
     ]
 };
 
