@@ -5,4 +5,9 @@ export let COMPONENT = {
     data() {
         return {"repairer": null}
     },
+    methods: {
+        clearRepairer() {
+            this.repairer = null;
+        }
+    }
 };

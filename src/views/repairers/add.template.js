@@ -13,6 +13,7 @@ export let TEMPLATE = `
             <input name="{{ skill }}" type="checkbox" v-model="skills[skill]" />
             <label for="{{ skill }}">{{ skill }}</label>
         </div>
-        <input type="submit" value="Add Repairer" class="btn btn-success" />
+        <input type="submit" :value="submitButtonText" class="btn btn-success" />
+        <input type="button" value="Clear" class="btn btn-danger" @click="clear" />
     </form>
 `;

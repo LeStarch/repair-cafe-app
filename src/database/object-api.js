@@ -13,10 +13,10 @@ import {Config} from "../config.js"
 let TEST_DATA={
     "repairer": [
         new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinker", ["electronics", "micro-electronics", "explosives"]),
-        new Repairer("Washimi K.", "washimi@cmtc.com", "Stich", ["sewing", "adhesives"])],
+        new Repairer("Washimi K.", "washimi@cmtc.com", "Stitch", ["sewing", "adhesives"])],
     "repair": [
-        new Repair("Kabae T.", "KabaeT@cmtc.com", "555-5555", "Tinker", true),
-        new Repair("D. Gori", "gori@cmtc.com", "555-5555", "Stich", false)
+        new Repair("Kabae T.", "KabaeT@cmtc.com", "555-555-5555", "Tinker", true),
+        new Repair("D. Gori", "gori@cmtc.com", "555-555-5556", "Stitch", false)
     ]
 };
 
@@ -226,7 +226,9 @@ export class LocalDatabase extends Database {
      */
     save_helper(item) {
         let index = this.internal.findIndex((test) => test.id === item.id);
-        this.internal.splice((index === -1) ? this.internal.length : index, index !== -1, item);
+        let start = (index === -1) ? this.internal.length : index;
+        let delete_count = (index !== -1) ? 1 : 0;
+        this.internal.splice(start, delete_count, item);
         return new Promise((success, error) => success());
     }
 }

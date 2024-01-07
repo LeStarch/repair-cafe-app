@@ -31,6 +31,7 @@ export class Repair extends Marshallable {
         this.stateIndex = -1;
         this.states = State.newStateList();
         this.reserved = (typeof(reserved) === typeof(undefined)) ? false : reserved;
+        this.transitionState(this.reserved ? "pre-registered" : "triage");
     }
 
     /**
