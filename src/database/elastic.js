@@ -4,12 +4,12 @@ import {Config} from "../config.js"
 export class Elastic {
     /**
      * Elastic search interface code
-     * @param index: index of elastic Search
+     * @param api_url_snippet: snippet of the API
      * @param type: type of the document
      * @param method: http method
      * @param data: data to submit with post
      */
-    static elastic(index,type,method,data) {
+    static elastic(api_url_snippet,type123,method,data) {
         return new Promise(function(success,error) {
             try
             {
@@ -35,13 +35,7 @@ export class Elastic {
                     }
                 };
                 //Id is not valid for ES, so we should post directly to the URL
-                var url = Config.ES_URL + "/" + index + ((type) ? ("/" + type) : "");
-                if ("id" in (data || {}))
-                {
-                    url = url + "/" +data["id"];
-                } else if (method === "GET") {
-
-                }
+                var url = Config.ES_URL + "/" + api_url_snippet;
                 console.log("[INFO] Opening: '"+url+"' with "+method);
                 xhttp.open(method, url , true);
                 if (Config.ES_USER != null && Config.ES_PASSWORD != null) {
@@ -72,7 +66,9 @@ export class Elastic {
      */
     static elasticPost(index,type,metadata)
     {
-        return Elastic.elastic(index,type,"POST",metadata);
+        let id = ("id" in (metadata || {})) ? metadata.id : "";
+        let snippet = `${index}/_doc/${id}`;
+        return Elastic.elastic(snippet,type,"POST",metadata);
     };
     /**
      * List entries in the index
@@ -80,7 +76,8 @@ export class Elastic {
      * @param type: type for elastic search
      */
     static elasticList(index,type) {
-        return Elastic.elastic(index+"/_search","?size=1000&version=true&sort=_id","GET",{});
+        let snippet = `${index}/_search?size=1000&version=true`;
+        return Elastic.elastic(snippet,type,"GET",{});
     }
     /**
      * Get an item from elastic search
@@ -89,7 +86,8 @@ export class Elastic {
      * @param id: identitiy to get
      */
     static elasticGet(index,type,id) {
-        return Elastic.elastic(index,type,"GET",{"id":id});
+        let snippet = `${index}/_doc/${id}`
+        return Elastic.elastic(snippet,type,"GET",{});
     }
     /**
      * Delete an item from elastic search
@@ -98,6 +96,7 @@ export class Elastic {
      * @param id: identitiy to get
      */
     static elasticDelete(index, type, id) {
-        return Elastic.elastic(index,type,"DELETE",{"id":id});
+        let snippet = `${index}/_doc/${id}`
+        return Elastic.elastic(snippet,type,"DELETE",{"id":id});
     }
 }
