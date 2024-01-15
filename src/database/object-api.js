@@ -1,7 +1,7 @@
 // For loval testing
 import {Repair} from "../models/repair.js";
 import {Repairer} from "../models/repairer.js";
-import {Elastic} from "./elastic.js";
+import {Elastic, WebApi} from "./elastic.js";
 import {Config} from "../config.js"
 
 /**
@@ -91,7 +91,16 @@ class Database {
         }
     }
 
-
+    /**
+     * Prints the given item.
+     * @param item: item to print
+     */
+    print(item) {
+        WebApi.ajax("/print-ticket", "POST", null, null, {
+            "id": item.id,
+            "name": item.name
+        })
+    }
 }
 
 export class ElasticDatabase extends Database {

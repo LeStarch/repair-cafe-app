@@ -43,6 +43,7 @@ export let COMPONENT = {
                 new_repair.transitionState();
                 _data.repair.save(new_repair);
                 _self.last_id = new_repair.id;
+                _data.repair.print(new_repair);
             });
             this.clear();
         },
