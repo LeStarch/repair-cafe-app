@@ -6,6 +6,46 @@ repair events. It was built around the idea of being simple, easy to use, and to
 internet dependencies. This means it can run on a self-hosted network entirely through battery
 power!
 
+## Quick Start (Local Testing)
+
+First install necessary system packages. This command is specific to Ubuntu.
+
+```bash
+sudo apt install python3 python3-venv python3-pip libbluetooth-dev
+```
+
+Next, clone the repo and `cd` into the directory.
+
+```bash
+git clone https://github.com/LeStarch/repair-cafe-app
+cd repair-cafe-app
+```
+
+
+Next, setup a virtual environment with setuptools version no greater than `58.0.0`. Versions after that break the
+installation of dependencies, which have not been maintained.  The following command assumes `bash`.
+
+```bash
+python3 -m venv rc-venv
+. venv/bin/activate
+pip install setuptools==58.0.0
+```
+
+> Always activate the virtual environment when developing `. rc-venv/bin/activate`
+
+Finally, install the requirements listed in `requirements.txt`.
+
+```bash
+pip install -r ./requirements.txt
+```
+
+To run the application in local testing mode:
+
+```bash
+cd src
+flask -a repair_cafe_app.app run 
+```
+
 ## Design and UI
 
 This app is setup for a distributed repair cafe model which consists of multiple rolls:

@@ -6,10 +6,15 @@ import json
 from pathlib import Path
 from flask import Flask, request
 
+from .ticket import TicketPrinter
+from .settings import PrinterSettings
+
 # Set the static folder path to the same location as nginx
 STATIC_FILES_FOLDER = Path(__file__).parent.parent.parent
 app = Flask(__name__, static_url_path="", static_folder=STATIC_FILES_FOLDER)
 
+TICKET_SETTINGS = PrinterSettings()
+TICKET_PRINTER = TicketPrinter(TICKET_SETTINGS)
 
 @app.route("/")
 def index():
@@ -28,12 +33,17 @@ def config():
         mimetype="text/javascript"
     )
 
-
 @app.route("/print-ticket", methods=["POST"])
 def print_ticket():
     """ HTML route used to print the ticket information """
     json_data = request.get_json()
+    team = json_data.get("team", "Scoops")
     name = json_data.get("name", "Anonymous")
     number = json_data.get("id", "Unknown")
+    item = json_data.get("item", "Unknown")
+    problem = json_data.get("problem", "It is broken.")
     print(f"[INFO] Printing: [{number}] {name}")
+    TICKET_PRINTER.connectPrinter()
+    TICKET_PRINTER.printTicket(team, number, name, item, problem)
+    TICKET_PRINTER.disconnectPrinter()
     return json.dumps({"response": "OK"})
