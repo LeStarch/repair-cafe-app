@@ -11,7 +11,7 @@ power!
 First install necessary system packages. This command is specific to Ubuntu.
 
 ```bash
-sudo apt install python3 python3-venv python3-pip libbluetooth-dev
+sudo apt install python3 python3-venv python3-pip libbluetooth-dev nginx libffi-dev libssl-dev network-manager
 ```
 
 Next, clone the repo and `cd` into the directory.

@@ -1,0 +1,50 @@
+#!/bin/bash
+DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
+# Install required packages
+sudo apt install wget default-jre python3 python3-venv python3-pip libbluetooth-dev nginx libffi-dev libssl-dev network-manager
+
+# Download and install OpenSearch
+(
+    cd /tmp
+    wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.1/opensearch-2.11.1-linux-arm64.deb
+    sudo apt install ./opensearch-2.11.1-linux-arm64.deb
+    rm ./opensearch-2.11.1-linux-arm64.deb
+)
+# Install python3.9
+(
+if [[ "$(which python3.9)" == "" ]]
+then
+    cd /tmp
+    wget https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz
+    tar -xzf Python-3.9.18.tgz
+    cd Python-3.9.18
+    ./configure --enable-optimizations
+    make
+    sudo make install
+fi
+)
+
+# Setup virtual environment
+(
+    cd ${DIRNAME}/..
+    python3.9 -m venv venv
+    . ./venv/bin/activate
+    pip install setuptools==58.0.0
+    pip install -r requirements.txt
+)
+# Link files
+CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
+sudo (
+    rm /etc/netplan/*
+    ln -fs "${CONF_DIR}/10-ethernet.yaml" /etc/netplan
+    ln -fs "${CONF_DIR}/20-rc-wifi.yaml" /etc/netplan
+    rm /etc/nginx/sites-enabled/*
+    ln -fs "${CONF_DIR}/nginx-site" /etc/nginx/sites-enabled
+    ln -fs "${CONF_DIR}/rc-ticket.service" /lib/systemd/system
+    netplan apply
+    systemctl enable opensearch
+    systemctl enable nginx
+    systemctl enable rc-ticket
+)
+sudo chown -R www-data:www-data "${DIRNAME}/.."
+

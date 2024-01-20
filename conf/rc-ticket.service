@@ -1,0 +1,15 @@
+
+# Description:
+# Default opensearch.service file
+
+[Unit]
+Description=rc-ticket
+
+[Service]
+User=www-data
+Group=www-data
+ExecStart=/var/www/html/repair-cafe-app/bin/run-flask
+
+[Install]
+WantedBy=multi-user.target
+

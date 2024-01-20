@@ -1,0 +1,15 @@
+#network={
+#	ssid="repair-cafe-internal"
+#	#psk="!RepairCafe2022"
+#	psk=644434674f179794da76f3b19e1c82a22efdc58260f6a68080ddecf77fbce7ca
+#}
+network:
+    version: 2
+    wifis:
+        renderer: NetworkManager
+        wlan0:
+            access-points:
+                repair-cafe-internal:
+                    password: 644434674f179794da76f3b19e1c82a22efdc58260f6a68080ddecf77fbce7ca
+            dhcp4: true
+            optional: true
