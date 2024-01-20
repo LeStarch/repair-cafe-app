@@ -23,13 +23,13 @@ export class WebApi {
                     }
                 };
                 //ID is not valid for ES, so we should post directly to the URL
-                console.log("[INFO] Opening: '" + url + "' with " + method);
+                //console.log("[INFO] Opening: '" + url + "' with " + method);
                 xhttp.open(method, url , true);
                 if (typeof(user) !== "undefined" && user != null &&
                     typeof(password) != "undefined" && password != null) {
                     xhttp.setRequestHeader("Authorization", "Basic " + btoa(user + ":" + password));
                 }
-                console.log("[INFO] Sending data: " + JSON.stringify(data));
+                //console.log("[INFO] Sending data: " + JSON.stringify(data));
                 xhttp.setRequestHeader("Content-Type", "application/json");
                 xhttp.setRequestHeader("Cache-Control", "no-cache");
                 if (method === "POST" || method === "PUT")
@@ -66,8 +66,8 @@ export class Elastic extends WebApi{
                     let reason = ((response.error || {}).root_cause || [{}])[0].reason;
                     if (error_type !== "resource_already_exists_exception" &&
                         reason !== "No mapping found for [_id] in order to sort on") {
-                        console.log("[ERROR] ES Errored with: " + this.responseText);
-                        error(new Error(this.responseText));
+                        console.log("[ERROR] ES Errored with: " + response.responseText);
+                        error(new Error(response.responseText));
                     }
                 });
         });
