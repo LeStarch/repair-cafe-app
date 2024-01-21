@@ -1,10 +1,28 @@
+import json
+import zmq
+import argparse
+
 from .ticket import TicketPrinter
 from .settings import PrinterSettings
-TICKET_SETTINGS = PrinterSettings()
-TICKET_PRINTER = TicketPrinter(TICKET_SETTINGS)
+
+
+def parse():
+    """ Parse the arguments """
+    parser = argparse.ArgumentParser(description="Application handling print requets")
+    parser.add_argument("--mac", required=True, help="MAC address of the printer")
+    return parser.parse_args()
+
+def main():
+    """ Main program, Hi Lewis!!!"""
+    args_ns = parse()
+    settings = PrinterSettings()
+    settings.settings["printerMAC"] = args_ns.mac
+
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect(f"ipc:///tmp/printer_{args_ns.mac.replace(':', '_')}")
+    socket.send_string(json.dumps({"location": "Garfield", "queue": "Tinker", "owner": "Johan", "tNumber": "Tinker-1", "item": "Yellow Toaster", "problem": "It does not emit heat when it is sad"}))
+    print(socket.recv())
 
 if __name__ == "__main__":
-    TICKET_PRINTER.connectPrinter()
-    TICKET_PRINTER.printTicket("Toast Masters", "TM-1", "Gilbert's Great Ghost", "Yellow Toaster", "The yellow has drained away leaving just a toaster.")
-    TICKET_PRINTER.disconnectPrinter()
-
+    main()
