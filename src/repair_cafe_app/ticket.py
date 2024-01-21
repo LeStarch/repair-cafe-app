@@ -22,6 +22,9 @@ class TicketPrinter(object):
 
     def printTicket(self, queue, tNumber, owner, item, problem):
         self.connectPrinter()
+        self.printer.init()
+        self.printer.text('-' * self.printer.feature.columns.normal)
+        self.printer.text('-' * self.printer.feature.columns.normal)
         self.queue(queue)
         self.number(tNumber)
         self.owner(owner)
@@ -76,7 +79,7 @@ class TicketPrinter(object):
         self.printer.text('Ticket #{}'.format(tNum.split("-")[-1]))
         self.printer.set_expanded(False)
         self.printer.lf()
-        self.printer.text('{:%x %X}'.format(datetime.now()))
+        self.printer.text(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
         self.printer.lf()
         time.sleep(0.1)
 
