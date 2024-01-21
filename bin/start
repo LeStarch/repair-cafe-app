@@ -1,0 +1,5 @@
+#!/bin/bash
+DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
+${DIRNAME}/start-printers &
+sleep 1
+${DIRNAME}/run-flask

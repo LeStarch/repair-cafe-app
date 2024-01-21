@@ -39,7 +39,7 @@ export let COMPONENT = {
             let new_repair = new Repair().copy_from(this.editing);
             _data.repair.nextId(this.editing.type).then( id => {
                 new_repair.id = new_repair.type + "-" +id;
-                new_repair.stateIndex = 1;
+                new_repair.stateIndex = 0;
                 new_repair.transitionState();
                 _data.repair.save(new_repair);
                 _self.last_id = new_repair.id;

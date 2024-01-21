@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "[INFO] Launch"
+python3 -m repair_cafe_app.test_ticket --problem "Problem 1"  --mac "86:67:7a:8a:b7:ac" "86:67:7a:03:98:e0" "86:67:7a:8d:eb:63" &
+python3 -m repair_cafe_app.test_ticket --problem "Problem 2"  --mac "86:67:7a:8a:b7:ac" "86:67:7a:03:98:e0" "86:67:7a:8d:eb:63" &
+python3 -m repair_cafe_app.test_ticket --problem "Problem 3"  --mac "86:67:7a:8a:b7:ac" "86:67:7a:03:98:e0" "86:67:7a:8d:eb:63" &
+python3 -m repair_cafe_app.test_ticket --problem "Problem 4"  --mac "86:67:7a:8a:b7:ac" "86:67:7a:03:98:e0" "86:67:7a:8d:eb:63" &
+echo "[INFO] Done"
