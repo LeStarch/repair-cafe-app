@@ -1,3 +1,3 @@
 export let TEMPLATE=`
-    <repair-update></repair-update>
+    <repair-update :advanced="false"></repair-update>
 `;

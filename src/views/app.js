@@ -69,11 +69,10 @@ export function setup(element) {
         },
         provide() {
             let routes = {
-		"Register": "",
                 "Start Here": "#advanced-rc-start",
-                "Add": "#add",
-                "Team Triage": "#manage",
+                "Register": "#add",
                 "Check-In/Out": "#summary",
+                "Team Triage": "#manage",
                 "Add Repairers": "#repairers"
             };
             return {

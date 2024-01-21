@@ -17,11 +17,11 @@ export let TEMPLATE =
             <td>{{ repair.states[repair.stateIndex].name }}</td>
             <td>{{ repair.item || repair.states[repair.stateIndex].message }}</td>
             <td v-show="advanced">
-                <button v-show="repair.stateIndex != 0" :disabled="repair.isComplete()" v-on:click="print(repair)" class="btn btn-primary">Print</button>
+                <button v-show="repair.stateIndex > 1 && !repair.isComplete()" v-on:click="print(repair)" class="w-100 btn btn-primary">Print</button>
             </td>
             <td v-show="advanced">
-                <button v-show="repair.isPrereg() && repair.stateIndex == 0" v-on:click="checkIn(repair)" class="btn btn-success">Check-In</button>
-                <button v-show="repair.stateIndex != 0" :disabled="repair.isComplete()" v-on:click="closeRepair(repair)" class="btn btn-success">Check-Out</button>
+                <button v-show="repair.stateIndex <= 1" v-on:click="checkIn(repair)" class="w-100 btn btn-success">Check-In</button>
+                <button v-show="repair.stateIndex >  1" :disabled="repair.isComplete()" v-on:click="closeRepair(repair)" class="w-100 btn btn-success">Check-Out</button>
             </td>
         </tr>
     </table>

@@ -1,5 +1,5 @@
 
-import { TEMPLATE } from "./summay.template.js"
+import { TEMPLATE } from "./summary.template.js"
 import {_data} from "../../data.js";
 
 export let COMPONENT = {
@@ -39,8 +39,7 @@ export let COMPONENT = {
          * @param repair
          */
         checkIn(repair) {
-            repair.transitionState();
-            repair.transitionState();
+            repair.transitionState("triage");
             _data.repair.save(repair);
         },
         /**

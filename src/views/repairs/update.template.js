@@ -1,7 +1,7 @@
 export let TEMPLATE = `<div>
 <form v-on:submit="submit">
-    <div v-if="repair != null">
-        <img src="./img/logo.jpg" class="card-img" alt="RC Logo" />
+    <div v-if="repair == null && !advanced">
+        <h2>Repair Cafe Registration Form</h2>
     </div>
     <label for="name">Repairee Name:</label>
     <input name="name" type="text" v-model="editing.name" class="form-control" />
@@ -35,28 +35,33 @@ export let TEMPLATE = `<div>
 		</label>
             </div>
         </div>
-        <div v-if='last_id !== "" && editing.name === "" && editing.type === ""' class="alert alert-success">
+        <div v-if='last_id !== "" && editing.name === "" && editing.type === ""' class="row alert alert-success">
             <h4>Ticket Submitted: {{ last_id.replace("-", " #") }}</h4>
             <p>Ticket Number: <em>{{ last_id.replace("-", " #") }}</em>
                 (Please note on physical ticket, if physical ticket present)
             </p>
         </div>
-	<div name="legalese">
-	    <h3>Repair Cafe Terms</h3>
-	    <p>Repair Café is composed of volunteers agreeing to make an effort to assist those in need of repairs.
-	    Volunteers do not claim to be experts in any field and may refuse to repair an item. No repair cost is charged.
-	    No warranties or guarantees are applicable to service provided. Additional damage could occur during repair process.</p>
-	    
-            <p>By checking above, you agree to represent accurately your true repair need. You represent that the repair item
-	    belongs to you or you have authorization from the owner to pursue its repair.</p>
-	    <p>You agree that Repair Café and its volunteers will not be responsible for any damage that may occur during handling
-	    or repair. By entering into any area where Repair Café volunteers are gathered or working, you agree to:</p>
-	    <ol>
-	      <li>Maintain a quiet and cooperative demeanor</li>
-	      <li>Pay attention to others possessing and handling items and tools which could pose a danger</li>
-	      <li><p>Waive any right you have under local, state, federal law to legal claim arising from personal injury or
-	      property damage whether under principles of tort, contract or equity.</p></li>
-	    </ol>
+        <div class="row">
+	    <div class="col-3" v-if="!advanced">
+                <img src="./img/logo.jpg" alt="RC Logo" />
+            </div>
+	    <div class="col-9" name="legalese">
+	        <h3>Repair Cafe Terms</h3>
+	        <p>Repair Café is composed of volunteers agreeing to make an effort to assist those in need of repairs.
+                Volunteers do not claim to be experts in any field and may refuse to repair an item. No repair cost is charged.
+                No warranties or guarantees are applicable to service provided. Additional damage could occur during repair process.</p>
+
+                <p>By checking above, you agree to represent accurately your true repair need. You represent that the repair item
+                belongs to you or you have authorization from the owner to pursue its repair.</p>
+                <p>You agree that Repair Café and its volunteers will not be responsible for any damage that may occur during handling
+                or repair. By entering into any area where Repair Café volunteers are gathered or working, you agree to:</p>
+                <ol>
+		    <li>Maintain a quiet and cooperative demeanor</li>
+                    <li>Pay attention to others possessing and handling items and tools which could pose a danger</li>
+                    <li><p>Waive any right you have under local, state, federal law to legal claim arising from personal injury or
+                    property damage whether under principles of tort, contract or equity.</p></li>
+	        </ol>
+            </div>
 	</div>
     </div>
 </form>

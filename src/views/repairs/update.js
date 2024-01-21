@@ -8,7 +8,7 @@ import {_data} from "../../data.js";
  */
 export let COMPONENT = {
     inject: ["config", "repairers"],
-    props: ["repair"],
+    props: ["repair", "advanced"],
     template: TEMPLATE,
     data() {
         let stand_in = new Repair().copy_from(this.repair);
