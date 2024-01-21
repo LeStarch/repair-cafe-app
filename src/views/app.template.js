@@ -1,8 +1,9 @@
 export let TEMPLATE = `
 <div class="container-fluid">
     <h4 class="text-right">{{ date_computed }}</h4>
-    <navigation v-model="route" v-show='!route.startsWith("#sign")'></navigation>
+    <navigation v-model="route" v-show='!route.startsWith("#sign") && route!=""'></navigation>
     <add-repairer-page v-if='route == "#repairers"'></add-repairer-page>
+    <reg-repair-page v-else-if='route == ""'></reg-repair-page>
     <add-repair-page v-else-if='route == "#add"'></add-repair-page>
     <manage v-else-if='route == "#manage"'></manage>
     <repair-summary v-else-if='route == "#summary"' :advanced="true"></repair-summary>

@@ -13,8 +13,6 @@ from .settings import PrinterSettings
 STATIC_FILES_FOLDER = Path(__file__).parent.parent.parent
 app = Flask(__name__, static_url_path="", static_folder=STATIC_FILES_FOLDER)
 
-TICKET_SETTINGS = PrinterSettings()
-TICKET_PRINTER = TicketPrinter(TICKET_SETTINGS)
 
 @app.route("/")
 def index():
@@ -43,7 +41,4 @@ def print_ticket():
     item = json_data.get("item", "Unknown")
     problem = json_data.get("problem", "It is broken.")
     print(f"[INFO] Printing: [{number}] {name}")
-    TICKET_PRINTER.connectPrinter()
-    TICKET_PRINTER.printTicket(team, number, name, item, problem)
-    TICKET_PRINTER.disconnectPrinter()
     return json.dumps({"response": "OK"})

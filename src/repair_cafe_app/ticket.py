@@ -26,9 +26,9 @@ class TicketPrinter(object):
         self.number(tNumber)
         self.owner(owner)
         self.item(item, problem)
-        self.disclamer()
         self.logo()
         self.location(self.settings.locationName(), self.settings.locationDate())
+        self.stub(queue, tNumber, owner, item)
         self.endDoc()
         self.disconnectPrinter()
         
@@ -101,16 +101,17 @@ class TicketPrinter(object):
         time.sleep(0.1)
         
         
-    def item(self, thing: str, problem: str):
+    def item(self, thing: str, problem: str=None):
         self.printer.init()
         self.printer.set_emphasized(True)
         self.printer.textout('Item: ')
         self.printer.set_emphasized(False)
         self.printer.text(thing)
-        self.printer.set_emphasized(True)
-        self.printer.text('Problem:')
-        self.printer.set_emphasized(False)
-        self.printer.text(problem)
+        if problem is not None:
+            self.printer.set_emphasized(True)
+            self.printer.text('Problem:')
+            self.printer.set_emphasized(False)
+            self.printer.text(problem)
         self.printer.lf()
         time.sleep(0.1)
         
@@ -127,6 +128,18 @@ class TicketPrinter(object):
         self.printer.lf()
         self.printer.lf()
         self.printer.text('-' * self.printer.feature.columns.normal)
+        self.printer.lf()
+
+
+    def stub(self, queue, tNumber, owner, item):
+        self.printer.init()
+        self.printer.lf()
+        self.printer.lf()
+        self.printer.text('-' * self.printer.feature.columns.normal)
+        self.queue(queue)
+        self.number(tNumber)
+        self.owner(owner)
+        self.item(item)
         self.printer.lf()
 
         

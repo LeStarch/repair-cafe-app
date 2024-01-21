@@ -32,7 +32,7 @@ export let COMPONENT = {
         add() {
             let _self = this;
             // Guard against bad inputs
-            if ((this.editing.name || "") === "" || (this.editing.type || "") === "") {
+            if ((this.editing.name || "") === "" || (this.editing.type || "") === "" || (!this.editing.acknowledged)) {
                 return;
             }
             // Build a new repair, copy in the submitted fields, request a new id, and save the final result
@@ -43,7 +43,6 @@ export let COMPONENT = {
                 new_repair.transitionState();
                 _data.repair.save(new_repair);
                 _self.last_id = new_repair.id;
-                _data.repair.print(new_repair);
             });
             this.clear();
         },

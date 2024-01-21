@@ -27,6 +27,7 @@ export class Repair extends Marshallable {
         this.item = "";
         this.description = "";
         this.subtype = "N/A";
+        this.acknowledged = false;
         this.repairers = [];
         this.stateIndex = -1;
         this.states = State.newStateList();

@@ -6,6 +6,7 @@ import {COMPONENT as REPAIR_LIST_COMPONENT} from "./repairs/list.js";
 import {COMPONENT as REPAIRER_LIST_COMPONENT} from "./repairers/list.js";
 import {COMPONENT as SEARCH_COMPONENT} from "./search.js";
 import {COMPONENT as ADD_REPAIR_PAGE_COMPONENT} from "./pages/add-repairs.js";
+import {COMPONENT as REG_REPAIR_PAGE_COMPONENT} from "./pages/register-repair.js";
 import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
 import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
@@ -26,6 +27,7 @@ function register_components(app) {
     app.component("repair-list", REPAIR_LIST_COMPONENT);
     app.component("search", SEARCH_COMPONENT);
     app.component("add-repair-page", ADD_REPAIR_PAGE_COMPONENT);
+    app.component("reg-repair-page", REG_REPAIR_PAGE_COMPONENT);
     app.component("add-repairer-page", ADD_REPAIRER_PAGE_COMPONENT);
     app.component("repairer-list", REPAIRER_LIST_COMPONENT);
     app.component("manage", MANAGE_COMPONENT);
@@ -67,8 +69,9 @@ export function setup(element) {
         },
         provide() {
             let routes = {
-                "Start Here": "",
-                "Register": "#add",
+		"Register": "",
+                "Start Here": "#advanced-rc-start",
+                "Add": "#add",
                 "Team Triage": "#manage",
                 "Check-In/Out": "#summary",
                 "Add Repairers": "#repairers"

@@ -28,6 +28,13 @@ export let COMPONENT = {
             return "table-" + suffix;
         },
         /**
+         * Print the repair
+         * @param repair
+         */
+        print(repair) {
+            _data.repair.print(repair);
+        },
+        /**
          * Check in the repair
          * @param repair
          */

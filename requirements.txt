@@ -1,3 +1,4 @@
 flask==3.0.0
 PyBluez==0.23
 PyESCPOS[bluetooth]==0.4
+pyzmq

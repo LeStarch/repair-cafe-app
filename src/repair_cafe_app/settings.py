@@ -3,8 +3,8 @@ import datetime
 class PrinterSettings:
     def __init__(self):
         self.settings = {
-            "location": {"name": "Pasadena", "date": str(datetime.datetime.now())},
-            "printerMAC": "86:67:7A:8D:EB:63"
+            "location": {"name": "Pasadena Senior Center", "date": str(datetime.datetime.now())},
+            "printerMAC": "86:67:7A:03:98:E0" #"86:67:7A:8A:B7:AC" #"86:67:7A:8D:EB:63"
         }
    
     def printerMAC(self):
