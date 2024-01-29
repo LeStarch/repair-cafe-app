@@ -21,6 +21,11 @@ export class Config {
         "stitching (machine)",
         "verrückt"
     ];
+    static PRINTER_MAP = {
+        "P2": "86:67:7a:03:98:e0",
+        "P1": "86:67:7a:8d:eb:63",
+        "P3": "86:67:7a:8a:b7:ac"
+    };
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
     static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;

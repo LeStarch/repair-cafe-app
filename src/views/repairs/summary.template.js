@@ -1,7 +1,15 @@
 export let TEMPLATE =
 `
 <div>
-    <search v-model="search" :options='[""].concat(config.types)' :options_label='"Type"'></search>
+    <div class="row">
+        <search class="col col-9" v-model="search" :options='[""].concat(config.types)' :options_label='"Type"'></search>
+        <div class="col col-3 input-group">
+            <label for="printer_select" class="input-group-text">Printer:</label>
+            <select name="printer_select" v-model="printer" class="form-control" required>
+                <option v-for="printer_name of Object.keys(config.PRINTER_MAP)" :value="printer_name">{{ printer_name }}</option>
+            </select>
+        </div>
+    </div>
     <table class="table table-striped">
         <tr>
             <th>Repair Id</th>

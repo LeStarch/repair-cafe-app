@@ -6,7 +6,8 @@ export let COMPONENT = {
     data() {
         return {
             completeView: true,
-            search: {"selected": "", "filter": ""}
+            search: {"selected": "", "filter": ""},
+            printer: Object.keys(_data.config.PRINTER_MAP)[0]
     }},
     props: ["advanced"],
     inject: ["repairs", "config"],
@@ -32,7 +33,7 @@ export let COMPONENT = {
          * @param repair
          */
         print(repair) {
-            _data.repair.print(repair);
+            _data.repair.print(repair, this.printer);
         },
         /**
          * Check in the repair

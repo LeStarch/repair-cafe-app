@@ -1,4 +1,6 @@
 flask==3.0.0
-PyBluez==0.23
+PyBluez @ git+https://github.com/pybluez/pybluez.git#egg=pybluez
 PyESCPOS[bluetooth]==0.4
 pyzmq
+pillow
+six

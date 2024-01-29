@@ -46,9 +46,9 @@ def print_ticket():
     number = json_data.get("id", "Unknown")
     item = json_data.get("item", "Unknown")
     problem = json_data.get("problem", "It is broken.")
-    print(f"[INFO] Printing: [{number}] {name}")
+    mac = json_data.get("printer", MACS[0])
+    print(f"[INFO] Requesting: [{number}] {name} on {mac}")
     socket = context.socket(zmq.REQ)
-    for MAC in MACS:
-        socket.connect(f"ipc:///tmp/printer_{MAC.replace(':', '_')}")
+    socket.connect(f"ipc:///tmp/printer_{mac.replace(':', '_')}")
     socket.send_string(json.dumps({"location": LOC, "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))
     return socket.recv()

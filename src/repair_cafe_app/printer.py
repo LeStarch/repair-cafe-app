@@ -18,6 +18,7 @@ def message_loop(settings, socket):
         message_raw = socket.recv()
         try:
             message = json.loads(message_raw)
+            print(f"[INFO] Printing [{message['tNumber']}] {message['owner']} on {settings.printerMAC()}")
             settings.settings["location"]["name"] = message["location"]
             del message["location"]
             printer = TicketPrinter(settings)
@@ -28,6 +29,7 @@ def message_loop(settings, socket):
             finally:
                 printer.disconnectPrinter()
         except Exception as e:
+            print(f"[ERROR] {e}")
             socket.send_string(json.dumps({"error": str(e)}))
 
 def main():
