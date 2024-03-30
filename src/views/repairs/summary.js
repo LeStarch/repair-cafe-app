@@ -19,11 +19,11 @@ export let COMPONENT = {
          */
         repairStatusClass(repair) {
             let suffix = "default";
-            if (repair.stateIndex === 6) {
+            if (repair.stateIndex === 7) {
                 suffix = "danger";
-            } else if (repair.stateIndex >= 4) {
+            } else if (repair.stateIndex >= 5) {
                 suffix = "success";
-            } else if (repair.stateIndex === 3) {
+            } else if (repair.stateIndex === 4) {
                 suffix = "primary";
             }
             return "table-" + suffix;

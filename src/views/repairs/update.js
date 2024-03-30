@@ -38,6 +38,7 @@ export let COMPONENT = {
             // Build a new repair, copy in the submitted fields, request a new id, and save the final result
             let new_repair = new Repair().copy_from(this.editing);
             _data.repair.nextId(this.editing.type).then( id => {
+                new_repair.numerical_id = id;
                 new_repair.id = new_repair.type + "-" +id;
                 new_repair.stateIndex = 0;
                 new_repair.transitionState();

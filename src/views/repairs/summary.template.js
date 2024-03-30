@@ -29,7 +29,7 @@ export let TEMPLATE =
             </td>
             <td v-show="advanced">
                 <button v-show="repair.stateIndex <= 1" v-on:click="checkIn(repair)" class="w-100 btn btn-success">Check-In</button>
-                <button v-show="repair.stateIndex >  1" :disabled="repair.isComplete()" v-on:click="closeRepair(repair)" class="w-100 btn btn-success">Check-Out</button>
+                <button v-show="repair.stateIndex ==  5 || repair.stateIndex ==  7" :disabled="repair.isComplete()" v-on:click="closeRepair(repair)" class="w-100 btn btn-success">Check-Out</button>
             </td>
         </tr>
     </table>

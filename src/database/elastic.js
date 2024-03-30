@@ -90,6 +90,7 @@ export class Elastic extends WebApi{
      */
     static elasticList(index,type) {
         let snippet = `${index}/_search?size=1000&version=true`;
+        snippet += "&sort=numerical_id";
         return Elastic.elastic(snippet,type,"GET",{});
     }
     /**

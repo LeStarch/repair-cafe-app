@@ -58,6 +58,7 @@ export let COMPONENT = {
                 repairer.copy_from(this.editing);
                 repairer.skills = skills;
                 _data.repairer.nextId().then(id => {
+                    repairer.numerical_id = id;
                     repairer.id = "repairer-" + id;
                     _data.repairer.save(repairer);
                     this.clear();

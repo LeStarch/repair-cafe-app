@@ -7,7 +7,7 @@ import {State} from "./repair-state.js"
  * A repair class representing repair data
  */
 export class Repair extends Marshallable {
-    static MARSHALL_FIELDS = ["id", "name", "email", "phone", "type", "item", "subtype", "description",
+    static MARSHALL_FIELDS = ["numerical_id", "id", "name", "email", "phone", "type", "item", "subtype", "description",
                               "repairers", "stateIndex", "states", "reserved"];
     /**
      * Construct a new repair
@@ -19,6 +19,7 @@ export class Repair extends Marshallable {
      */
     constructor(name, email, phone, type, reserved) {
         super();
+        this.numerical_id = -1;
         this.id = "-1";
         this.name = name || "";
         this.email = email || "";
@@ -91,7 +92,7 @@ export class Repair extends Marshallable {
      * Finish repair
      */
     isComplete() {
-        return this.stateIndex >= (this.states.length - 2);
+        return this.stateIndex == (this.states.length - 2);
     }
     /**
      * Preregistration
