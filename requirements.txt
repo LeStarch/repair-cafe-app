@@ -4,3 +4,4 @@ PyESCPOS[bluetooth]==0.4
 pyzmq
 pillow
 six
+gunicorn

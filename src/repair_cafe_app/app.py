@@ -2,16 +2,23 @@
 
 This is the main file for the Flask application.
 """
+import getpass
 import json
+import logging
 import zmq
 from pathlib import Path
 from flask import Flask, request
 
 from .ticket import TicketPrinter
-from .settings import PrinterSettings
+from .settings import PrinterSettings, PORT_MAP
+
+logging.getLogger().setLevel(logging.INFO)
+logging.info("Logging system initialized!")
+
+LOGGER = logging.getLogger(__name__)
 
 MACS=["86:67:7a:8a:b7:ac", "86:67:7a:03:98:e0", "86:67:7a:8d:eb:63"]
-LOC="Pasadena Senior Center"
+LOC="Pasadena Armory"
 
 # Set the static folder path to the same location as nginx
 STATIC_FILES_FOLDER = Path(__file__).parent.parent.parent
@@ -47,8 +54,13 @@ def print_ticket():
     item = json_data.get("item", "Unknown")
     problem = json_data.get("problem", "It is broken.")
     mac = json_data.get("printer", MACS[0])
-    print(f"[INFO] Requesting: [{number}] {name} on {mac}")
+    LOGGER.info("Connecting to printer: %s as '%s'", mac, getpass.getuser())
     socket = context.socket(zmq.REQ)
-    socket.connect(f"ipc:///tmp/printer_{mac.replace(':', '_')}")
-    socket.send_string(json.dumps({"location": LOC, "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))
-    return socket.recv()
+    try:
+        connection_address = f"tcp://127.0.0.1:{PORT_MAP[mac]}"
+        socket.connect(connection_address)
+        LOGGER.info("Sending print request: %s", connection_address)
+        socket.send_string(json.dumps({"location": LOC, "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))
+        return socket.recv_string()
+    finally:
+        socket.close()

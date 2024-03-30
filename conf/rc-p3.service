@@ -1,0 +1,15 @@
+
+# Description:
+# Default opensearch.service file
+
+[Unit]
+Description=rc-ticket
+
+[Service]
+User=www-data
+Group=www-data
+ExecStart=/var/www/html/repair-cafe-app/bin/start-printer-p3
+
+[Install]
+WantedBy=multi-user.target
+

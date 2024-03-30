@@ -1,15 +1,19 @@
-
-# Description:
-# Default opensearch.service file
-
 [Unit]
-Description=rc-ticket
+Description=Gunicorn instance to serve application
+After=network.target
 
 [Service]
 User=www-data
 Group=www-data
-ExecStart=/var/www/html/repair-cafe-app/bin/run-flask
+WorkingDirectory=/var/www/html/repair-cafe-app/
+Environment="PYTHONPATH=/var/www/html/repair-cafe-app/src/"
+Environment="VIRTUAL_ENV=/var/www/html/repair-cafe-app/venv/"
+Environment="PATH=/var/www/html/repair-cafe-app/venv/bin"
+ExecStart=/var/www/html/repair-cafe-app/venv/bin/gunicorn -c /var/www/html/repair-cafe-app/conf/gunicorn_conf.py --workers 4 repair_cafe_app.app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
-
