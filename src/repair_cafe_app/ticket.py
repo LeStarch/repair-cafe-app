@@ -3,17 +3,16 @@
 Borrowed and updated from demo code (https://github.com/mescoops/RCTicketPrinter/blob/main/Ticket.py), this file
 contains the utility functions for printing tickets on the recipt printer.
 """
-import six
+import os
 import sys
-import time
-
 from datetime import datetime
-from pathlib import Path
+import time
 
 from escpos import feature
 from escpos.impl.epson import GenericESCPOS
 from escpos import BluetoothConnection
 from PIL import Image, ImageOps
+import six
 
 
 class TicketPrinter(object):
@@ -167,7 +166,7 @@ class TicketPrinter(object):
 
 
     def logoInit(self):   
-        filename = str(Path(__file__).parent / u"RepairCafe_White.png")
+        filename = os.path.dirname(__file__) + u"/RepairCafe_White.png"
         # Load Image
         im = Image.open(filename)
 
@@ -230,7 +229,7 @@ def _int_low_high(inp_number, out_bytes):
     :param inp_number: Input number
     :param out_bytes: The number of bytes to output (1 - 4).
     """
-    max_input = (256 << (out_bytes * 8) - 1)
+    max_input = (256 << (out_bytes * 8) - 1);
     if not 1 <= out_bytes <= 4:
         raise ValueError("Can only output 1-4 byes")
     if not 0 <= inp_number <= max_input:

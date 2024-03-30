@@ -2,9 +2,9 @@ export let TEMPLATE = `<div>
 <form v-on:submit="submit">
     <div v-if="repair == null && !advanced">
         <div class="row">
-            <div class="col-4">
+            <!--div class="col-4">
                 <img src="./img/logo.jpg" alt="RC Logo" />
-            </div>
+            </div-->
             <div class="col-8">
                 <h2>Repair Cafe Registration Form</h2>
                 <p>Please fill out this for to register your repair. After your repair has been registered, please
