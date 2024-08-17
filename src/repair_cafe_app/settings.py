@@ -10,7 +10,7 @@ PORT_MAP = {
 class PrinterSettings:
     def __init__(self):
         self.settings = {
-            "location": {"name": "Pasadena Senior Center", "date": datetime.datetime.now().strftime("%Y-%m-%d")},
+            "location": {"name": "All Saints Episcopal Church", "date": datetime.datetime.now().strftime("%Y-%m-%d")},
             "printerMAC": "86:67:7A:03:98:E0" #"86:67:7A:8A:B7:AC" #"86:67:7A:8D:EB:63"
         }
    

@@ -37,6 +37,7 @@ class TicketPrinter(object):
         self.item(item, problem)
         self.logoName()
         self.location(self.settings.locationName(), self.settings.locationDate())
+        self.finalStatus()
         self.stub(queue, tNumber, owner, item)
         self.endDoc()
         self.disconnectPrinter()
@@ -75,6 +76,36 @@ class TicketPrinter(object):
         self.printer.lf()
         time.sleep(0.1)
 
+    def finalStatus(self):
+        self.printer.init()
+        self.printer.justify_left()
+        self.printer.set_expanded(True)
+        self.printer.text("Select when complete:")
+        self.printer.lf()
+        time.sleep(0.1)
+        self.printer.text('____ Repaired')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.text('____ Out of time')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.text('____ Unrepairable')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.text('____ Consultation only')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.text('____ Needed parts: _____________')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.set_expanded(False)
+        self.printer.lf()
+        time.sleep(0.1)
 
     def number(self, tNum: int):
         self.printer.init()
