@@ -1,7 +1,7 @@
 export let TEMPLATE =
 `
 <div>
-    <div class="row">
+    <div class="row" v-show="advanced">
         <search class="col col-9" v-model="search" :options='[""].concat(config.types)' :options_label='"Type"'></search>
         <div class="col col-3 input-group">
             <label for="printer_select" class="input-group-text">Printer:</label>

@@ -43,7 +43,7 @@ To run the application in local testing mode:
 
 ```bash
 cd src
-flask -a repair_cafe_app.app run 
+flask --app repair_cafe_app.app run
 ```
 
 ## Design and UI
