@@ -71,7 +71,7 @@ class TicketPrinter(object):
         self.printer.justify_center()
         self.printer.set_expanded(True)
         self.printer.text('Repair Cafe') #é
-        self.printer.text('Pasadena')
+        self.printer.text('San Fernando')
         self.printer.set_expanded(False)
         self.printer.lf()
         time.sleep(0.1)
@@ -80,26 +80,28 @@ class TicketPrinter(object):
         self.printer.init()
         self.printer.justify_left()
         self.printer.set_expanded(True)
-        self.printer.text("Select when complete:")
+        self.printer.text("Status:")
         self.printer.lf()
         time.sleep(0.1)
-        self.printer.text('____ Repaired')
-        self.printer.lf()
-        time.sleep(0.1)
-
-        self.printer.text('____ Out of time')
+        self.printer.text('__ Repaired')
         self.printer.lf()
         time.sleep(0.1)
 
-        self.printer.text('____ Unrepairable')
+        self.printer.text('__ No time')
         self.printer.lf()
         time.sleep(0.1)
 
-        self.printer.text('____ Consultation only')
+        self.printer.text('__ Unrepairable')
         self.printer.lf()
         time.sleep(0.1)
 
-        self.printer.text('____ Needed parts: _____________')
+        self.printer.text('__ Consult')
+        self.printer.lf()
+        time.sleep(0.1)
+
+        self.printer.text('__ Need part')
+        self.printer.lf()
+        self.printer.text('_____________')
         self.printer.lf()
         time.sleep(0.1)
 

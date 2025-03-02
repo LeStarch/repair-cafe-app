@@ -19,7 +19,7 @@ logging.info("Logging system initialized!")
 LOGGER = logging.getLogger(__name__)
 
 MACS=["86:67:7a:8a:b7:ac", "86:67:7a:03:98:e0", "86:67:7a:8d:eb:63"]
-LOC="Pasadena Armory"
+LOC="Emerson Unitarian Church"
 
 # Set the static folder path to the same location as nginx
 STATIC_FILES_FOLDER = Path(__file__).parent.parent.parent
