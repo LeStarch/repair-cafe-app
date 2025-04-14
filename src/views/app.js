@@ -10,7 +10,7 @@ import {COMPONENT as REG_REPAIR_PAGE_COMPONENT} from "./pages/register-repair.js
 import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
 import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
-
+import {COMPONENT as EVENT_CONFIG_COMPONENT} from "./pages/event-config.js";
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
@@ -31,6 +31,7 @@ function register_components(app) {
     app.component("add-repairer-page", ADD_REPAIRER_PAGE_COMPONENT);
     app.component("repairer-list", REPAIRER_LIST_COMPONENT);
     app.component("manage", MANAGE_COMPONENT);
+    app.component("event-config", EVENT_CONFIG_COMPONENT);
     app.component("navigation", NAV_COMPONENT);
 }
 
@@ -73,7 +74,8 @@ export function setup(element) {
                 "Register": "#add",
                 "Check-In/Out": "#summary",
                 "Team Triage": "#manage",
-                "Add Repairers": "#repairers"
+                "Add Repairers": "#repairers",
+                "Configure Event": "#event-config",
             };
             return {
                 "repairs": this.repairs,

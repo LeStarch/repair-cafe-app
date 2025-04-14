@@ -45,6 +45,7 @@ sudo (
     systemctl enable opensearch
     systemctl enable nginx
     systemctl enable rc-ticket
+    cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/time-commands
 )
 sudo chown -R www-data:www-data "${DIRNAME}/.."
 
