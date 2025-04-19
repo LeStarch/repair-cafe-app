@@ -71,7 +71,7 @@ class TicketPrinter(object):
         self.printer.justify_center()
         self.printer.set_expanded(True)
         self.printer.text('Repair Cafe') #é
-        self.printer.text('San Fernando')
+        self.printer.text('Pasadena')
         self.printer.set_expanded(False)
         self.printer.lf()
         time.sleep(0.1)
