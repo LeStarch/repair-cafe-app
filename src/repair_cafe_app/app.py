@@ -11,16 +11,17 @@ import zmq
 from pathlib import Path
 from flask import Flask, request
 
+from .event_info import EventConfiguration
 from .ticket import TicketPrinter
-from .settings import PrinterSettings, PORT_MAP
+from .settings import PRINTER_PORT_MAP
 
 logging.getLogger().setLevel(logging.INFO)
 logging.info("Logging system initialized!")
 
 LOGGER = logging.getLogger(__name__)
 
-MACS=["86:67:7a:8a:b7:ac", "86:67:7a:03:98:e0", "86:67:7a:8d:eb:63"]
-LOC="Arcadia Public Library"
+# Local to process store for event data
+EVENT_DATA = {}
 
 # Set the static folder path to the same location as nginx
 STATIC_FILES_FOLDER = Path(__file__).parent.parent.parent
@@ -28,6 +29,20 @@ app = Flask(__name__, static_url_path="", static_folder=STATIC_FILES_FOLDER)
 
 # Setup a zmq socket to run the printer
 context = zmq.Context()
+
+@app.before_request
+def load_event_data():
+    """ Safely loads event data into EVENT_DATA """
+    global EVENT_DATA
+    event_configuration_loader = EventConfiguration()
+    try:
+        read_event_data = event_configuration_loader.read()
+    # Ignore missing files
+    except FileNotFoundError:
+        read_event_data = {}
+    EVENT_DATA["host"] = read_event_data.get("host", "Pasadena")
+    EVENT_DATA["location"] = read_event_data.get("location", "Unknown Location")
+    EVENT_DATA["printers"]  = read_event_data.get("printers", PRINTER_PORT_MAP)
 
 @app.route("/")
 def index():
@@ -59,6 +74,13 @@ def set_time():
     This route is used to set the system time on the server. It is used to
     synchronize the time on the server with the time on a client that has
     access to time (e.g. via the cellular network).
+
+    Request format:
+    {
+        "time": <integer number of seconds since epoch>
+    }
+
+    Response format: see get_time()
     """
     json_data = request.get_json()
     if json_data is None:
@@ -80,12 +102,67 @@ def set_time():
     if epoch_time < (time_request - 60) or epoch_time > (time_request + 60):
         LOGGER.error("Failed to validate system time: {epoch_time} not with 60 S of {time_request}", e)
         return {"error": f"Time validation failed"}, 500
-    return {"new_time": epoch_time}, 200
+    return get_time()
 
 @app.route("/app/get-time", methods=["GET"])
 def get_time():
-    """ Get the system time on the server """
-    return {"current_time": time.time()}
+    """ Get the system time on the server
+    
+    Response format:
+    {
+        "current_time": <float number of seconds since epoch>
+    }
+    """
+    return {"current_time": time.time()}, 200
+
+@app.route("/app/get-location-info", methods=["GET"])
+def get_location_info():
+    """ Get the location information for the event
+
+    Response format:
+    {
+        "location": <string location>,
+        "host": <string host>
+    }
+    """
+    return {
+        "location": EVENT_DATA["location"],
+        "host": EVENT_DATA["host"],
+        "printers": EVENT_DATA["printers"]
+    }
+
+@app.route("/app/set-location-info", methods=["POST"])
+def set_location_info():
+    """ Set the location information for the event
+    
+    This will set the location information for all processes running on the local host.
+
+    Request format:
+    {
+        "location": <string location>,
+        "host": <string host>
+    }
+
+    Response format: see get_location_info()
+    """
+    json_data = request.get_json()
+    if json_data is None:
+        return {"error": "No data received"}, 400
+    event_info = {
+        "location": json_data.get("location", None),
+        "host": json_data.get("host", None),
+        # Printer port map is optional
+        "printers": json_data.get("printers", PRINTER_PORT_MAP)
+    }
+    for key, value in event_info.items():
+        if value is None:
+            return {"error": f"'{key}' is a required field"}, 400
+    # Write, then re-load event data
+    event_configuration = EventConfiguration()
+    LOGGER.info("Event Info 0: %s", event_info)
+    event_configuration.write(event_info)
+    load_event_data()
+    return get_location_info()
 
 @app.route("/app/print-ticket", methods=["POST"])
 def print_ticket():

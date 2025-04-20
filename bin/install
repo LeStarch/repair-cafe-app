@@ -46,6 +46,9 @@ sudo (
     systemctl enable nginx
     systemctl enable rc-ticket
     cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/10-www-data-date-hwclock
+    mkdir -p /var/run/repair-cafe-app
+    sudo chown -R www-data:www-data /var/run/repair-cafe-app
+    sudo chmod 770 /var/run/repair-cafe-app
 )
 sudo chown -R www-data:www-data "${DIRNAME}/.."
 

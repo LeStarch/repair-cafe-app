@@ -6,14 +6,47 @@ export let COMPONENT = {
     data: function () {
         return {
             "time_error": null,
-            "time_response": null
+            "time_response": null,
+            "location_error": null,
+            "location_response": {"host": null, "location": null},
         };
     },
     created: function() {
         // Initialize the component
         this.getTime();
+        this.getLocationInfo();
     },
     methods: {
+        setEventConfig: function () {
+            this.setTime();
+            this.setLocationInfo();
+        },
+        getLocationInfo: function () {
+            // Get the event location and host information
+            WebApi.ajax("/app/get-location-info", "GET", null, null, null).then((response) => {
+                this.location_error = null
+                this.location_response = response;
+            }
+            // Errors result
+            ).catch((error) => {
+                this.location_error = error.error || error.responseText || "Unknown error";
+                this.location_response = null;
+            });
+        },
+        setLocationInfo: function () {
+            // Get the event location and host information
+            WebApi.ajax("/app/set-location-info", "POST", null, null, {
+                "location": this.location_response.location,
+                "host": this.location_response.host
+            }).then((response) => {
+                this.getLocationInfo();
+            }
+            // Errors result
+            ).catch((error) => {
+                this.location_error = error.error || error.responseText || "Unknown error";
+                this.location_response = null;
+            });
+        },
         getTime: function () {
             WebApi.ajax("/app/get-time", "GET", null, null, null).then((response) => {
                 // Set the time response to the current time
