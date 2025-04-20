@@ -3,12 +3,12 @@ import {WebApi} from "../../database/elastic.js";
 
 export let COMPONENT = {
     template: TEMPLATE,
+    props: ["event_info"],
     data: function () {
         return {
             "time_error": null,
             "time_response": null,
-            "location_error": null,
-            "location_response": {"host": null, "location": null},
+            "error": null,
         };
     },
     created: function() {
@@ -24,27 +24,22 @@ export let COMPONENT = {
         getLocationInfo: function () {
             // Get the event location and host information
             WebApi.ajax("/app/get-location-info", "GET", null, null, null).then((response) => {
-                this.location_error = null
-                this.location_response = response;
+                this.event_configuration_error = null
+                Object.assign(this.event_info, response);
             }
             // Errors result
             ).catch((error) => {
-                this.location_error = error.error || error.responseText || "Unknown error";
-                this.location_response = null;
+                this.event_configuration_error = error.error || error.responseText || "Unknown error";
             });
         },
         setLocationInfo: function () {
             // Get the event location and host information
-            WebApi.ajax("/app/set-location-info", "POST", null, null, {
-                "location": this.location_response.location,
-                "host": this.location_response.host
-            }).then((response) => {
+            WebApi.ajax("/app/set-location-info", "POST", null, null, this.event_configuration || {}).then((response) => {
                 this.getLocationInfo();
             }
             // Errors result
             ).catch((error) => {
-                this.location_error = error.error || error.responseText || "Unknown error";
-                this.location_response = null;
+                this.event_configuration_error = error.error || error.responseText || "Unknown error";
             });
         },
         getTime: function () {

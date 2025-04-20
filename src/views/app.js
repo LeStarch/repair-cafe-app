@@ -10,6 +10,7 @@ import {COMPONENT as REG_REPAIR_PAGE_COMPONENT} from "./pages/register-repair.js
 import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
 import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
+import {COMPONENT as PRINTER_LIST_ITEM_COMPONENT} from "./widgits/printer-item.js";
 import {COMPONENT as EVENT_CONFIG_COMPONENT} from "./pages/event-config.js";
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
@@ -31,6 +32,7 @@ function register_components(app) {
     app.component("add-repairer-page", ADD_REPAIRER_PAGE_COMPONENT);
     app.component("repairer-list", REPAIRER_LIST_COMPONENT);
     app.component("manage", MANAGE_COMPONENT);
+    app.component("printer-list-item", PRINTER_LIST_ITEM_COMPONENT)
     app.component("event-config", EVENT_CONFIG_COMPONENT);
     app.component("navigation", NAV_COMPONENT);
 }
@@ -65,7 +67,9 @@ export function setup(element) {
                 "repairs": [],
                 "repairers": [],
                 "config": _data.config,
-                "route": window.location.hash
+                "route": window.location.hash,
+                "event_info": _data.event_info,
+                "local_data": _data.local
             };
         },
         provide() {
@@ -82,7 +86,9 @@ export function setup(element) {
                 "repairers": this.repairers,
                 "config": this.config,
                 "route": this.route,
-                "routes": routes
+                "routes": routes,
+                "event_info": this.event_info,
+                "local_data": this.local_data
             };
         },
         computed: {

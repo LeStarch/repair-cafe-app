@@ -4,7 +4,9 @@ import {ElasticDatabase, LocalDatabase} from "./database/object-api.js"
 // Setup and export some databases
 let db_type = (Config.USE_LOCAL_STORAGE) ? LocalDatabase : ElasticDatabase;
 export let _data = {
-    config: Config
+    config: Config,
+    event_info: {},
+    local: {}
 };
 
 /**

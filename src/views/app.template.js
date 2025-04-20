@@ -7,11 +7,9 @@ export let TEMPLATE = `
     <add-repair-page v-else-if='route == "#add"'></add-repair-page>
     <manage v-else-if='route == "#manage"'></manage>
     <repair-summary v-else-if='route == "#summary"' :advanced="true"></repair-summary>
-    <event-config v-else-if='route == "#event-config"'></event-config>
     <repair-summary v-else-if='route == "#sign1"' :advanced="false"></repair-summary>
     <repair-list v-else-if='route == "#sign2"' :advanced="false"></repair-list>
-    
-    <div v-else class="card">
+    <div v-else-if='route != "#event-config"' class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col">
@@ -36,5 +34,6 @@ export let TEMPLATE = `
             </div>
         </div>
     </div>
+    <event-config :event_info="event_info" v-show='route == "#event-config"'></event-config> 
 </div>
 `;

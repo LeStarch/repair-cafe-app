@@ -6,12 +6,15 @@ export let COMPONENT = {
     data() {
         return {
             completeView: true,
-            search: {"selected": "", "filter": ""},
-            printer: Object.keys(_data.config.PRINTER_MAP)[0]
+            search: {"selected": "", "filter": ""}
     }},
     props: ["advanced"],
-    inject: ["repairs", "config"],
+    inject: ["repairs", "config", "event_info", "local_data"],
     template: TEMPLATE,
+    created: function() {
+        this.local_data.printer = this.local_data.printer ||
+            (this.event_info.printers || [{"name": "Unknown"}])[0].name;
+    },
     methods: {
         /**
          * Get the HTML class of a repair based on the its state in the database.
