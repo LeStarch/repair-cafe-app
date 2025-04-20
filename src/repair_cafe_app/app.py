@@ -82,6 +82,10 @@ def set_time():
         return {"error": f"Time validation failed"}, 500
     return {"new_time": epoch_time}, 200
 
+@app.route("/app/get-time", methods=["GET"])
+def get_time():
+    """ Get the system time on the server """
+    return {"current_time": time.time()}
 
 @app.route("/app/print-ticket", methods=["POST"])
 def print_ticket():
