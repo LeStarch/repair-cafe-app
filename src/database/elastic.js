@@ -49,6 +49,14 @@ export class WebApi {
 }
 
 export class Elastic extends WebApi{
+    // Known errors to exclude when making Elastic calls
+    static KNOWN_ERRORS = {
+        "resource_already_exists_exception": /.*/,
+        "query_shard_exception": /No mapping found for \[.*\] in order to sort on$/
+    };
+    // Throttles for known errors types
+    static THROTTLES = {};
+    
     /**
      * Elastic search interface code
      * @param api_url_snippet: snippet of the API
@@ -61,14 +69,25 @@ export class Elastic extends WebApi{
             WebApi.ajax(Config.ES_URL + "/" + api_url_snippet, method, Config.ES_USER, Config.ES_PASSWORD, data)
                 .then(success)
                 .catch((response) => {
-                    // Filter out known errors
+                    // Filter out known errors and add a single console message for each
                     let error_type = ((response.error || {}).root_cause || [{}])[0].type;
                     let reason = ((response.error || {}).root_cause || [{}])[0].reason;
-                    if (error_type !== "resource_already_exists_exception" &&
-                        reason !== "No mapping found for [_id] in order to sort on") {
-                        console.log("[ERROR] ES Errored with: " + response.responseText);
-                        error(new Error(response.responseText));
+                    // Iterate over known errors looking for matching errors
+                    for (let known_error_type in Elastic.KNOWN_ERRORS) {
+                        let reason_matcher = Elastic.KNOWN_ERRORS[error_type];
+                        if (reason_matcher.test(reason)) {
+                            // Throttle error messages
+                            if ((Elastic.THROTTLES[reason] || 0) < 1) {
+                                console.log(`[WARNING] Error '${reason}' (${error_type}} occured. This happens at start-up.`);
+                                Elastic.THROTTLES[reason] = (Elastic.THROTTLES[reason] || 0) + 1;
+                            }
+                            // Discard known errors
+                            return;
+                        }
                     }
+                    // Not a known error
+                    console.log(`[ERROR] ES Errored with: ${reason} (${error_type})`);
+                    error(new Error(response.error));
                 });
         });
     }

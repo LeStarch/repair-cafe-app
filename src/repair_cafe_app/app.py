@@ -6,6 +6,7 @@ import getpass
 import json
 import logging
 import subprocess
+import time
 import zmq
 from pathlib import Path
 from flask import Flask, request
@@ -51,7 +52,7 @@ def config():
         mimetype="text/javascript"
     )
 
-@app.route("/set-time", methods=["POST"])
+@app.route("/app/set-time", methods=["POST"])
 def set_time():
     """ Set the system time on the server
     
@@ -62,27 +63,27 @@ def set_time():
     json_data = request.get_json()
     if json_data is None:
         return {"error": "No data received"}, 400
-    time = json_data.get("time", None)
-    if time is None:
+    time_request = json_data.get("time", None)
+    if time_request is None:
         return {"error": "'time' field not provided"}, 400
-    if not isinstance(time, int):
+    if not isinstance(time_request, int):
         return {"error": "'time' field must be an integer"}, 400
-    LOGGER.info("Setting system time to: %sS since epoch", time)
+    LOGGER.info("[INFO] Setting system time to: %sS since epoch", time_request)
     # Set the system time and hardware clock from the provided seconds since epoch
     # This requires root privileges, so we use sudo to run the command
     try:
-        subprocess.run(["sudo", "date", "-s", f"@{time}"], check=True)
+        subprocess.run(["/usr/bin/sudo", "/usr/bin/date", "-s", f"@{time_request}"], check=True)
     except subprocess.CalledProcessError as e:
         LOGGER.error("Failed to set system time: %s", e)
         return {"error": f"Failed to set system time: {e}"}, 500
-    try:
-        subprocess.run(["sudo", "hwclock", "-w"], check=True)
-    except subprocess.CalledProcessError as e:
-        LOGGER.error("Failed to set hardware time: %s", e)
-    return {"message": "System time set to {}".format(time)}, 200
+    epoch_time = time.time()
+    if epoch_time < (time_request - 60) or epoch_time > (time_request + 60):
+        LOGGER.error("Failed to validate system time: {epoch_time} not with 60 S of {time_request}", e)
+        return {"error": f"Time validation failed"}, 500
+    return {"new_time": epoch_time}, 200
 
 
-@app.route("/print-ticket", methods=["POST"])
+@app.route("/app/print-ticket", methods=["POST"])
 def print_ticket():
     """ HTML route used to print the ticket information """
     json_data = request.get_json()

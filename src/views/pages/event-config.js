@@ -6,6 +6,7 @@ export let COMPONENT = {
     data: function () {
         return {
             "time_error": null,
+            "time_response": null
         };
     },
     methods: {
@@ -17,18 +18,19 @@ export let COMPONENT = {
             button.disabled = true;
             // Set time on the backing server
             console.log("Event time set to: " + eventTime);
-            WebApi.ajax("/set-time", "POST", null, null, {
+            WebApi.ajax("/app/set-time", "POST", null, null, {
                 "time": eventTime
             }).then((response) => {
-                console.log("Server response: " + response);
                 // Re-enable the button after the request is processed
                 button.disabled = false;
+                this.time_response = new Date(Math.round(response.new_time * 1000));
                 this.time_error = null;
             }).catch((error) => {
                 console.error("Error setting time: " + error);
                 // Re-enable the button after the request is processed
                 button.disabled = false;
                 this.time_error = error.error || "Unknown error";
+                this.time_error = null;
             });
         }
     },

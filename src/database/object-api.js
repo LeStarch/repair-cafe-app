@@ -96,7 +96,7 @@ class Database {
      * @param item: item to print
      */
     print(item, printer) {
-        WebApi.ajax("/print-ticket", "POST", null, null, {
+        WebApi.ajax("/app/print-ticket", "POST", null, null, {
             "id": item.id,
             "name": item.name,
             "team": item.type,

@@ -1,2 +1,2 @@
 www-data ALL=NOPASSWD: /usr/bin/date
-www-data ALL=NOPASSWD: usr/sbin/hwclock -w
+www-data ALL=NOPASSWD: /usr/sbin/hwclock -w
