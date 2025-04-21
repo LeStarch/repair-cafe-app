@@ -1,14 +1,16 @@
 export let TEMPLATE = `
 <div class="container-fluid">
     <h4 class="text-right">{{ date_computed }}</h4>
-    <navigation v-model="route" v-show='!route.startsWith("#sign") && route!=""'></navigation>
-    <add-repairer-page v-if='route == "#repairers"'></add-repairer-page>
-    <reg-repair-page v-else-if='route == ""'></reg-repair-page>
-    <add-repair-page v-else-if='route == "#add"'></add-repair-page>
-    <manage v-else-if='route == "#manage"'></manage>
-    <repair-summary v-else-if='route == "#summary"' :advanced="true"></repair-summary>
+    <navigation v-model="route"></navigation>
+    <!-- Basic role pages: Register, Check-In, Check-Out, Team Triage -->
+    <reg-repair-page v-if='route == "#register"'></reg-repair-page>
+    <repair-summary v-else-if='route == "#checkin" || route == "#checkout"' :advanced="true"></repair-summary>
+    <manage v-else-if='route == "#triage"'></manage>
+    <add-repairer-page v-else-if='route == "#repairers"'></add-repairer-page>
+    <!-- Sign Pages -->
     <repair-summary v-else-if='route == "#sign1"' :advanced="false"></repair-summary>
     <repair-list v-else-if='route == "#sign2"' :advanced="false"></repair-list>
+    <!-- Role selection: only applies when not doing event configuration -->
     <div v-else-if='route != "#event-config"' class="card">
         <div class="card-body">
             <div class="row">
@@ -17,23 +19,19 @@ export let TEMPLATE = `
                 </div>
                 <div class="col">
                     <h4>Repair Cafe, The App!</h4>
-                    <p>Welcome to the Repair Cafe application! This supports repair cafe tickets by digitizing the
-                    ticket process removing the need to trade paper tickets back-and-forth. Please see below for an
-                    understanding on how to navigate it.</p>
+                    <p>Welcome to the Repair Cafe application!</p>
                     
-                    <p>Feel free to report any issues to Michael</p>
+                    <p>Feel free to <a href="https://github.com/LeStarch/repair-cafe-app/issues/new">report an issue.</a></p>
                     
-                    <p>Click on the navigation tab above as indicated by your role:</p>
-                    <ol>
-                        <li>Register: add walk-in and new repairs</li>
-                        <li>Check In/Out: check-in pre-registered repairs and check-out repairs</li>
-                        <li>Team Triage: manage team repair assignments</li>
-                        <li>Add Repairers: add repairers</li>
-                    </ol>
+                    <p>Choose your role:</p>
+                    <button  v-for="(label, origin) in origins" class="btn btn-primary"
+                                        @click="changeRole(origin)">{{ label }}</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Event configuration: alwyas active (hence v-show) such that config is loaded and
+    shared regardles of route-->
     <event-config :event_info="event_info" v-show='route == "#event-config"'></event-config> 
 </div>
 `;

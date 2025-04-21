@@ -9,6 +9,7 @@ WorkingDirectory=/var/www/html/repair-cafe-app/
 Environment="PYTHONPATH=/var/www/html/repair-cafe-app/src/"
 Environment="VIRTUAL_ENV=/var/www/html/repair-cafe-app/venv/"
 Environment="PATH=/var/www/html/repair-cafe-app/venv/bin"
+Environment="APP_RUN_PATH=/var/run/repair-cafe-app/"
 ExecStart=/var/www/html/repair-cafe-app/venv/bin/gunicorn -c /var/www/html/repair-cafe-app/conf/gunicorn_conf.py --workers 4 repair_cafe_app.app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed

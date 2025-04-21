@@ -8,6 +8,7 @@ Description=rc-ticket
 [Service]
 User=www-data
 Group=www-data
+Environment="APP_RUN_PATH=/var/run/repair-cafe-app/"
 ExecStart=/var/www/html/repair-cafe-app/bin/start-printer-p3
 
 [Install]

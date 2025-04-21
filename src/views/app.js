@@ -1,3 +1,8 @@
+/**
+ * Entrypoint for the Vue application. This file is responsible for setting up the Vue application, registering
+ * components, and mounting the application to the DOM.
+ */
+// Component import list
 import {COMPONENT as REPAIR_SUMMARY_COMPONENT} from "./repairs/summary.js";
 import {COMPONENT as REPAIR_LIST_ITEM_COMPONENT} from "./repairs/list-item.js";
 import {COMPONENT as REPAIR_UPDATE_COMPONENT} from "./repairs/update.js";
@@ -62,34 +67,69 @@ export function setup(element) {
         data() {
             let _self = this;
             setInterval(() => {_self.date_now = new Date()}, 1000);
+            // Origins used to dictate role
+            let origins = {
+                "#register": "Registeration",
+                "#checkin": "Check-In",
+                "#checkout": "Check-Out",
+                "#triage": "Team Triage",
+            }
+            // Routes select views and are indexed by origin
+            let routes = {
+                "#home": {},
+                "#register": {
+                    "Home": "#home",
+                    "Register": "#register",
+                },
+                "#checkin": {
+                    "Home": "#home",
+                    "Check-In": "#checkin",
+                    "Add Repairer": "#repairers",
+                    "Admin": "#event-config",
+                },
+                "#checkout": {
+                    "Home": "#home",
+                    "Check-Out": "#checkout",
+                },
+                "#triage": {
+                    "Home": "#home",
+                    "Team Triage": "#triage",
+                    "Add Repairers": "#repairers",
+                },
+                
+            }
+
             return {
                 "date_now": new Date(),
                 "repairs": [],
                 "repairers": [],
                 "config": _data.config,
+                "origin": window.location.hash,
+                "origins": origins,
                 "route": window.location.hash,
+                "routes": routes,
                 "event_info": _data.event_info,
                 "local_data": _data.local
             };
         },
         provide() {
-            let routes = {
-                "Start Here": "#advanced-rc-start",
-                "Register": "#add",
-                "Check-In/Out": "#summary",
-                "Team Triage": "#manage",
-                "Add Repairers": "#repairers",
-                "Configure Event": "#event-config",
-            };
             return {
                 "repairs": this.repairs,
                 "repairers": this.repairers,
                 "config": this.config,
                 "route": this.route,
-                "routes": routes,
+                "routes": this.routes,
+                "origin": this.origin,
+                "origins": this.origins,
                 "event_info": this.event_info,
                 "local_data": this.local_data
             };
+        },
+        methods: {
+            changeRole(destination) {
+                window.location.hash = destination;
+                window.location.reload(true);
+            }
         },
         computed: {
             date_computed() {
