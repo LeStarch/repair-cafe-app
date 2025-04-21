@@ -3,7 +3,7 @@ import {WebApi} from "../../database/elastic.js";
 
 export let COMPONENT = {
     template: TEMPLATE,
-    props: ["event_info"],
+    inject: ["event_info", "local_data"],
     data: function () {
         return {
             "time_error": null,
@@ -15,6 +15,8 @@ export let COMPONENT = {
         // Initialize the component
         this.getTime();
         this.getLocationInfo();
+        // Bootstrap until printer data loaded
+        this.local_data.printer = {"name": "Unknown"};
     },
     methods: {
         setEventConfig: function () {
@@ -26,6 +28,9 @@ export let COMPONENT = {
             WebApi.ajax("/app/get-location-info", "GET", null, null, null).then((response) => {
                 this.event_configuration_error = null
                 Object.assign(this.event_info, response);
+                if (this.local_data.printer.name == "Unknown" && this.event_info.printers.length > 0) {
+                    this.local_data.printer = this.event_info.printers[0];
+                }
             }
             // Errors result
             ).catch((error) => {
@@ -34,7 +39,7 @@ export let COMPONENT = {
         },
         setLocationInfo: function () {
             // Get the event location and host information
-            WebApi.ajax("/app/set-location-info", "POST", null, null, this.event_configuration || {}).then((response) => {
+            WebApi.ajax("/app/set-location-info", "POST", null, null, this.event_info || {}).then((response) => {
                 this.getLocationInfo();
             }
             // Errors result
@@ -63,22 +68,28 @@ export let COMPONENT = {
         setTime: function () {
             // Get the current time in seconds since the epoch
             let eventTime = Math.round(Date.now() / 1000.0);
-            // Disable the button while the request is being processed
-            let button = document.getElementById("update-config");
-            button.disabled = true;
             // Set time on the backing server
             WebApi.ajax("/app/set-time", "POST", null, null, {
                 "time": eventTime
             }).then((response) => {
                 this.getTime();
-                button.disabled = false;
             }).catch((error) => {
                 console.error("Error setting time: " + error);
-                // Re-enable the button after the request is processed
-                button.disabled = false;
                 this.time_error = error.error || error.responseText || "Unknown error";
                 this.time_error = null;
             });
+        },
+        testTicket: function() {
+            WebApi.ajax("/app/print-ticket", "POST", null, null,
+                {
+                    "id": "STARCH-42",
+                    "name": "Scoops The Magnificant",
+                    "team": "Starch",
+                    "item": "Yellow Toaster",
+                    "problem": "Once upon a midnight dreary, as I pined for toast all smeary, there came a crack-crack-cracking from my toaster that twas no more.",
+                    "printer": this.local_data.printer.mac
+                }
+            );
         }
     },
 };

@@ -17,15 +17,15 @@ import six
 
 class TicketPrinter(object):
    
-    def __init__(self, settings):
+    def __init__(self, mac):
         self.btConn = None
         self.printer = None
         self.connOK = False
-        self.settings = settings
+        self.mac = mac
         self.logoInit()
 
 
-    def printTicket(self, queue, tNumber, owner, item, problem):
+    def printTicket(self, location, host, queue, tNumber, owner, item, problem):
         self.connectPrinter()
         self.printer.init()
         self.printer.text('-' * self.printer.feature.columns.normal)
@@ -35,8 +35,8 @@ class TicketPrinter(object):
         self.number(tNumber)
         self.owner(owner)
         self.item(item, problem)
-        self.logoName()
-        self.location(self.settings.locationName(), self.settings.locationDate())
+        self.logoName(host)
+        self.location(location)
         self.finalStatus()
         self.stub(queue, tNumber, owner, item)
         self.endDoc()
@@ -48,7 +48,7 @@ class TicketPrinter(object):
         if self.connOK:
             return
         # uses SPD (service port discovery) services to find which port to connect to
-        self.btConn = BluetoothConnection(self.settings.printerMAC())
+        self.btConn = BluetoothConnection(self.mac)
         self.printer = GenericESCPOS(self.btConn)
         self.connOK = True
         self.printer.init()
@@ -66,12 +66,12 @@ class TicketPrinter(object):
         self.connOK = False
                   
            
-    def logoName(self):
+    def logoName(self, host):
         self.printer.init()
         self.printer.justify_center()
         self.printer.set_expanded(True)
         self.printer.text('Repair Cafe') #é
-        self.printer.text('Pasadena')
+        self.printer.text(host)
         self.printer.set_expanded(False)
         self.printer.lf()
         time.sleep(0.1)
@@ -185,12 +185,12 @@ class TicketPrinter(object):
         self.item(item)
 
         
-    def location(self, loc: str, day: str):
+    def location(self, loc: str):
         self.printer.init()
         self.printer.justify_center()
         self.printer.set_emphasized(True)
         self.printer.text(loc)
-        self.printer.text(day)
+        self.printer.text(datetime.now().strftime("%Y-%m-%d"))
         time.sleep(0.1)
         
     def endDoc(self):

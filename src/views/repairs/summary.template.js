@@ -6,7 +6,7 @@ export let TEMPLATE =
         <div class="col col-3 input-group">
             <label for="printer_select" class="input-group-text">Printer:</label>
             <select name="printer_select" v-model="local_data.printer" class="form-control" required>
-                <option v-for="printer in event_info.printers" :value="printer.name">{{ printer.name }}</option>
+                <option v-for="printer in event_info.printers" :value="printer">{{ printer.name }}</option>
             </select>
         </div>
     </div>

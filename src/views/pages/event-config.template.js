@@ -35,8 +35,12 @@ export let TEMPLATE=`
 </div>
 <printer-list-item :printer="printer" v-for="printer in event_info.printers"></printer-list-item>
 <div class="row">
-    <input type="button" class="btn btn-block btn-success" id="update-config"
-            value="Update Event Configuration" @click="setEventConfig" />
+    <div class="col col-lg-6 btn btn-success" @click="setEventConfig">
+        Update Event Configuration
+    </div>
+    <div class="col col-lg-6 btn btn-primary" @click="testTicket">
+        Print Test Ticket ({{ local_data.printer.name }})
+    </div>
 </div>
 </div>
 `;

@@ -102,7 +102,7 @@ class Database {
             "team": item.type,
             "item": item.item,
             "problem": item.description,
-            "printer": Config.PRINTER_MAP[printer]
+            "printer": printer.mac
         })
     }
 }

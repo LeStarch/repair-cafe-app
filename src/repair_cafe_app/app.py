@@ -175,14 +175,18 @@ def print_ticket():
     number = json_data.get("id", "Unknown")
     item = json_data.get("item", "Unknown")
     problem = json_data.get("problem", "It is broken.")
-    mac = json_data.get("printer", MACS[0])
+    mac = json_data.get("printer", "Unknown")
     LOGGER.info("Connecting to printer: %s as '%s'", mac, getpass.getuser())
+    ports = [printer["port"] for printer in EVENT_DATA["printers"] if printer["mac"] == mac]
+    if len(ports) != 1:
+        return {"error": f"Multiple or no ports for {mac}: {ports}"}
+    port = ports[0]
     socket = context.socket(zmq.REQ)
     try:
-        connection_address = f"tcp://127.0.0.1:{PORT_MAP[mac]}"
+        connection_address = f"tcp://127.0.0.1:{port}"
         socket.connect(connection_address)
         LOGGER.info("Sending print request: %s", connection_address)
-        socket.send_string(json.dumps({"location": LOC, "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))
+        socket.send_string(json.dumps({"location": EVENT_DATA["location"], "host": EVENT_DATA["host"], "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))
         return socket.recv_string()
     finally:
         socket.close()
