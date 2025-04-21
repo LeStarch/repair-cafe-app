@@ -21,20 +21,19 @@ export class Config {
         "stitching (machine)",
         "verrückt"
     ];
-    static PRINTER_MAP = {
-        "P2": "86:67:7a:03:98:e0",
-        "P1": "86:67:7a:8d:eb:63",
-        "P3": "86:67:7a:8a:b7:ac"
-    };
+    // Ticket counter configuration
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
+    // Index configuration
     static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;
     static REPAIR_TYPE = "repair";
     static REPAIRER_INDEX = "repairers"+ElasticConfig.INDEX_MODULATION;
     static REPAIRER_TYPE = "repairer";
+    // ES User configuration
     static ES_URL = ElasticConfig.ES_URL;
     static ES_USER = "rcuser";
     static ES_PASSWORD = "ginko!2017RC";
+    // Time in milliseconds between updates to repair/repairer lists
     static UPDATE_INTERVAL = 1000;
 
     static COMMON_REPAIRS = {

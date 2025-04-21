@@ -1,15 +1,15 @@
-// For loval testing
-import {Repair} from "../models/repair.js";
-import {Repairer} from "../models/repairer.js";
-import {Elastic, WebApi} from "./elastic.js";
-import {Config} from "../config.js"
-
 /**
  * High-level api for persisting the objects for more specific APIs. This will handle the saving and returning of data
  * in a generic way. This API allows for both local and non-local storage depending on the configuration.
  *
  * @author lestarch
  */
+import {Repair} from "../models/repair.js";
+import {Repairer} from "../models/repairer.js";
+import {Elastic, WebApi} from "./elastic.js";
+import {Config} from "../config.js"
+
+// Test data for the local version of the database
 let TEST_DATA={
     "repairer": [
         new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinker", ["electronics", "micro-electronics", "explosives"]),
@@ -19,7 +19,11 @@ let TEST_DATA={
         new Repair("D. Gori", "gori@cmtc.com", "555-555-5556", "Stitch", false)
     ]
 };
-
+/**
+ * Database object to handle the generic database operations. This is a high-level API that will handle the
+ * marshalling and demarshalling of the objects. This will also handle the saving and refreshing of the data.
+ * This is a generic API that will handle both local and non-local storage.
+ */
 class Database {
     /**
      * Constructs the database object by internalizing the index and type.
@@ -92,8 +96,10 @@ class Database {
     }
 
     /**
-     * Prints the given item.
+     * Prints the given item using the print-api. Since this function is provided by the Flask APP, it is available
+     * available in the local and non-local databases.
      * @param item: item to print
+     * @param printer: printer to use. Must contain the mac field
      */
     print(item, printer) {
         WebApi.ajax("/app/print-ticket", "POST", null, null, {
@@ -106,10 +112,17 @@ class Database {
         })
     }
 }
-
+/**
+ * ElasticDatabase object to handle the elastic search database operations. This is a high-level API that will
+ * handle the marshalling and demarshalling of the objects. This will also handle the saving and refreshing of
+ * the data. This is specific to the elastic search database.
+ * @extends Database
+ */
 export class ElasticDatabase extends Database {
     /**
      * Setup elastic search database handler
+     * 
+     * This sets up the elastic search database by creating the index of the counter and the supplied index.
      */
     constructor(index, type, items) {
         super(index, type, items);
@@ -132,7 +145,7 @@ export class ElasticDatabase extends Database {
     }
 
     /**
-     * Handle getting the next id via a serialized ID in the database
+     * Handle getting the next id via a the counter index and type
      * @returns {Promise<unknown>}: promis with the next ID
      */
     nextId() {
@@ -170,7 +183,12 @@ export class ElasticDatabase extends Database {
     }
 }
 
-
+/**
+ * LocalDatabase object to handle the local database operations. This is a high-level API that will
+ * handle the marshalling and demarshalling of the objects. This will also handle the saving and refreshing of
+ * the data. This is specific to the local database.
+ * @extends Database
+ */
 export class LocalDatabase extends Database {
     /**
      * Construct this object including the local id counter.
