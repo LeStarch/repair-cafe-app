@@ -14,6 +14,7 @@ export class Repairer extends Marshallable {
      */
     constructor(name, email, team, skills) {
         super();
+        this.numerical_id = -1;
         this.name = name;
         this.email = email;
         this.team = team;

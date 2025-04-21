@@ -53,8 +53,6 @@ function build_app_instance(app) {
     return instance;
 }
 
-
-
 /**
  * Setup the vue application and route the Vue data cache into the database instances.
  * @param element: element to mount the application into
@@ -104,8 +102,10 @@ export function setup(element) {
                 "repairs": [],
                 "repairers": [],
                 "config": _data.config,
-                "origin": window.location.hash,
-                "origins": origins,
+                "roles": {
+                    "role": window.location.hash,
+                    "available_roles": origins,
+                },
                 "route": window.location.hash,
                 "routes": routes,
                 "event_info": _data.event_info,
@@ -119,8 +119,7 @@ export function setup(element) {
                 "config": this.config,
                 "route": this.route,
                 "routes": this.routes,
-                "origin": this.origin,
-                "origins": this.origins,
+                "roles": this.roles,
                 "event_info": this.event_info,
                 "local_data": this.local_data
             };
@@ -128,7 +127,9 @@ export function setup(element) {
         methods: {
             changeRole(destination) {
                 window.location.hash = destination;
-                window.location.reload(true);
+                this.roles.role = destination;
+                this.route = destination;
+                this.$emit("update:modelValue", destination);
             }
         },
         computed: {

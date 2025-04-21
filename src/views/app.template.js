@@ -24,8 +24,8 @@ export let TEMPLATE = `
                     <p>Feel free to <a href="https://github.com/LeStarch/repair-cafe-app/issues/new">report an issue.</a></p>
                     
                     <p>Choose your role:</p>
-                    <button  v-for="(label, origin) in origins" class="btn btn-primary"
-                                        @click="changeRole(origin)">{{ label }}</button>
+                    <button  v-for="(label, role) in roles.available_roles" class="btn btn-primary"
+                                        @click="changeRole(role)">{{ label }}</button>
                 </div>
             </div>
         </div>

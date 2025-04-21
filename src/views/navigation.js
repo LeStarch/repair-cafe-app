@@ -7,13 +7,13 @@
  * The original #anchor is akin to a user's role.
  */
 export let COMPONENT = {
-    inject: ["routes", "origin"],
+    inject: ["routes", "roles"],
     data() {
         return {"route": ""}
     },
     template: `
         <ul class="nav nav-tabs">
-            <li class="nav-item"  v-for="(dest, label) in routes[origin]">
+            <li class="nav-item"  v-for="(dest, label) in routes[roles.role]">
                 <a class="nav-link" :class='{ "active": dest == route }'
                    v-on:click='navigate(dest)'>{{ label }}</a>
             </li>

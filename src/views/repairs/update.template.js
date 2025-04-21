@@ -14,8 +14,6 @@ export let TEMPLATE = `<div>
     </div>
     <label for="name">Repairee Name:</label>
     <input name="name" autocomplete="off" type="text" v-model="editing.name" class="form-control" required />
-    <label for="email">Repairee Email:<em>(optional)</em></label>
-    <input name="email" autocomplete="off" type="email" v-model="editing.email" class="form-control" />
     <label for="type">Repair Type:</label>
     <select name="type" v-model="editing.type" class="form-control" required>
         <option v-for="type of config.types" :value="type">{{ type }}</option>
@@ -24,6 +22,8 @@ export let TEMPLATE = `<div>
     <input name="item" autocomplete="off" type="text" v-model="editing.item" class="form-control" required />
     <label for="description">Problem Description:</label>
     <textarea name="desc" v-model="editing.description" class="form-control" rows=3></textarea>
+    <label for="email">Repairee Email:<em>(optional)</em></label>
+    <input name="email" autocomplete="off" type="email" v-model="editing.email" class="form-control" />
     <div v-if="repair != null">
         <h4>Select Repairer(s):</h4>
         <repairer-list :advanced="true" v-model="assignees"></repairer-list>
