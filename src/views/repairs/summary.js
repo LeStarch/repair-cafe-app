@@ -9,7 +9,7 @@ export let COMPONENT = {
             search: {"selected": "", "filter": ""}
     }},
     props: ["advanced"],
-    inject: ["repairs", "config", "event_info", "local_data"],
+    inject: ["repairs", "config", "event_info", "local_data", "roles"],
     template: TEMPLATE,
     methods: {
         /**
@@ -49,6 +49,12 @@ export let COMPONENT = {
         closeRepair(repair) {
             repair.closeRepair();
             _data.repair.save(repair);
+        },
+        isCheckout() {
+            return this.roles.role === "#checkout";
+        },
+        isCheckIn() {
+            return this.roles.role === "#checkin";
         }
     },
     computed: {

@@ -16,6 +16,8 @@ import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js
 import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
 import {COMPONENT as PRINTER_LIST_ITEM_COMPONENT} from "./widgits/printer-item.js";
+import {COMPONENT as CHECKOUT_COMPONENT} from "./widgits/checkout.js";
+import {COMPONENT as CHECK_IN_COMPONENT} from "./widgits/check-in.js";
 import {COMPONENT as EVENT_CONFIG_COMPONENT} from "./pages/event-config.js";
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
@@ -40,6 +42,8 @@ function register_components(app) {
     app.component("printer-list-item", PRINTER_LIST_ITEM_COMPONENT)
     app.component("event-config", EVENT_CONFIG_COMPONENT);
     app.component("navigation", NAV_COMPONENT);
+    app.component("checkout", CHECKOUT_COMPONENT);
+    app.component("check-in", CHECK_IN_COMPONENT);
 }
 
 /**

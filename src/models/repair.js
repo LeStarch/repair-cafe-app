@@ -119,28 +119,20 @@ export class Repair extends Marshallable {
     setSubtype(subtype) {
         this.subtype = subtype;
     }
-
     /**
-     * Finish repair
+     * Get the current state of the repair
+     * @returns {State} the current state of the repair
      */
-    finishRepair() {
-        while (this.states[this.stateIndex].name !== "checkout") {
-            this.transitionState();
-        }
+    currentState() {
+        return this.states[this.stateIndex];
     }
     /**
-     * Fail this repair
+     * Check if the supplied action is available (currently) for this repair.
+     * @param {string} action 
+     * @returns true if so, false otherwise
      */
-    failRepair() {
-        this.transitionState("unfixable");
-    }
-    /**
-     * Close-out
-     */
-    closeRepair() {
-        while (this.states[this.stateIndex].name !== "completed") {
-            this.transitionState();
-        }
+    checkAction(action) {
+        return this.currentState().checkAction(action);
     }
 }
 

@@ -13,32 +13,62 @@ export class State extends Marshallable {
     static MARSHALL_FIELDS = ["name", "message", "progress", "time", "enter", "exit"];
     static AVAILABLE_STATES = [
         {
-            "name":"pre-registered",
-            "message": "Repair has pre-registered"
+            "name":"register",
+            "message": "Repair has been registered!",
+            "actions": [
+                "check-in"
+            ]
         },
         {
-            "name":"register",
-            "message": "Repair is being registered"
+            "name":"check-in",
+            "message": "Repair must be checked in. Please see front desk.",
+            "actions": [
+                "print"
+            ]
         },
         {
             "name":"triage",
-            "message": "Please wait to be escorted to your repair station",
+            "message": "Please go to your repair station, or ask a runner for help!",
+            "actions": [
+                "print",
+                "check-out",
+                "triage"
+            ]
         },
         {
             "name":"queued",
-            "message":"Waiting for next suitable repairer"
+            "message":"Waiting for next suitable repairer",
+            "actions": [
+                "check-out",
+                "triage"
+            ]
         },
         {
             "name":"in-repair",
             "message":"Attempting to repair item",
+            "actions": [
+                "check-out",
+                "triage"
+            ]
         },
         {
             "name":"checkout",
-            "message": "Please collect your item, and report to checkout"
+            "message": "Please collect your item, and report to checkout table.",
+            "actions": [
+                "check-out"
+            ]
         },
         {
-            "name":"completed",
+            "name":"fixed",
             "message":"Your item is finished! Hurrah!"
+        },
+        {
+            "name":"consulted",
+            "message":"Your had a consultation!"
+        },
+        {
+            "name":"no-time",
+            "message":"We ran out of time. C'est La Vie!"
         },
         {
             "name":"unfixable",
@@ -50,7 +80,7 @@ export class State extends Marshallable {
      * Create a list of state objects from the available states array.
      */
     static newStateList() {
-        return State.AVAILABLE_STATES.map((item) => new State(item.name, item.message));
+        return State.AVAILABLE_STATES.map((item) => new State(item.name, item.message, item.actions));
     }
 
     /**
@@ -58,7 +88,7 @@ export class State extends Marshallable {
      * @param name: name of the state
      * @param message: message supplied to the given stat
      */
-    constructor(name, message) {
+    constructor(name, message, actions) {
         super();
         this.name = name;
         this.message = message;
@@ -66,6 +96,7 @@ export class State extends Marshallable {
         this.time = 0;
         this.enterTime = new Date();
         this.exitTime = new Date("1900-01-01");
+        this.actions = actions || [];
     }
 
     /**
@@ -83,5 +114,13 @@ export class State extends Marshallable {
         this.progress = "finished";
         this.exitTime = new Date();
         this.time = this.enterTime - this.exitTime;
+    }
+    /**
+     * Check if the supplied action is available for this state.
+     * @param {string} action 
+     * @returns true if so, false otherwise
+     */
+    checkAction(action) {
+        return this.actions.indexOf(action) > -1;
     }
 }
