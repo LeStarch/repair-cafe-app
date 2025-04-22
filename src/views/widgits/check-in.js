@@ -20,15 +20,15 @@ export let COMPONENT = {
          * Pull the repair out of registration and into the check-in state
          */
         checkIn() {
-            this.repair.transitionState("check-in");
+            this.repair.transitionAndSave("check-in", _data.repair);
         },
         /**
          * Finish the repair by transitioning to the named state
          * @param {string} end_state: end state name for this repair to move to 
          */
         print() {
+            this.repair.transitionAndSave("triage", _data.repair);
             _data.repair.print(this.repair, this.printer);
-            this.repair.transitionState("triage");
         }
     }
 };

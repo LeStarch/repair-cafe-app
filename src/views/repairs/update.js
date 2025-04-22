@@ -47,7 +47,6 @@ export let COMPONENT = {
             this.clear();
         },
         update() {
-            this.editing.triageEntry();
             if (this.assignees.length > 0) {
                 this.editing.assignRepairers(this.assignees);
             }

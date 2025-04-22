@@ -1,6 +1,5 @@
 
 import { TEMPLATE } from "./summary.template.js"
-import {_data} from "../../data.js";
 
 export let COMPONENT = {
     data() {
@@ -26,29 +25,6 @@ export let COMPONENT = {
                 suffix = "primary";
             }
             return "table-" + suffix;
-        },
-        /**
-         * Print the repair
-         * @param repair
-         */
-        print(repair) {
-            _data.repair.print(repair, this.printer);
-        },
-        /**
-         * Check in the repair
-         * @param repair
-         */
-        checkIn(repair) {
-            repair.transitionState("triage");
-            _data.repair.save(repair);
-        },
-        /**
-         * Check out the repair
-         * @param repair
-         */
-        closeRepair(repair) {
-            repair.closeRepair();
-            _data.repair.save(repair);
         },
         isCheckout() {
             return this.roles.role === "#checkout";

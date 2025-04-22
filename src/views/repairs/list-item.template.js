@@ -38,13 +38,10 @@ export let TEMPLATE = `
                     <th>Registered:</th><td>{{ repair.states[0].enterTime }}</td>
                 </tr>
             </table>
-            <div class="btn-group btn-group-vertical" style="width:20%" v-if="advanced">
-                <!--a route-href="route: repair-update; params.bind: {id:repair.id}" class="btn btn-primary">Edit</a-->
-                <button v-on:click="update" name="finish" class="btn btn-success">Finish</button>
-                <button v-on:click="update" name="update" class="btn btn-primary">Update</button>
-                <button v-on:click="update" name="fail"   class="btn btn-warning">Fail Repair</button>
-                <button v-on:click="update" name="move"   class="btn btn-primary">Move</button>
-                <button v-on:click="update" name="delete" class="btn btn-danger" >Delete</button>
+            <div class="btn-group btn-group-vertical" style="width:20%" v-show="repair.checkAction('triage')">
+                <button @click="queue" name="queue" class="btn btn-primary">Enqueue</button>
+                <button @click="update" name="update" class="btn btn-info">Edit / Assign Repairers</button>
+                <button @click="finish" name="update" class="btn btn-success">Repair Done</button>
             </div>
             <img style="width:20%" class="img-responsive img-circle" src="./img/logo.jpg" v-if="!advanced" />
         </div>

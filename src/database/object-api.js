@@ -12,11 +12,11 @@ import {Config} from "../config.js"
 // Test data for the local version of the database
 let TEST_DATA={
     "repairer": [
-        new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinker", ["electronics", "micro-electronics", "explosives"]),
+        new Repairer("Fenneko I.", "FennI@cmtc.com", "Tinkerer", ["electronics", "micro-electronics", "explosives"]),
         new Repairer("Washimi K.", "washimi@cmtc.com", "Stitch", ["sewing", "adhesives"])],
     "repair": [
-        new Repair("Kabae T.", "KabaeT@cmtc.com", "555-555-5555", "Tinker", true),
-        new Repair("D. Gori", "gori@cmtc.com", "555-555-5556", "Stitch", false)
+        new Repair("Kabae T.", "KabaeT@cmtc.com", "555-555-5555", "Tinkerer", true, "Yellow Toaster", "It emblasons a British woman on my toast."),
+        new Repair("D. Gori", "gori@cmtc.com", "555-555-5556", "Stitch", false, "Blue Blouse", "It is a blue blouse with a white collar."),
     ]
 };
 /**
@@ -75,10 +75,7 @@ class Database {
         this.refresh_helper().then((items) => {
             items = items.map((item) => {
                 let demarshalled = _self.demarshall(item);
-                // Add version if available
-                if (item.version) {
-                    demarshalled.version = item.version;
-                }
+                demarshalled.version = item.version || 0;
                 return demarshalled;
             });
             items = items.map(_self.chooseNewer.bind(_self));
@@ -88,7 +85,7 @@ class Database {
 
     chooseNewer(new_item) {
         let index = this.items.findIndex((item) => new_item.id === item.id);
-        if (index === -1 || this.items[index].version < new_item.version) {
+        if (index === -1 || (this.items[index].version || -1) < new_item.version) {
             return new_item;
         } else {
             return this.items[index];
@@ -259,6 +256,12 @@ export class LocalDatabase extends Database {
         let index = this.internal.findIndex((test) => test.id === item.id);
         let start = (index === -1) ? this.internal.length : index;
         let delete_count = (index !== -1) ? 1 : 0;
+        // Update the version
+        if (index != -1) {
+            item.version = (this.internal[index].version || 0) + 1; 
+        } else {
+            item.version = 0;
+        }
         this.internal.splice(start, delete_count, item);
         return new Promise((success, error) => success());
     }

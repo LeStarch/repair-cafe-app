@@ -22,7 +22,7 @@ export let COMPONENT = {
        * @param {string} end_state: end state name for this repair to move to 
        */
       finish(end_state) {
-          this.repair.transitionState(end_state);
+          this.repair.transitionAndSave(end_state, _data.repair);
       }
     }
 };

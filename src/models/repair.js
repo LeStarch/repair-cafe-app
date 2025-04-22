@@ -9,6 +9,8 @@ import {State} from "./repair-state.js"
 export class Repair extends Marshallable {
     static MARSHALL_FIELDS = ["numerical_id", "id", "name", "email", "phone", "type", "item", "subtype", "description",
                               "repairers", "stateIndex", "states", "reserved"];
+
+
     /**
      * Construct a new repair
      * @param name: name of person getting repair
@@ -17,7 +19,7 @@ export class Repair extends Marshallable {
      * @param type: type of repair
      * @param reserved: pre-reserved repair?
      */
-    constructor(name, email, phone, type, reserved) {
+    constructor(name, email, phone, type, reserved, item, description) {
         super();
         this.numerical_id = -1;
         this.id = "-1";
@@ -25,15 +27,14 @@ export class Repair extends Marshallable {
         this.email = email || "";
         this.phone = phone || "";
         this.type = type || "";
-        this.item = "";
-        this.description = "";
+        this.item = item || "";
+        this.description = description ||"";
         this.subtype = "N/A";
         this.acknowledged = false;
         this.repairers = [];
-        this.stateIndex = -1;
+        this.stateIndex = 3;
         this.states = State.newStateList();
         this.reserved = (typeof(reserved) === typeof(undefined)) ? false : reserved;
-        this.transitionState(this.reserved ? "pre-registered" : "triage");
     }
 
     /**
@@ -58,16 +59,19 @@ export class Repair extends Marshallable {
      * Transition from one state to the next
      */
     transitionState(state) {
+        // Exit the current state, or enter "state 0"
         if (this.stateIndex > -1) {
             this.states[this.stateIndex].exit();
         } else {
             this.stateIndex = 0;
         }
+        // If moved past the end, then clear all state information
         if (this.stateIndex === this.states.length - 1) {
             for (var i = 0; i < this.states.length; i++) {
                 this.states[i].progress = "waiting";
             }
         }
+        // If the state was provided, then search for it wrapping around if necessary
         let tmp = this.stateIndex;
         this.stateIndex = (this.stateIndex + 1) % this.states.length;
         if (typeof(state) != "undefined") {
@@ -75,24 +79,10 @@ export class Repair extends Marshallable {
                 this.stateIndex= (this.stateIndex + 1) % this.states.length;
             }
         }
-        this.states[this.stateIndex].enter();
-    }
-    /**
-     * Used for triage once item enters system and has been check in at a given station.
-     * @param item: type of item
-     * @param description: description of problem
-     */
-    triageEntry(item,description) {
-        while (this.states[this.stateIndex].name !== "queued") {
-            this.transitionState();
+        // "Enter" the new state if it is not the same state
+        if (this.stateIndex !== tmp) {
+            this.states[this.stateIndex].enter();
         }
-    }
-
-    /**
-     * Finish repair
-     */
-    isComplete() {
-        return this.stateIndex == (this.states.length - 2);
     }
     /**
      * Preregistration
@@ -100,7 +90,6 @@ export class Repair extends Marshallable {
     isPrereg() {
         return this.reserved;
     }
-
     /**
      * Assign repairers
      * @param repairers: repairer list handling repair
@@ -133,6 +122,15 @@ export class Repair extends Marshallable {
      */
     checkAction(action) {
         return this.currentState().checkAction(action);
+    }
+    /**
+     * Helper to transition and then save a repair
+     * @param {string} state: state to transition to
+     * @param {Database} database: database to save to
+     */
+    transitionAndSave(state, database) {
+        this.transitionState(state);
+        database.save(this);
     }
 }
 

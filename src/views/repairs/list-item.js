@@ -25,25 +25,22 @@ export let COMPONENT = {
                 ((state.progress === 'started') ? 'btn-primary' : 'btn-success');
         },
         /**
-         * Update the repair to a given state.
+         * Queue the repair for processing.
          */
-        update(event) {
-            let command = event.target.getAttribute("name");
-            // Route command
-            if (command === "finish") {
-                this.repair.finishRepair();
-            } else if (command === "fail") {
-                this.repair.failRepair();
-            } else if (command === "move") {
-                this.repair.transitionState();
-            } else if (command === "delete") {
-                _data.repair.delete(this.repair.id);
-                return;
-            } else if (command === "update") {
-                this.$parent.$emit("update:modelValue", this.repair);
-                return; // Save done in editing box
-            }
-            _data.repair.save(this.repair);
+        queue() {
+            this.repair.transitionAndSave("queued", _data.repair);
+        },
+        /**
+         * Finishthe repair for processing.
+         */
+        finish() {
+            this.repair.transitionAndSave("checkout", _data.repair);
+        },
+        /**
+         * Update the repair adding information and assigning repairers
+         */
+        update() {
+            this.$parent.$emit("update:modelValue", this.repair);
         },
         /**
          * Return the bootstrap color for this state
