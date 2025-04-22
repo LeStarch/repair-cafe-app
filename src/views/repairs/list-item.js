@@ -4,6 +4,7 @@
 import { TEMPLATE } from "./list-item.template.js"
 import { Repair } from "../../models/repair.js"
 import {_data} from "../../data.js";
+import { bootstrapEntryColor } from "../../utilities.js";
 
 export let COMPONENT = {
     props: { "repair": Repair, "advanced": Boolean },
@@ -42,25 +43,6 @@ export let COMPONENT = {
         update() {
             this.$parent.$emit("update:modelValue", this.repair);
         },
-        /**
-         * Return the bootstrap color for this state
-         * 
-         * Returns the bootstrap color for this state when this state has been entered.
-         * 
-         * @returns {string} bootstrap color for this state
-         */
-        bootstrapEntryColor(state, defaultColor) {
-            if (state.name == "fixed") {
-                return "success";
-            } else if (state.name == "consulted") {
-                return "info";
-            } else if (state.name == "no-time") {
-                return "warning";
-            } else if (state.name == "unfixable") {
-                return "danger";
-            }
-            return defaultColor;
-        },
         stateClass(state) {
             // Waiting states should look dull
             if (state.progress == "waiting") {
@@ -68,12 +50,12 @@ export let COMPONENT = {
             }
             // Started states are bright
             else if (state.progress == "started") {
-                let base_color = this.bootstrapEntryColor(state, "success");
+                let base_color = bootstrapEntryColor(state, "success");
                 return `btn-${base_color}`;
             }
             // Finished states are green
             else if (state.progress == "finished") {
-                let base_color = this.bootstrapEntryColor(state, "primary");
+                let base_color = bootstrapEntryColor(state, "primary");
                 return `btn-${base_color}`;
             }
         }

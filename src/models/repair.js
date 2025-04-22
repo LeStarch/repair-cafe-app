@@ -32,7 +32,7 @@ export class Repair extends Marshallable {
         this.subtype = "N/A";
         this.acknowledged = false;
         this.repairers = [];
-        this.stateIndex = 3;
+        this.stateIndex = 0;
         this.states = State.newStateList();
         this.reserved = (typeof(reserved) === typeof(undefined)) ? false : reserved;
     }

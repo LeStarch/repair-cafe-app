@@ -1,5 +1,6 @@
 
 import { TEMPLATE } from "./summary.template.js"
+import { bootstrapEntryColor } from "../../utilities.js";
 
 export let COMPONENT = {
     data() {
@@ -16,14 +17,7 @@ export let COMPONENT = {
          * @returns {string}: "default", "success", or "danger" that maps to bootstrap classes
          */
         repairStatusClass(repair) {
-            let suffix = "default";
-            if (repair.stateIndex === 7) {
-                suffix = "danger";
-            } else if (repair.stateIndex >= 5) {
-                suffix = "success";
-            } else if (repair.stateIndex === 4) {
-                suffix = "primary";
-            }
+            let suffix = bootstrapEntryColor(repair.currentState(), "default");
             return "table-" + suffix;
         },
         isCheckout() {
