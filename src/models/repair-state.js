@@ -30,7 +30,7 @@ export class State extends Marshallable {
             "name":"triage",
             "message": "Please go to your repair station, or ask a runner for help!",
             "actions": [
-                "print",
+                "reprint",
                 "check-out",
                 "triage"
             ]
@@ -39,6 +39,7 @@ export class State extends Marshallable {
             "name":"queued",
             "message":"Waiting for next suitable repairer",
             "actions": [
+                "reprint",
                 "check-out",
                 "triage"
             ]
@@ -47,6 +48,7 @@ export class State extends Marshallable {
             "name":"in-repair",
             "message":"Attempting to repair item",
             "actions": [
+                "reprint",
                 "check-out",
                 "triage"
             ]
@@ -55,6 +57,7 @@ export class State extends Marshallable {
             "name":"checkout",
             "message": "Please collect your item, and report to checkout table.",
             "actions": [
+                "revoke",
                 "check-out"
             ]
         },
