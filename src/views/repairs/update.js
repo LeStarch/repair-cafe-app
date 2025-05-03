@@ -41,6 +41,7 @@ export let COMPONENT = {
                 new_repair.numerical_id = id;
                 new_repair.id = new_repair.type + "-" +id;
                 new_repair.stateIndex = 0;
+                new_repair.transitionState("check-in");
                 _data.repair.save(new_repair);
                 _self.last_id = new_repair.id;
             });

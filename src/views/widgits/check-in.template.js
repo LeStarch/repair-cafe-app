@@ -10,7 +10,7 @@
 **/
 export let TEMPLATE = `
 <div class="btn-group w-100" role="group" aria-label="Check-In Actions">
-    <button type="button" :disabled="!repair.checkAction('check-in')" class="btn btn-primary" @click="checkIn">Check-In</button>
-    <button type="button" :disabled="!repair.checkAction('print')" class="btn btn-success"  @click="print">Print</button>
+    <button type="button" v-show="repair.checkAction('check-in')" class="btn btn-primary" @click="checkIn">Check-In</button>
+    <button type="button" v-show="repair.checkAction('print')" class="btn btn-success"  @click="print">Print</button>
 </div>
 `;
