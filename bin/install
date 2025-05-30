@@ -66,10 +66,11 @@ do
     read -p "[PROMPT] Enter printer #${count}'s MAC address. ENTER to finish." MAC
     if [[ "${MAC}" == "" ]]
     then
-        exit 0
+        break
     fi
     MAC="${MAC//-/:}"
     MAC="${MAC,,}"
+    PRINTER_DATA=""
     read -p "[CONFIRM] Confirm print #${count}'s MAC address: ${MAC} (y/n)" CONFIRM
     if [[ "${CONFIRM}" == "yes" ]] || [[ "${CONFIRM}" == "y" ]] || [[ "${CONFIRM}" == "Y" ]]
     then
@@ -78,10 +79,12 @@ do
         sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
+        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${mac}\", \"port\": 0},"
         let count=count+1
     else
         echo "[NOT CONFIRMED]"Update install
     fi
 done
-
+FILE_DATA='{"location": "Unknown Location", "host": "Pasadena", "printers": [ '"${PRINTER_DATA}"']}'
+echo -e "${FILE_DATA}" > /var/run/repair-cafe-app/event.json
 
