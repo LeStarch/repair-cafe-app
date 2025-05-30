@@ -74,9 +74,11 @@ do
     read -p "[CONFIRM] Confirm print #${count}'s MAC address: ${MAC} (y/n)" CONFIRM
     if [[ "${CONFIRM}" == "yes" ]] || [[ "${CONFIRM}" == "y" ]] || [[ "${CONFIRM}" == "Y" ]]
     then
+        let PORT=${count}+3000
         SERVICE_FILE="rc-p${count}.service"
         cp "${CONF_DIR}/rc-p.service.template" /tmp/${SERVICE_FILE}
         sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
+        sed -i "s/{{ PORT }}/${PORT}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
         PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": 0},"

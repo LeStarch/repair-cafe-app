@@ -175,10 +175,16 @@ def print_ticket():
     item = json_data.get("item", "Unknown")
     problem = json_data.get("problem", "It is broken.")
     mac = json_data.get("printer", "Unknown")
+    for printer in EVENT_DATA.get("printers", []):
+        if printer.get("mac", "") == mac:
+            port = printer.get("port")
+    else:
+        LOGGER.warning("Invalid printer mac: %s", mac)
+        return {"error": f"Invalid printer mac: {mac}" }
     LOGGER.info("Connecting to printer: %s as '%s'", mac, getpass.getuser())
     socket = context.socket(zmq.REQ)
     try:
-        connection_address = f"ipc:///tmp/rc-{ mac }"
+        connection_address = f"tcp://127.0.0.1:{ port }"
         socket.connect(connection_address)
         LOGGER.info("Sending print request: %s", connection_address)
         socket.send_string(json.dumps({"location": EVENT_DATA["location"], "host": EVENT_DATA["host"], "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))

@@ -16,6 +16,7 @@ def parse():
     """ Parse the arguments """
     parser = argparse.ArgumentParser(description="Application handling print requets")
     parser.add_argument("--mac", required=True, help="MAC address of the printer")
+    parser.add_argument("--port", type=int, required=True, help="Port to listen to")
     return parser.parse_args()
 
 def message_loop(mac, socket):
@@ -46,7 +47,7 @@ def main():
     context = zmq.Context()
     try:
         socket = context.socket(zmq.REP)
-        connection_address = f"ipc:///tmp/rc-{ mac }"
+        connection_address = f"tcp://0.0.0.0:{ args_ns.port }"
         LOGGER.info("Binding to: %s", connection_address)
         socket.bind(connection_address)
         message_loop(mac, socket)
