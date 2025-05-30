@@ -53,7 +53,8 @@ While on the the PI install git and clone the application:
 ```
 sudo apt update
 sudo apt install git
-git clone https://github.com/lestarch/repair-cafe-app
+sudo chown rcadmin /var/www/html/
+git clone https://github.com/lestarch/repair-cafe-app /var/www/html/repair-cafe-app
 ```
 
 Change directory into `repair-cafe-app/bin` and run install:
