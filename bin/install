@@ -48,6 +48,7 @@ fi
 # Link files
 CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
 sudo mkdir -p /var/log/gunicorn
+sudo mkdir -p /var/run/repair-cafe-app
 sudo rm /etc/nginx/sites-enabled/*
 sudo ln -fs "${CONF_DIR}/nginx-site" /etc/nginx/sites-enabled
 sudo ln -fs "${CONF_DIR}/rc-ticket.service" /lib/systemd/system
@@ -56,5 +57,5 @@ sudo systemctl enable opensearch
 sudo systemctl enable nginx
 sudo systemctl enable rc-ticket
 sudo cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/10-www-data-date-hwclock
-sudo chown -R ${USER}:www-data "${DIRNAME}/.." /var/log/gunicorn
-sudo chmod -R g+w "${DIRNAME}/.." /var/log/gunicorn
+sudo chown -R ${USER}:www-data "${DIRNAME}/.." /var/log/gunicorn /var/run/repair-cafe-app 
+sudo chmod -R g+w "${DIRNAME}/.." /var/log/gunicorn /var/run/repair-cafe-app
