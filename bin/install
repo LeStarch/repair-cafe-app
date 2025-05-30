@@ -8,7 +8,7 @@ sudo apt install wget default-jre python3 python3-venv python3-pip libbluetooth-
 (
     cd /tmp
     wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.1/opensearch-2.11.1-linux-arm64.deb
-    sudo apt install ./opensearch-2.11.1-linux-arm64.deb
+    sudo apt -y install ./opensearch-2.11.1-linux-arm64.deb
     rm ./opensearch-2.11.1-linux-arm64.deb
 )
 # Install python3.9
