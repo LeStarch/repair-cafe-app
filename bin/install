@@ -68,6 +68,8 @@ do
     then
         exit 0
     fi
+    MAC="${MAC//-/:}"
+    MAC="${MAC,,}"
     read -p "[CONFIRM] Confirm print #${count}'s MAC address: ${MAC} (y/n)" CONFIRM
     if [[ "${CONFIRM}" == "yes" ]] || [[ "${CONFIRM}" == "y" ]] || [[ "${CONFIRM}" == "Y" ]]
     then
@@ -76,9 +78,9 @@ do
         sed "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
-        let count=${count} + 1
+        let count=count+1
     else
-        echo "[NOT CONFIRMED]"
+        echo "[NOT CONFIRMED]"Update install
     fi
 done
 
