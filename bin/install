@@ -35,21 +35,19 @@ fi
 )
 # Link files
 CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
-sudo (
-    rm /etc/netplan/*
-    ln -fs "${CONF_DIR}/10-ethernet.yaml" /etc/netplan
-    ln -fs "${CONF_DIR}/20-rc-wifi.yaml" /etc/netplan
-    rm /etc/nginx/sites-enabled/*
-    ln -fs "${CONF_DIR}/nginx-site" /etc/nginx/sites-enabled
-    ln -fs "${CONF_DIR}/rc-ticket.service" /lib/systemd/system
-    netplan apply
-    systemctl enable opensearch
-    systemctl enable nginx
-    systemctl enable rc-ticket
-    cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/10-www-data-date-hwclock
-    mkdir -p /var/run/repair-cafe-app
-    sudo chown -R www-data:www-data /var/run/repair-cafe-app
-    sudo chmod 770 /var/run/repair-cafe-app
-)
+sudo rm /etc/netplan/*
+sudo ln -fs "${CONF_DIR}/10-ethernet.yaml" /etc/netplan
+sudo ln -fs "${CONF_DIR}/20-rc-wifi.yaml" /etc/netplan
+sudo rm /etc/nginx/sites-enabled/*
+sudo ln -fs "${CONF_DIR}/nginx-site" /etc/nginx/sites-enabled
+sudo ln -fs "${CONF_DIR}/rc-ticket.service" /lib/systemd/system
+sudo netplan apply
+sudo systemctl enable opensearch
+sudo systemctl enable nginx
+sudo systemctl enable rc-ticket
+sudo cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/10-www-data-date-hwclock
+sudo mkdir -p /var/run/repair-cafe-app
+sudo chown -R www-data:www-data /var/run/repair-cafe-app
+sudo chmod 770 /var/run/repair-cafe-app
 sudo chown -R www-data:www-data "${DIRNAME}/.."
 
