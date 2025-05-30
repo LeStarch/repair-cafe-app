@@ -7,7 +7,7 @@ sudo apt install wget default-jre python3 python3-venv python3-pip libbluetooth-
 # Download and install OpenSearch
 (
     cd /tmp
-    wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.1/opensearch-2.11.1-linux-arm64.deb
+    wget -N https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.1/opensearch-2.11.1-linux-arm64.deb
     sudo apt -y install ./opensearch-2.11.1-linux-arm64.deb
     rm ./opensearch-2.11.1-linux-arm64.deb
 )
@@ -16,7 +16,7 @@ sudo apt install wget default-jre python3 python3-venv python3-pip libbluetooth-
 if [[ "$(which python3.9)" == "" ]]
 then
     cd /tmp
-    wget https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz
+    wget -N https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tgz
     tar -xzf Python-3.9.18.tgz
     cd Python-3.9.18
     ./configure --enable-optimizations
