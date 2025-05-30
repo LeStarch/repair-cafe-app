@@ -12,8 +12,9 @@ export let COMPONENT = {
         subset() {
             let _self = this;
             return this.repairs.filter((repair) => {
-                let match_types = (_self.search.selected === "" || _self.search.selected === repair.type);
-                return match_types && repair.matches(_self.search.filter)
+                let selected = (_self.search.selected === "All Types" || _self.search.selected === repair.type);
+                selected = selected && (_self.search.all || repair.checkAction("display"));
+                return selected && repair.matches(_self.search.filter)
             });
         }
     }

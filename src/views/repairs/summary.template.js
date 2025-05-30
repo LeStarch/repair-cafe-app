@@ -2,7 +2,7 @@ export let TEMPLATE =
 `
 <div>
     <div class="row" v-show="isCheckIn() || isCheckout()">
-        <search class="col col-8" v-model="search" :options='[""].concat(config.types)' :options_label='"Type"'></search>
+        <search class="col col-8" v-model="search" :options='["All Types"].concat(config.types)' :options_label='"Type"' :use_all="true"></search>
         <div class="col col-4 input-group">
             <label for="printer_select" class="input-group-text">Printer</label>
             <select name="printer_select" v-show="isCheckIn()" v-model="local_data.printer" class="form-control" required>

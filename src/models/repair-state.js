@@ -23,7 +23,8 @@ export class State extends Marshallable {
             "name":"check-in",
             "message": "Repair must be checked in. Please see front desk.",
             "actions": [
-                "print"
+                "print",
+                "display"
             ]
         },
         {
@@ -32,7 +33,8 @@ export class State extends Marshallable {
             "actions": [
                 "reprint",
                 "check-out",
-                "triage"
+                "queue",
+                "display"
             ]
         },
         {
@@ -41,7 +43,8 @@ export class State extends Marshallable {
             "actions": [
                 "reprint",
                 "check-out",
-                "triage"
+                "triage",
+                "display"
             ]
         },
         {
@@ -50,15 +53,17 @@ export class State extends Marshallable {
             "actions": [
                 "reprint",
                 "check-out",
-                "triage"
+                "triage",
+                "display"
             ]
         },
         {
             "name":"checkout",
             "message": "Please collect your item, and report to checkout table.",
             "actions": [
-                "revoke",
-                "check-out"
+                "recall",
+                "check-out",
+                "display"
             ]
         },
         {

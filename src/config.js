@@ -10,17 +10,7 @@ import {ElasticConfig} from './environment.js'
  */
 export class Config {
     static USE_LOCAL_STORAGE = false;
-    static types = ["Tinkerer", "Stitch", "Knife", "Jewelry", "Computer", "Woodwork", "Adhesive", "Bike", "Gardening"];
-    static skills = [
-        "adhesives",
-        "appliances",
-        "electronics",
-        "mechanical",
-        "sharpening",
-        "stitching (hand)",
-        "stitching (machine)",
-        "verrückt"
-    ];
+    static types = ["Tinker", "Stitch", "Sharpie", "Jewelry", "Computer", "Woodwork", "Adhesive", "Bike", "Garden"];
     // Ticket counter configuration
     static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
@@ -34,13 +24,5 @@ export class Config {
     static ES_USER = "rcuser";
     static ES_PASSWORD = "ginko!2017RC";
     // Time in milliseconds between updates to repair/repairer lists
-    static UPDATE_INTERVAL = 1000;
-
-    static COMMON_REPAIRS = {
-        "tinker":  ["N/A", "Replace Fuse", "Cleaning", "Replace Cord", "Soldering", "Adhesive Repair"],
-        "stitch": ["N/A", "Replace Button", "Fix Zipper", "Mend Tear"],
-        "knife": ["N/A"],
-        "bike": ["N/A", "Change Wheel", "Do Bike Things"],
-        "soil": ["N/A", "Seed Microbes"]
-    };
+    static UPDATE_INTERVAL = 200;
 }

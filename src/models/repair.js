@@ -8,7 +8,7 @@ import {State} from "./repair-state.js"
  */
 export class Repair extends Marshallable {
     static MARSHALL_FIELDS = ["numerical_id", "id", "name", "email", "phone", "type", "item", "subtype", "description",
-                              "repairers", "stateIndex", "states", "reserved"];
+                              "repairers", "stateIndex", "states", "reserved", "alert"];
 
 
     /**
@@ -23,6 +23,7 @@ export class Repair extends Marshallable {
         super();
         this.numerical_id = -1;
         this.id = "-1";
+        this.alert = false;
         this.name = name || "";
         this.email = email || "";
         this.phone = phone || "";
@@ -53,6 +54,21 @@ export class Repair extends Marshallable {
             return 1;
         }
         return 0;
+    }
+
+    /**
+     * Detransition a state (reset to waiting)
+     * @param {*} state 
+     */
+    invalidate(state) {
+        for (let i = 0; i < this.states.length; i++) {
+            if (this.states[i].name === state) {
+                this.states[i].progress = "waiting";
+                this.states[i].time = 0;
+                this.states[i].enterTime = new Date();
+                this.states[i].exitTime = new Date("1900-01-01");
+            }
+        }
     }
 
     /**

@@ -38,10 +38,18 @@ export let TEMPLATE = `
                     <th>Registered:</th><td>{{ repair.states[0].enterTime }}</td>
                 </tr>
             </table>
-            <div class="btn-group btn-group-vertical" style="width:20%" v-show="repair.checkAction('triage')">
+            <div class="btn-group btn-group-vertical" style="width:20%" v-show="repair.checkAction('queue')">
                 <button @click="queue" name="queue" class="btn btn-primary">Enqueue</button>
+            </div>
+            <div class="btn-group btn-group-vertical" style="width:20%" v-show="repair.checkAction('triage')">
+                <button @click="queue" name="queue" class="btn btn-primary">Re-Enqueue</button>
                 <button @click="update" name="update" class="btn btn-info">Edit / Assign Repairers</button>
-                <button @click="finish" name="update" class="btn btn-success">Repair Done</button>
+                <button @click="finish" name="finish" class="btn btn-success">Repair Done</button>
+                <button @click="alert" v-if="!this.repair.alert" name="update" class="btn btn-danger">Add Alert</button>
+                <button @click="alert" v-if="this.repair.alert" name="update" class="btn btn-secondary">Remove Alert</button>
+            </div>
+            <div class="btn-group btn-group-vertical" style="width:20%" v-show="repair.checkAction('recall')">
+                <button @click="recall" name="recall" class="btn btn-warning">Recall</button>
             </div>
             <img style="width:20%" class="img-responsive img-circle" src="./img/logo.jpg" v-if="!advanced" />
         </div>

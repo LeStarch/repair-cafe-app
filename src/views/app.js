@@ -9,7 +9,7 @@ import {COMPONENT as REPAIR_UPDATE_COMPONENT} from "./repairs/update.js";
 import {COMPONENT as REPAIRER_ADD_COMPONENT} from "./repairers/add.js";
 import {COMPONENT as REPAIR_LIST_COMPONENT} from "./repairs/list.js";
 import {COMPONENT as REPAIRER_LIST_COMPONENT} from "./repairers/list.js";
-import {COMPONENT as SEARCH_COMPONENT} from "./search.js";
+import {COMPONENT as SEARCH_COMPONENT} from "./widgits/search.js";
 import {COMPONENT as ADD_REPAIR_PAGE_COMPONENT} from "./pages/add-repairs.js";
 import {COMPONENT as REG_REPAIR_PAGE_COMPONENT} from "./pages/register-repair.js";
 import {COMPONENT as ADD_REPAIRER_PAGE_COMPONENT} from "./pages/add-repairers.js";
@@ -75,6 +75,7 @@ export function setup(element) {
                 "#checkin": "Check-In",
                 "#checkout": "Check-Out",
                 "#triage": "Team Triage",
+                "#sign1": "Sign",
             }
             // Routes select views and are indexed by origin
             let routes = {
@@ -97,6 +98,10 @@ export function setup(element) {
                     "Home": "#home",
                     "Team Triage": "#triage",
                     "Add Repairers": "#repairers",
+                },
+                "#sign1": {
+                    "Home": "#home",
+                    "Sign": "#sign1",
                 },
                 
             }

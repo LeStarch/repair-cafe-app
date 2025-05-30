@@ -15,9 +15,6 @@ export let TEMPLATE = `
             </td>
             <td>{{ repairer.name }}</td>
             <td>{{ repairer.team }}</td>
-            <td v-for="skill in config.skills" :class="(repairer.skills.indexOf(skill) != -1) ? 'table-success': 'table-danger'">
-                {{ (repairer.skills.indexOf(skill) != -1) ? 'yes': 'no' }}
-            </td>
         </tr>
     </table>
 </div>

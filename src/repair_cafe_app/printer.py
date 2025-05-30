@@ -4,7 +4,6 @@ import zmq
 import argparse
 
 from .ticket import TicketPrinter
-from .settings import PRINTER_PORT_MAP
 
 
 logging.getLogger().setLevel(logging.INFO)
@@ -47,10 +46,7 @@ def main():
     context = zmq.Context()
     try:
         socket = context.socket(zmq.REP)
-        ports = [printer["port"] for printer in PRINTER_PORT_MAP if printer["mac"] == mac]
-        if len(ports) != 1:
-            raise Exception(f"Multiple or no ports for {mac}: {ports}")
-        connection_address = f"tcp://0.0.0.0:{ports[0]}"
+        connection_address = f"ipc:///tmp/rc-{ mac }"
         LOGGER.info("Binding to: %s", connection_address)
         socket.bind(connection_address)
         message_loop(mac, socket)

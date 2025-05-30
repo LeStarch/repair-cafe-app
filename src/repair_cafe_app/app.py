@@ -13,7 +13,6 @@ from flask import Flask, request
 
 from .event_info import EventConfiguration
 from .ticket import TicketPrinter
-from .settings import PRINTER_PORT_MAP
 
 logging.getLogger().setLevel(logging.INFO)
 logging.info("Logging system initialized!")
@@ -42,7 +41,7 @@ def load_event_data():
         read_event_data = {}
     EVENT_DATA["host"] = read_event_data.get("host", "Pasadena")
     EVENT_DATA["location"] = read_event_data.get("location", "Unknown Location")
-    EVENT_DATA["printers"]  = read_event_data.get("printers", PRINTER_PORT_MAP)
+    EVENT_DATA["printers"]  = read_event_data.get("printers", {})
 
 @app.route("/")
 def index():
@@ -152,7 +151,7 @@ def set_location_info():
         "location": json_data.get("location", None),
         "host": json_data.get("host", None),
         # Printer port map is optional
-        "printers": json_data.get("printers", PRINTER_PORT_MAP)
+        "printers": json_data.get("printers", {})
     }
     for key, value in event_info.items():
         if value is None:
@@ -177,13 +176,9 @@ def print_ticket():
     problem = json_data.get("problem", "It is broken.")
     mac = json_data.get("printer", "Unknown")
     LOGGER.info("Connecting to printer: %s as '%s'", mac, getpass.getuser())
-    ports = [printer["port"] for printer in EVENT_DATA["printers"] if printer["mac"] == mac]
-    if len(ports) != 1:
-        return {"error": f"Multiple or no ports for {mac}: {ports}"}
-    port = ports[0]
     socket = context.socket(zmq.REQ)
     try:
-        connection_address = f"tcp://127.0.0.1:{port}"
+        connection_address = f"ipc:///tmp/rc-{ mac }"
         socket.connect(connection_address)
         LOGGER.info("Sending print request: %s", connection_address)
         socket.send_string(json.dumps({"location": EVENT_DATA["location"], "host": EVENT_DATA["host"], "queue": team, "owner": name, "tNumber": number, "item": item, "problem": problem}))

@@ -29,7 +29,10 @@ export let COMPONENT = {
          * Queue the repair for processing.
          */
         queue() {
-            this.repair.transitionAndSave("queued", _data.repair);
+            // Invalidation must happen after transition otherwise transition will exit the invalidated state
+            this.repair.transitionState("queued");
+            this.repair.invalidate("in-repair");
+            _data.repair.save(this.repair);
         },
         /**
          * Finishthe repair for processing.
@@ -42,6 +45,19 @@ export let COMPONENT = {
          */
         update() {
             this.$parent.$emit("update:modelValue", this.repair);
+        },
+        /**
+         * Recalls the repair back to the in-repair state.
+         */
+        recall() {
+            // Invalidation must happen after transition otherwise transition will exit the invalidated state
+            this.repair.transitionState("in-repair");
+            this.repair.invalidate("checkout");
+            _data.repair.save(this.repair);
+        },
+        alert() {
+            this.repair.alert = !this.repair.alert;
+            _data.repair.save(this.repair);
         },
         stateClass(state) {
             // Waiting states should look dull
