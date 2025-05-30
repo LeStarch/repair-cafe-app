@@ -6,7 +6,6 @@
 Prerequsites:
 1. Raspberry PI 5, SD card
 2. Basic Configured Mobile WiFi Router
-3. 
 
 This section will help you set up an Raspberry PI 5 and SD card from scratch. 
 
@@ -52,6 +51,7 @@ ssh rcadmin@repair-cafe-app
 While on the the PI install git and clone the application:
 
 ```
+sudo apt update
 sudo apt install git
 git clone https://github.com/lestarch/repair-cafe-app
 ```
