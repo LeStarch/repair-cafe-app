@@ -79,7 +79,7 @@ do
         sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
-        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${mac}\", \"port\": 0},"
+        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": 0},"
         let count=count+1
     else
         echo "[NOT CONFIRMED]"Update install
