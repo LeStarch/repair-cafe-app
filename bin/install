@@ -75,7 +75,7 @@ do
     then
         SERVICE_FILE="rc-p${count}.service"
         cp "${CONF_DIR}/rc-p.service.template" /tmp/${SERVICE_FILE}
-        sed "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
+        sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
         let count=count+1
