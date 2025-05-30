@@ -81,12 +81,13 @@ do
         sed -i "s/{{ PORT }}/${PORT}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
-        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": 0},"
+        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": ${PORT}},"
         let count=count+1
     else
         echo "[NOT CONFIRMED]"Update install
     fi
 done
+PRINTER_DATA="${PRINTER_DATA/%,]/]}"
 FILE_DATA='{"location": "Unknown Location", "host": "Pasadena", "printers": [ '"${PRINTER_DATA}"']}'
 echo -e "${FILE_DATA}" > /var/run/repair-cafe-app/event.json
 
