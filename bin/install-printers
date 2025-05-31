@@ -1,0 +1,47 @@
+#!/bin/bash
+DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
+
+if [ "${DIRNAME}" != "/var/www/html/repair-cafe-app/bin" ]
+then
+    echo "[ERROR] Must clone into /var/www/html/repair-cafe-app"
+    exit
+fi
+USER=$( whoami )
+sudo mkdir -p /var/run/repair-cafe-app
+sudo chown -R ${USER}:www-data /var/run/repair-cafe-app 
+sudo chmod -R g+w "${DIRNAME}/.." /var/run/repair-cafe-app
+
+# Link files
+CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
+
+let count=1
+while (( 1 ))
+do
+    read -p "[PROMPT] Enter printer #${count}'s MAC address. ENTER to finish." MAC
+    if [[ "${MAC}" == "" ]]
+    then
+        break
+    fi
+    MAC="${MAC//-/:}"
+    MAC="${MAC,,}"
+    PRINTER_DATA=""
+    read -p "[CONFIRM] Confirm print #${count}'s MAC address: ${MAC} (y/n)" CONFIRM
+    if [[ "${CONFIRM}" == "yes" ]] || [[ "${CONFIRM}" == "y" ]] || [[ "${CONFIRM}" == "Y" ]]
+    then
+        let PORT=${count}+3000
+        SERVICE_FILE="rc-p${count}.service"
+        cp "${CONF_DIR}/rc-p.service.template" /tmp/${SERVICE_FILE}
+        sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
+        sed -i "s/{{ PORT }}/${PORT}/" /tmp/${SERVICE_FILE}
+        sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
+        sudo systemctl enable ${SERVICE_FILE}
+        PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": ${PORT}},"
+        let count=count+1
+    else
+        echo "[NOT CONFIRMED]"Update install
+    fi
+done
+PRINTER_DATA="${PRINTER_DATA/%,/}"
+FILE_DATA='{"location": "Unknown Location", "host": "Pasadena", "printers": [ '"${PRINTER_DATA}"']}'
+echo -e "${FILE_DATA}" > /var/run/repair-cafe-app/event.json
+
