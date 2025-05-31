@@ -178,6 +178,7 @@ def print_ticket():
     for printer in EVENT_DATA.get("printers", []):
         if printer.get("mac", "") == mac:
             port = printer.get("port")
+            break
     else:
         LOGGER.warning("Invalid printer mac: %s", mac)
         return {"error": f"Invalid printer mac: {mac}" }

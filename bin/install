@@ -87,7 +87,7 @@ do
         echo "[NOT CONFIRMED]"Update install
     fi
 done
-PRINTER_DATA="${PRINTER_DATA/%,]/]}"
+PRINTER_DATA="${PRINTER_DATA/%,/}"
 FILE_DATA='{"location": "Unknown Location", "host": "Pasadena", "printers": [ '"${PRINTER_DATA}"']}'
 echo -e "${FILE_DATA}" > /var/run/repair-cafe-app/event.json
 
