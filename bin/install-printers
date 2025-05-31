@@ -35,6 +35,7 @@ do
         sed -i "s/{{ PORT }}/${PORT}/" /tmp/${SERVICE_FILE}
         sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
         sudo systemctl enable ${SERVICE_FILE}
+        sudo systemctl restart ${SERVICE_FILE}
         PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": ${PORT}},"
         let count=count+1
     else
