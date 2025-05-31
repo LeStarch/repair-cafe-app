@@ -1,8 +1,0 @@
-#!/bin/bash
-DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
-(
-    cd ${DIRNAME}/../src
-    python3 -m repair_cafe_app.printer --mac 86:67:7a:8a:b7:ac &
-    python3 -m repair_cafe_app.printer --mac 86:67:7a:03:98:e0 &
-    python3 -m repair_cafe_app.printer --mac 86:67:7a:8d:eb:63 &
-)

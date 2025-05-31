@@ -1,5 +1,0 @@
-#!/bin/bash
-DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
-cd ${DIRNAME}/../src
-. ../venv/bin/activate
-python3 -m repair_cafe_app.printer --mac 86:67:7a:8a:b7:ac
