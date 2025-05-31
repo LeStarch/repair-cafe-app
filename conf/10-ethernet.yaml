@@ -1,7 +1,0 @@
-network:
-    version: 2
-    ethernets:
-        renderer: NetworkManager
-        eth0:
-            dhcp4: true
-            optional: false
