@@ -11,8 +11,8 @@ sudo mkdir -p /var/run/repair-cafe-app
 sudo chown -R ${USER}:www-data /var/run/repair-cafe-app 
 sudo chmod -R g+w "${DIRNAME}/.." /var/run/repair-cafe-app
 
-# Link files
 CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
+sudo rm /lib/systemd/system/rc-p*.service
 
 let count=1
 while (( 1 ))
