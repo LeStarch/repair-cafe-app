@@ -1,13 +1,13 @@
 #!/bin/bash
 DIRNAME="$(cd "$(dirname $BASH_SOURCE)"; pwd)"
-
-if [ "${DIRNAME}" != "/var/www/html/repair-cafe-app/bin" ]
+BASE_DIR="/var/www/html/repair-cafe-app/bin"
+if [ "${DIRNAME}" != "${BASE_DIR}" ]
 then
     echo "[ERROR] Must clone into /var/www/html/repair-cafe-app"
     exit
 fi
 
-git config --global --add safe.directory /var/www/html/repair-cafe-app
+git config --global --add safe.directory "${BASE_DIR}"
 
 # Install required packages
 sudo apt update
@@ -47,15 +47,16 @@ fi
 )
 # Link files
 CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
+RUN_DIR="${BASE_DIR}/run"
 sudo mkdir -p /var/log/gunicorn
-sudo mkdir -p /var/run/repair-cafe-app
+sudo mkdir -p "${RUN_DIR}"
 sudo rm /etc/nginx/sites-enabled/*
 sudo ln -fs "${CONF_DIR}/nginx-site" /etc/nginx/sites-enabled
-sudo ln -fs "${CONF_DIR}/rc-ticket.service" /lib/systemd/system
+sudo ln -fs "${CONF_DIR}/rc-ticket.service" /etc/systemd/system
 sudo cp "${CONF_DIR}/opensearch.yml" /etc/opensearch/opensearch.yml
 sudo systemctl enable opensearch
 sudo systemctl enable nginx
 sudo systemctl enable rc-ticket
 sudo cp "${CONF_DIR}/sudoers-snippet" /etc/sudoers.d/10-www-data-date-hwclock
-sudo chown -R ${USER}:www-data "${DIRNAME}/.." /var/log/gunicorn /var/run/repair-cafe-app 
-sudo chmod -R g+w "${DIRNAME}/.." /var/log/gunicorn /var/run/repair-cafe-app
+sudo chown -R ${USER}:www-data "${DIRNAME}/.." /var/log/gunicorn "${RUN_DIR}"
+sudo chmod -R g+w "${DIRNAME}/.." /var/log/gunicorn "${RUN_DIR}"
