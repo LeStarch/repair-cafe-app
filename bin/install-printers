@@ -7,12 +7,12 @@ then
     exit
 fi
 USER=$( whoami )
-sudo mkdir -p /var/run/repair-cafe-app
-sudo chown -R ${USER}:www-data /var/run/repair-cafe-app 
-sudo chmod -R g+w "${DIRNAME}/.." /var/run/repair-cafe-app
+sudo mkdir -p /var/www/html/repair-cafe-app/save
+sudo chown -R ${USER}:www-data /var/www/html/repair-cafe-app/save
+sudo chmod -R g+w "${DIRNAME}/.." /var/www/html/repair-cafe-app/save
 
 CONF_DIR="$(cd ${DIRNAME}/../conf; pwd)"
-sudo rm /lib/systemd/system/rc-p*.service
+sudo rm /etc/systemd/system/rc-p*.service
 
 let count=1
 while (( 1 ))
@@ -33,7 +33,8 @@ do
         cp "${CONF_DIR}/rc-p.service.template" /tmp/${SERVICE_FILE}
         sed -i "s/{{ MAC }}/${MAC}/" /tmp/${SERVICE_FILE}
         sed -i "s/{{ PORT }}/${PORT}/" /tmp/${SERVICE_FILE}
-        sudo mv /tmp/${SERVICE_FILE} /lib/systemd/system/
+        sudo mv /tmp/${SERVICE_FILE} /etc/systemd/system/
+	sudo systemctl daemon-reload
         sudo systemctl enable ${SERVICE_FILE}
         sudo systemctl restart ${SERVICE_FILE}
         PRINTER_DATA="${PRINTER_DATA}{\"name\": \"P${count}\", \"mac\": \"${MAC}\", \"port\": ${PORT}},"
@@ -44,5 +45,7 @@ do
 done
 PRINTER_DATA="${PRINTER_DATA/%,/}"
 FILE_DATA='{"location": "Unknown Location", "host": "Pasadena", "printers": [ '"${PRINTER_DATA}"']}'
-echo -e "${FILE_DATA}" > /var/run/repair-cafe-app/event.json
+echo -e "${FILE_DATA}" > /var/www/html/repair-cafe-app/save/event.json
+sudo chgrp www-data /var/www/html/repair-cafe-app/save/event.json
+sudo chmod g+rw /var/www/html/repair-cafe-app/save/event.json
 sudo systemctl restart rc-ticket

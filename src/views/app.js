@@ -19,6 +19,7 @@ import {COMPONENT as PRINTER_LIST_ITEM_COMPONENT} from "./widgits/printer-item.j
 import {COMPONENT as CHECKOUT_COMPONENT} from "./widgits/checkout.js";
 import {COMPONENT as CHECK_IN_COMPONENT} from "./widgits/check-in.js";
 import {COMPONENT as EVENT_CONFIG_COMPONENT} from "./pages/event-config.js";
+import {COMPONENT as REPORTS_COMPONENT} from "./reports/basic.js";
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
@@ -44,6 +45,7 @@ function register_components(app) {
     app.component("navigation", NAV_COMPONENT);
     app.component("checkout", CHECKOUT_COMPONENT);
     app.component("check-in", CHECK_IN_COMPONENT);
+    app.component("reports", REPORTS_COMPONENT);
 }
 
 /**
@@ -93,6 +95,7 @@ export function setup(element) {
                 "#checkout": {
                     "Home": "#home",
                     "Check-Out": "#checkout",
+                    "Reports": "#reports",
                 },
                 "#triage": {
                     "Home": "#home",

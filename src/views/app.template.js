@@ -10,6 +10,8 @@ export let TEMPLATE = `
     <!-- Sign Pages -->
     <repair-summary v-else-if='route == "#sign1"' :advanced="false"></repair-summary>
     <repair-list v-else-if='route == "#sign2"' :advanced="false"></repair-list>
+    <!-- Reports -->
+    <reports v-else-if='route == "#reports"'></reports>
     <!-- Role selection: only applies when not doing event configuration -->
     <div v-else-if='route != "#event-config"' class="card">
         <div class="card-body">
