@@ -13,6 +13,21 @@ export let TEMPLATE=`
 </div>
 <div class="row" >
     <div class="col col-lg-4">
+        <label for="event_index">Event Index</label>
+    </div>
+    <div class="col col-lg-4">
+        <select v-model="database_properties.selected">
+            <option v-for="item in database_properties.indicies" :key="item" :value="item">
+                {{ item }}
+            </option>
+        </select>
+    </div>
+    <div class="col col-lg-4 alert alert-danger" v-if="error != null">
+        <span class="text-danger">{{ error }}</span>
+    </div>
+</div>
+<div class="row" >
+    <div class="col col-lg-4">
         <label for="event_host">Event Host</label>
     </div>
     <div class="col col-lg-4">

@@ -30,10 +30,12 @@ class Database {
      * @param index: index to use when posting to the database
      * @param type: type of the documents posted to the database
      * @param items: items if the persistence needs to be overridden
+     * @param indicies: indicies if the persistence needs to be overridden
      */
-    constructor(index, type, items) {
+    constructor(index, type, items, indicies) {
         this.items = (typeof(items) === "undefined") ? [] : items;
         this.index = index;
+        this.indices = (typeof(indicies) === "undefined") ? [] : indicies;
         this.type = type;
         this.marshall_type = (type === "repairer") ? Repairer : Repair;
         let _self = this;
@@ -79,8 +81,21 @@ class Database {
                 return demarshalled;
             });
             items = items.map(_self.chooseNewer.bind(_self));
-            this.items.splice(0, this.items.length, ...items);
+            // Only update the items if they have changed to prevent unnecessary updates
+            if (JSON.stringify(items) !== JSON.stringify(this.items)) {
+                this.items.splice(0, this.items.length, ...items);
+            }
         });
+        Elastic.elasticIndicies(this.type).then(
+            (indices) => {
+                indices = indices.map((index) => index.index);
+                indices.sort();
+                // Only update the indicies if they have changed to prevent unnecessary updates
+                if (JSON.stringify(indices) !== JSON.stringify(this.indices)) {
+                    this.indices.splice(0, this.indices.length, ...indices);
+                }
+            }
+        );
     }
 
     chooseNewer(new_item) {
@@ -121,8 +136,8 @@ export class ElasticDatabase extends Database {
      * 
      * This sets up the elastic search database by creating the index of the counter and the supplied index.
      */
-    constructor(index, type, items) {
-        super(index, type, items);
+    constructor(index, type, items, indices) {
+        super(index, type, items, indices);
         // A function to ignore resource exists
         let ignore = (error) => {
             if (error.message.indexOf("resource_already_exists_exception") === -1) {

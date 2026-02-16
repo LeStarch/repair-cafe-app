@@ -1,7 +1,7 @@
 export let TEMPLATE =
 `
 <div>
-    <div class="row" v-show="isCheckIn() || isCheckout()">
+    <div class="row" v-show="isCheckIn() || isCheckout() || isManage()">
         <search class="col col-8" v-model="search" :options='["All Types"].concat(config.types)' :options_label='"Type"' :use_all="true"></search>
         <div class="col col-4 input-group">
             <label for="printer_select" class="input-group-text">Printer</label>
@@ -15,6 +15,7 @@ export let TEMPLATE =
             <th>Repair Id</th>
             <th>Repairee Name</th>
             <th>State</th>
+            <!--th>Time</th-->
             <th>Item</th>
             <th></th>
             <th></th>
@@ -23,12 +24,16 @@ export let TEMPLATE =
             <td>{{ repair.id }}</td>
             <td>{{ repair.name }}</td>
             <td>{{ repair.states[repair.stateIndex].name }}</td>
+            <!--td>{{ repair.timeInStates([repair.stateIndex]) }}</td-->
             <td>{{ repair.item || repair.states[repair.stateIndex].message }}</td>
             <td v-show="isCheckout()">
                 <checkout :repair="repair"></checkout>
             </td>
             <td v-show="isCheckIn()">
                 <check-in :repair="repair" :printer="local_data.printer"></check-in>
+            </td>
+            <td v-show="isManage()">
+                <manage-repair :repair="repair"></manage-repair>
             </td>
         </tr>
     </table>

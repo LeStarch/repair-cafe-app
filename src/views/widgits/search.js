@@ -4,7 +4,7 @@ export let COMPONENT = {
         return {
             "local_selected": (this.options.length === 0) ? null : this.options[0],
             "local_filter": "",
-            "local_all": false
+            "local_all": (this.use_all === true) ? false : true,
         }
     },
     created() {this.update(null);},

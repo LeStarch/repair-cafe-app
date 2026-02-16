@@ -17,9 +17,12 @@ import {COMPONENT as MANAGE_COMPONENT} from "./pages/manage.js";
 import {COMPONENT as NAV_COMPONENT} from "./navigation.js";
 import {COMPONENT as PRINTER_LIST_ITEM_COMPONENT} from "./widgits/printer-item.js";
 import {COMPONENT as CHECKOUT_COMPONENT} from "./widgits/checkout.js";
+import {COMPONENT as MANAGE_REPAIR_COMPONENT} from "./widgits/manage-repair.js";
 import {COMPONENT as CHECK_IN_COMPONENT} from "./widgits/check-in.js";
 import {COMPONENT as EVENT_CONFIG_COMPONENT} from "./pages/event-config.js";
-import {COMPONENT as REPORTS_COMPONENT} from "./reports/basic.js";
+import {COMPONENT as REPORT_COMPONENT} from "./reports/basic.js";
+import {COMPONENT as REPORTS_COMPONENT} from "./pages/reports.js";
+
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
@@ -45,6 +48,8 @@ function register_components(app) {
     app.component("navigation", NAV_COMPONENT);
     app.component("checkout", CHECKOUT_COMPONENT);
     app.component("check-in", CHECK_IN_COMPONENT);
+    app.component("manage-repair", MANAGE_REPAIR_COMPONENT);
+    app.component("report", REPORT_COMPONENT);
     app.component("reports", REPORTS_COMPONENT);
 }
 
@@ -55,7 +60,7 @@ function register_components(app) {
  */
 function build_app_instance(app) {
     let instance = app.mount("#repair-app");
-    setupData(instance.repairs, instance.repairers);
+    setupData(instance.repairs, instance.repairers, instance.database_properties.indicies, undefined);
     return instance;
 }
 
@@ -76,6 +81,7 @@ export function setup(element) {
                 "#register": "Registeration",
                 "#checkin": "Check-In",
                 "#checkout": "Check-Out",
+                "#admin": "Admin",
                 "#triage": "Team Triage",
                 "#sign1": "Sign",
             }
@@ -96,6 +102,11 @@ export function setup(element) {
                     "Home": "#home",
                     "Check-Out": "#checkout",
                     "Reports": "#reports",
+                },
+                "#admin": {
+                    "Home": "#home",
+                    "Admin": "#event-config",
+                    "Manage Repairs": "#manage",
                 },
                 "#triage": {
                     "Home": "#home",
@@ -121,20 +132,32 @@ export function setup(element) {
                 "route": window.location.hash,
                 "routes": routes,
                 "event_info": _data.event_info,
-                "local_data": _data.local
+                "local_data": _data.local,
+                "database_properties": {
+                    "selected": _data.local.database_index,
+                    "indicies": [],
+                }
             };
         },
         provide() {
             return {
                 "repairs": this.repairs,
                 "repairers": this.repairers,
+                "indicies": this.indicies,
                 "config": this.config,
                 "route": this.route,
                 "routes": this.routes,
                 "roles": this.roles,
                 "event_info": this.event_info,
-                "local_data": this.local_data
+                "local_data": this.local_data,
+                "database_properties": this.database_properties
             };
+        },
+        watch: {
+            "database_properties.selected"(new_index, old_index) {
+                _data.repair.index = new_index;
+                _data.repair.refresh();
+            }
         },
         methods: {
             changeRole(destination) {

@@ -174,4 +174,16 @@ export class Elastic extends WebApi{
         let snippet = `${index}/_doc/${id}`
         return Elastic.elastic(snippet,type,"DELETE",{"id":id});
     }
+    /**
+     * List indices of the form {type}-* in elastic search
+     * 
+     * This function will list the indices in the ElasticSearch cluster that match the pattern {type}-*. This is used to
+     * find the indicies for a given type (e.g. "tickets").
+     * @param {*} type: type to find indices for
+     * @returns Promise: a promise that resolves with the list of indices
+     */
+    static elasticIndicies(type) {
+        let snippet = `_cat/indices/${type}s-*?h=index&format=json`;
+        return Elastic.elastic(snippet, type,"GET",{});
+    }
 }

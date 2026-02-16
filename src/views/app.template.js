@@ -4,7 +4,7 @@ export let TEMPLATE = `
     <navigation v-model="route"></navigation>
     <!-- Basic role pages: Register, Check-In, Check-Out, Team Triage -->
     <reg-repair-page v-if='route == "#register"'></reg-repair-page>
-    <repair-summary v-else-if='route == "#checkin" || route == "#checkout"' :advanced="true"></repair-summary>
+    <repair-summary v-else-if='route == "#checkin" || route == "#checkout" || route == "#manage"' :advanced="true"></repair-summary>
     <manage v-else-if='route == "#triage"'></manage>
     <add-repairer-page v-else-if='route == "#repairers"'></add-repairer-page>
     <!-- Sign Pages -->

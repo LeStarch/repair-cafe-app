@@ -34,6 +34,9 @@ export let COMPONENT = {
         isCheckout() {
             return this.roles.role === "#checkout";
         },
+        isManage() {
+            return this.roles.role === "#admin";
+        },
         isCheckIn() {
             return this.roles.role === "#checkin";
         }

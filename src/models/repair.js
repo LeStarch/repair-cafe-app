@@ -148,5 +148,34 @@ export class Repair extends Marshallable {
         this.transitionState(state);
         database.save(this);
     }
+    /**
+     * Get the state object with the given name.
+     * @param {*} name 
+     * @returns null if no state with the given name exists, otherwise the state object with that name
+     */
+    getState(name) {
+        for (let i = 0; i < this.states.length; i++) {
+            if (this.states[i].name === name) {
+                return this.states[i];
+            }
+        }
+        return null
+    }
+    /**
+     * Calculate the total time spent in the specified states.
+     * @param {*} states 
+     * @returns 
+     */
+    timeInStates(states) {
+        let total = 0;
+        for (let i = 0; i < states.length; i++) {
+            let state = this.states[states[i]] || this.getState(states[i]);
+            if (state && state.progress === "finished") {
+                total += Math.abs(state.time);
+            } else if (state && state.progress === "started") {
+                total += Math.abs(new Date() - state.enterTime);
+            }
+        }
+        return total;
+    }
 }
-

@@ -172,17 +172,19 @@ class TicketPrinter(object):
 
 
     def stub(self, queue, tNumber, owner, item):
-        self.printer.init()
-        self.printer.lf()
-        self.printer.lf()
-        self.printer.text('-' * self.printer.feature.columns.normal)
-        self.printer.justify_center()
-        self.printer.text("Patron Copy")
-        self.printer.lf()
-        self.queue(queue)
-        self.number(tNumber)
-        self.owner(owner)
-        self.item(item)
+        for copy, delim in [("Triage Copy", "x"), ("Patron Copy", "-")]:
+            self.printer.init()
+            self.printer.lf()
+            self.printer.lf()
+            self.printer.text(delim * self.printer.feature.columns.normal)
+            self.printer.justify_center()
+            self.printer.text(copy)
+            self.printer.lf()
+            self.queue(queue)
+            self.number(tNumber)
+            self.owner(owner)
+            self.item(item)
+            time.sleep(0.1)
 
         
     def location(self, loc: str):

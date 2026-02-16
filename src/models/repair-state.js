@@ -121,7 +121,7 @@ export class State extends Marshallable {
     exit() {
         this.progress = "finished";
         this.exitTime = new Date();
-        this.time = this.enterTime - this.exitTime;
+        this.time = this.exitTime - this.enterTime;
     }
     /**
      * Check if the supplied action is available for this state.

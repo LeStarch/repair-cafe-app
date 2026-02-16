@@ -3,7 +3,7 @@ import {WebApi} from "../../database/elastic.js";
 
 export let COMPONENT = {
     template: TEMPLATE,
-    inject: ["event_info", "local_data"],
+    inject: ["event_info", "local_data", "database_properties"],
     data: function () {
         return {
             "time_error": null,

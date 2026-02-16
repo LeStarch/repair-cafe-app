@@ -12,12 +12,12 @@ export class Config {
     static USE_LOCAL_STORAGE = false;
     static types = ["Tinker", "Stitch", "Sharpie", "Jewelry", "Computer", "Woodwork", "Adhesive", "Bike", "Garden"];
     // Ticket counter configuration
-    static COUNTER_INDEX = "tickets"+ElasticConfig.INDEX_MODULATION;
+    static COUNTER_INDEX = "tickets-"+ElasticConfig.INDEX_MODULATION;
     static COUNTER_TYPE = "ticket";
     // Index configuration
-    static REPAIR_INDEX = "repairs"+ElasticConfig.INDEX_MODULATION;
+    static REPAIR_INDEX = "repairs-"+ElasticConfig.INDEX_MODULATION;
     static REPAIR_TYPE = "repair";
-    static REPAIRER_INDEX = "repairers"+ElasticConfig.INDEX_MODULATION;
+    static REPAIRER_INDEX = "repairers-"+ElasticConfig.INDEX_MODULATION;
     static REPAIRER_TYPE = "repairer";
     // ES User configuration
     static ES_URL = ElasticConfig.ES_URL;
@@ -25,4 +25,5 @@ export class Config {
     static ES_PASSWORD = "ginko!2017RC";
     // Time in milliseconds between updates to repair/repairer lists
     static UPDATE_INTERVAL = 200;
+    static INDEX_MODULATION = ElasticConfig.INDEX_MODULATION;
 }

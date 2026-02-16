@@ -1,5 +1,5 @@
 /**
- * @fileoverview implementation for the checkout widget
+ * @fileoverview implementation for the repair management widget
  * 
  * This file contains the implementation for the checkout widget. The implementation provides three actions to the end user:
  * 1. Fixed: the repair was successful
@@ -8,7 +8,7 @@
  * 
  * @author lestarch
 **/
-import { TEMPLATE } from "./checkout.template.js"
+import { TEMPLATE } from "./manage-repair.template.js"
 import { Repair } from "../../models/repair.js";
 import {_data} from "../../data.js";
 
