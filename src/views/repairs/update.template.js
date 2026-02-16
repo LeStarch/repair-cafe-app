@@ -45,7 +45,10 @@ export let TEMPLATE = `<div>
             </div>
         </div>
         <div v-if='last_id !== "" && editing.name === "" && editing.type === ""' class="row alert alert-success">
-            <h4>Request Submitted: Please proceed to check-in to receive your ticket!</h4>
+            <h4>Request Submitted:{{ last_id }} Please proceed to check-in to receive your ticket!</h4>
+        </div>
+        <div v-if='error !== ""' class="row alert alert-danger">
+            <h4>Error: {{ error }}</h4>
         </div>
         <div name="legalese">
             <h3>Repair Cafe Terms</h3>

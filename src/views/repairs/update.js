@@ -12,7 +12,7 @@ export let COMPONENT = {
     template: TEMPLATE,
     data() {
         let stand_in = new Repair().copy_from(this.repair);
-        return {"editing": stand_in, "assignees": stand_in.repairers, "last_id": ""};
+        return {"editing": stand_in, "assignees": stand_in.repairers, "last_id": "", "error": ""};
     },
     computed: {
         subtypes() {
@@ -42,10 +42,11 @@ export let COMPONENT = {
                 new_repair.id = new_repair.type + "-" +id;
                 new_repair.stateIndex = 0;
                 new_repair.transitionState("check-in");
-                _data.repair.save(new_repair);
-                _self.last_id = new_repair.id;
-            });
-            this.clear();
+                _data.repair.save(new_repair).then(() => {
+                    _self.last_id = new_repair.id;
+                    this.clear();
+                }).catch( (error) => { _self.error = error; });
+            }).catch( (error) => { _self.error = error; });
         },
         update() {
             if (this.assignees.length > 0) {
@@ -65,6 +66,7 @@ export let COMPONENT = {
             return false;
         },
         clear(event) {
+            this.error = "";
             // Replace the stand-in repair's fields with an un-editied copy
             this.editing.copy_from(new Repair());
         },

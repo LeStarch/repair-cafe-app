@@ -30,7 +30,9 @@ export class WebApi {
                 let xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState === 4 ) {
-                        let response = JSON.parse(this.responseText);
+                        let response = JSON.parse(this.responseText || 
+                            '{"error": "Failed to connect to database"}'
+                        );
                         if (this.status >= 200 && this.status <= 299) {
                             success(response);
                         }

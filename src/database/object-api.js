@@ -26,7 +26,7 @@ let TEST_DATA={
  */
 class Database {
     /**
-     * Constructs the database object by internalizing the index and type.
+     * Constructs the database object by internalizing the index and type.save
      * @param index: index to use when posting to the database
      * @param type: type of the documents posted to the database
      * @param items: items if the persistence needs to be overridden
@@ -39,7 +39,9 @@ class Database {
         this.type = type;
         this.marshall_type = (type === "repairer") ? Repairer : Repair;
         let _self = this;
-        setInterval(() => { _self.refresh() }, Config.UPDATE_INTERVAL);
+        if (Config.UPDATE_INTERVAL[type] != -1) {
+            setInterval(() => { _self.refresh() }, Config.UPDATE_INTERVAL[type]);
+        }
     }
 
     /**
@@ -66,7 +68,7 @@ class Database {
     save(item) {
         item.version = (item.version || 0) + 1;
         item = this.marshall(item);
-        this.save_helper(item);
+        return this.save_helper(item);
     }
 
     /**

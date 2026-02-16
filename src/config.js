@@ -24,6 +24,9 @@ export class Config {
     static ES_USER = "rcuser";
     static ES_PASSWORD = "ginko!2017RC";
     // Time in milliseconds between updates to repair/repairer lists
-    static UPDATE_INTERVAL = 200;
+    static UPDATE_INTERVAL = {
+        "repair": 20000,
+        "repairer": -1
+    };
     static INDEX_MODULATION = ElasticConfig.INDEX_MODULATION;
 }
