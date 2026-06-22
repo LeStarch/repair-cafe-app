@@ -26,6 +26,7 @@ import {COMPONENT as REPORTS_COMPONENT} from "./pages/reports.js";
 import {TEMPLATE as APP_TEMPLATE} from "./app.template.js"
 
 import {_data, setupData} from "../data.js";
+import {WebApi} from "../database/elastic.js";
 
 /**
  * Register components to the supplied application object. Returns that object to allow the chaining/builder pattern.
@@ -75,7 +76,23 @@ export function setup(element) {
         template: APP_TEMPLATE,
         data() {
             let _self = this;
-            setInterval(() => {_self.date_now = new Date()}, 1000);
+            setInterval(() => {
+                _self.date_now = new Date();
+                // Periodically get the server time to check and see if there are any of the following issues:
+                // 1. Server is down (no response)
+                // 2. Server is up but the time is out of sync (response but time error)
+                WebApi.ajax("/app/get-time", "GET", null, null, null).then((response) => {
+                    // Set the time response to the current time
+                    let current_server_time = new Date(Math.round(response.current_time * 1000));
+                    if (Math.abs(new Date() - current_server_time) > 60000) {
+                        _self.system_errors.connectivity = `Server time is out of sync: ${current_server_time.toString()}`;
+                    } else {
+                        _self.system_errors.connectivity = null;
+                    }
+                }).catch((error) => {
+                    _self.system_errors.connectivity = "Connectivity error detected: " + (error.error || error.responseText || "Server unreachable");
+                });
+            }, 1000);
             // Origins used to dictate role
             let origins = {
                 "#register": "Registeration",
@@ -122,6 +139,9 @@ export function setup(element) {
 
             return {
                 "date_now": new Date(),
+                "system_errors": {
+                    "connectivity": null,
+                },
                 "repairs": [],
                 "repairers": [],
                 "config": _data.config,
@@ -150,7 +170,8 @@ export function setup(element) {
                 "roles": this.roles,
                 "event_info": this.event_info,
                 "local_data": this.local_data,
-                "database_properties": this.database_properties
+                "database_properties": this.database_properties,
+                "system_errors": this.system_errors,
             };
         },
         watch: {

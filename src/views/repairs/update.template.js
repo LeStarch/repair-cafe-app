@@ -33,7 +33,7 @@ export let TEMPLATE = `<div>
     <div v-else>
         <div class="row">
             <div class="col-5">
-                <input type="submit" :disabled="!editing.acknowledged" value="Add Repair" class="btn btn-success" />
+                <input type="submit" :disabled="!editing.acknowledged || system_errors.connectivity !== null" value="Add Repair" class="btn btn-success" />
                 <input type="button" value="Clear" class="btn btn-danger" v-on:click="clear" />
             </div>
             <div class="col-1">
@@ -47,8 +47,8 @@ export let TEMPLATE = `<div>
         <div v-if='last_id !== "" && editing.name === "" && editing.type === ""' class="row alert alert-success">
             <h4>Request Submitted:{{ last_id }} Please proceed to check-in to receive your ticket!</h4>
         </div>
-        <div v-if='error !== ""' class="row alert alert-danger">
-            <h4>Error: {{ error }}</h4>
+        <div v-if='error !== "" || system_errors.connectivity !== null' class="row alert alert-danger">
+            <h4>Error: {{ error || system_errors.connectivity }}</h4>
         </div>
         <div name="legalese">
             <h3>Repair Cafe Terms</h3>

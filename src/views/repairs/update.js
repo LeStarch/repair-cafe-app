@@ -7,7 +7,7 @@ import {_data} from "../../data.js";
  * @author lestarch
  */
 export let COMPONENT = {
-    inject: ["config", "repairers"],
+    inject: ["config", "repairers", "system_errors"],
     props: ["repair", "advanced"],
     template: TEMPLATE,
     data() {

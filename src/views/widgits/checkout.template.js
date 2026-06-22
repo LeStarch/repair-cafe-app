@@ -9,10 +9,15 @@
  * @author lestarch
 **/
 export let TEMPLATE = `
-<div v-show="repair.checkAction('check-out')" class="btn-group w-100" role="group" aria-label="Checkout Actions">
-    <button type="button" class="btn btn-success" @click="finish('fixed')">Fixed</button>
-    <button type="button" class="btn btn-info"  @click="finish('consulted')">Consulted</button>
-    <button type="button" class="btn btn-warning" @click="finish('no-time')">No Time</button>
-    <button type="button" class="btn btn-danger"  @click="finish('unfixable')">Not Fixed</button>
+<div class="btn-group w-100" role="group" aria-label="Checkout Actions">
+    <button type="button" class="btn btn-success" @click="finish('fixed')"
+        :disabled="system_errors.connectivity !== null">Fixed</button>
+    <button type="button" class="btn btn-info"  @click="finish('consulted')"
+        :disabled="system_errors.connectivity !== null">Consulted</button>
+    <button type="button" class="btn btn-warning" @click="finish('no-time')"
+        :disabled="system_errors.connectivity !== null">No Time</button>
+    <button type="button" class="btn btn-danger"  @click="finish('unfixable')"
+        :disabled="system_errors.connectivity !== null">Not Fixed</button>
+    <span class="text-danger" v-if="system_errors.connectivity !== null">{{ system_errors.connectivity }}</span>
 </div>
 `;

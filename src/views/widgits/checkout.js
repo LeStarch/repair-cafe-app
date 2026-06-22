@@ -8,13 +8,14 @@
  * 
  * @author lestarch
 **/
-import { TEMPLATE } from "./manage-repair.template.js"
+import { TEMPLATE } from "./checkout.template.js"
 import { Repair } from "../../models/repair.js";
 import {_data} from "../../data.js";
 
 
 export let COMPONENT = {
     props: { "repair": Repair},
+    inject: ["system_errors"],
     template: TEMPLATE,
     methods: {
       /**

@@ -14,6 +14,7 @@ import {_data} from "../../data.js";
 
 export let COMPONENT = {
     props: { "repair": Repair, "printer": Object},
+    inject: ["system_errors"],
     template: TEMPLATE,
     methods: {
         /**

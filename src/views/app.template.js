@@ -1,6 +1,8 @@
 export let TEMPLATE = `
 <div class="container-fluid">
     <h4 class="text-right">{{ date_computed }}</h4>
+    <h4 class="text-right alert alert-danger" v-if="system_errors.connectivity !== null">{{ system_errors.connectivity }}</h4>
+
     <navigation v-model="route"></navigation>
     <!-- Basic role pages: Register, Check-In, Check-Out, Team Triage -->
     <reg-repair-page v-if='route == "#register"'></reg-repair-page>
